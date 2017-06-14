@@ -109,6 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# 디폴트 SITE의 id
+# 등록하지 않으면, 각 요청 시에 host명의 Site 인스턴스를 찾습니다 .
+SITE_ID = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
