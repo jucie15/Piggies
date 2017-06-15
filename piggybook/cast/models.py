@@ -1,6 +1,9 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
+from tagging.fields import TagField
+
+
 
 class Content(models.Model):
     # 컨텐츠(뉴스/영상) 모델
@@ -13,6 +16,10 @@ class Content(models.Model):
     url_path = models.CharField(max_length=128, null=True, verbose_name='컨텐츠URL') # 컨텐츠 원본 URL
     title = models.CharField(max_length=64, null=True, verbose_name='제목') # 컨텐츠 제목
     description = models.TextField(max_length=1024) # 컨텐츠 내용
+    tag = TagField()
+
+    def __str__(self):
+        return self.title
 
 class CongressMan(models.Model):
     # 국회의원 모델

@@ -1,3 +1,7 @@
 from django.contrib import admin
+from cast.models import *
 
-# Register your models here.
+
+admin.site.register(Content)
+admin.site.register(CongressMan)
+admin.site.register(Pledge)

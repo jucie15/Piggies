@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from accounts.forms import ProfileForm
+from accounts.forms import ProfileForm, TagForm
 from accounts.models import Profile
 
 def login(request):
@@ -28,9 +28,9 @@ def login(request):
 def signup_info(request):
     # 회원 가입 정보 입력 페이지
 
-    if Profile.objects.filter(user=request.user).exists():
-        # 사용자 프로필 정보가 이미 존재할 경우 관심 태그 입력 페이지로.
-        return redirect('accounts:signup_tag')
+    # if Profile.objects.filter(user=request.user).exists():
+    #     # 사용자 프로필 정보가 이미 존재할 경우 관심 태그 입력 페이지로.
+    #     return redirect('accounts:signup_tag')
 
     if request.method == 'POST' :
         form = ProfileForm(request.POST)
@@ -49,7 +49,17 @@ def signup_info(request):
     })
 
 def signup_tag(request):
-    return HttpResponse('adasdas')
+    # 회원 가입 태그 추가 페이지
+
+    if request.method == 'POST':
+        request.user.profile_set.tag = request.POST.get('tag') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
+        request.user.profile_set.save() # 디비에 프로필 정보 저장
+        return redirect('cast:index')
+    else:
+        form = TagForm()
+    return render(request, 'accounts/signup_tag.html', {
+        'form': form,
+        })
 
 @login_required
 def profile(request):

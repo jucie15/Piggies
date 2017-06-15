@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # thirdparty_apps
+    'tagging',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
