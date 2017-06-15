@@ -22,6 +22,11 @@ def login(request):
         template_name='accounts/login_form.html',
         extra_context={'providers': providers})
 
+def signup_info(request):
+    pass
+
+def signup_tag(request):
+    pass
 
 @login_required
 def profile(request):
