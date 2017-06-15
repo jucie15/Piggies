@@ -4,7 +4,7 @@ from allauth.socialaccount.templatetags.socialaccount import get_providers
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ProfileForm, TagForm
 from accounts.models import Profile
 
@@ -28,9 +28,9 @@ def login(request):
 def signup_info(request):
     # 회원 가입 정보 입력 페이지
 
-    # if Profile.objects.filter(user=request.user).exists():
-    #     # 사용자 프로필 정보가 이미 존재할 경우 관심 태그 입력 페이지로.
-    #     return redirect('accounts:signup_tag')
+    if Profile.objects.filter(user=request.user).exists():
+        # 사용자 프로필 정보가 이미 존재할 경우 관심 태그 입력 페이지로.
+        return redirect('accounts:signup_tag')
 
     if request.method == 'POST' :
         form = ProfileForm(request.POST)
@@ -63,4 +63,7 @@ def signup_tag(request):
 
 @login_required
 def profile(request):
- return render(request, 'accounts/profile.html')
+    profile = get_object_or_404(Profile, user=request.user)
+    return render(request, 'accounts/profile.html',{
+        'profile': profile,
+        })
