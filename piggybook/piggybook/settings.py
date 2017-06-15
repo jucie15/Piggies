@@ -113,6 +113,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # 등록하지 않으면, 각 요청 시에 host명의 Site 인스턴스를 찾습니다 .
 SITE_ID = 1
 
+# django-allauth setting
+LOGIN_REDIRECT_URL = 'accounts:signup_info' # 로그인 후 리디렉션할 페이지
+ACCOUNT_LOGOUT_REDIRECT_URL = "cast:index"  # 로그아웃 후 리디렉션 할 페이지
+ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
