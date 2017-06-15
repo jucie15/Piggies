@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="ko">
+
+<head>
+    <meata charset="UTF-8">
+    <title>타이틀</title>
+    <meta name="viewport" content="width=device-width">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+    <link rel="stylesheet" href="{% static 'cast/css/piggyBookStyle.css' %}">
+    {% block extraStyle %}
+    {% endblock %}
+</head>
+
+<body class="top">
+
+<div class="box1">
+<nav class="site navbar-inverse">
+<div class="container-fluid">
+<div class="navbar-header">
+<h1><a href="#LOGO">LOGO</a></h1>
+</div>
+<form class="navbar-form navbar-left">
+<div class="input-group">
+<input type="text" class="form-control" placeholder="Search">
+<div class="input-group-btn">
+<button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+</div>
+</div>
+</form>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></span> Login</a></li>
+</ul>
+</div>
+</nav>
+</div>
+
+<div class="box2">
+<div class="menu">
+<div>인기</div>
+<div>ALL</div>
+<div>#더불어민주당</div>
+<div>#세월호</div>
+<div>#박근혜</div>
+<div>#의료</div>
+<div>#취업</div>
+<div>#문재인</div>
+<div>#청년</div>
+<div>#일자리</div>
+<div>#미세먼지</div>
+<div>#등록금</div>
+</div>
+</div>
+
+{% block content %}
+{% endblock %}
+
+<div class="box6">
+<div class="copyright">
+<p>Copyright &copy; 국민회관</p>
+</div>
+</div>
+
+</body>
+
+</html>
