@@ -10,8 +10,8 @@
     <link href="http://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
-    <link rel="stylesheet" href="{% static 'cast/css/piggyBookStyle.css' %}">
-    {% block extraStyle %}
+    <link rel="stylesheet" href="{% static 'cast/css/cast_style.css' %}">
+    {% block extra_style %}
     {% endblock %}
 </head>
 
@@ -33,7 +33,7 @@
 </form>
 <ul class="nav navbar-nav navbar-right">
 <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-<li><a href="#"><i class="fa fa-sign-in" aria-hidden="true"></i></span> Login</a></li>
+<li><a href="{% url 'accounts:login' %}"><i class="fa fa-sign-in" aria-hidden="true"></i></span> Login</a></li>
 </ul>
 </div>
 </nav>
