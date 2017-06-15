@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% load staticfiles %}
 <div class="boxA">
 <div class="box3">
 
@@ -93,9 +94,9 @@
 <aside class="sidemenu2">
 <h2>관련 의원</h2>
 <ul>
-<li><a href="#"><img src="img/9770084.png" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
-<li><a href="#"><img src="img/9770090.png" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
-<li><a href="#"><img src="img/9770138.png" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
+<li><a href="#"><img src="{% static 'cast/img/9770084.png' %}" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
+<li><a href="#"><img src="{% static 'cast/img/9770090.png' %}" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
+<li><a href="#"><img src="{% static 'cast/img/9770138.png' %}" alt=""><div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div></a></li>
 </ul>
 </aside>
 </div>
