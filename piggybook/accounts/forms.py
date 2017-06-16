@@ -8,6 +8,25 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['sex', 'birth', 'city', 'district']
+        widgets = {
+            "sex": forms.Select(attrs={"class":"form-control"}),
+            "birth": forms.TextInput(attrs={"class":"form-control"}),
+            "city": forms.TextInput(attrs={"class":"form-control"}),
+            "district": forms.TextInput(attrs={"class":"form-control"}),
+        }
+
+        def clean_sex(self):
+            sex = self.cleaned_data.get('sex','')
+            return sex
+
+        def clean_birth(self):
+            birth = self.cleaned_data.get('birth','')
+            return birth
+
+        def clean(self):
+            cleaned_data = super().clean()
+            return cleaned_data
+
 
 class TagForm(forms.ModelForm):
     class Meta:

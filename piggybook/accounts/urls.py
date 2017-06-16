@@ -4,7 +4,6 @@ from accounts import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    url(r'^login/$', views.login, name='login'),
     url(r'^signup_info/$', views.signup_info, name='signup_info'),
     url(r'^signup_tag/$', views.signup_tag, name='signup_tag'),
     url(r'^profile/$', views.profile, name='profile'),
