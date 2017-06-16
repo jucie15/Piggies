@@ -5,14 +5,14 @@ from tagging.fields import TagField
 
 
 
-class Content(models.Model):
+class Contents(models.Model):
     # 컨텐츠(뉴스/영상) 모델
-    CONTENT_CHOICES = (
+    CONTENTS_CHOICES = (
         ('0','뉴스'),
         ('1','영상')
     ) # 컨텐츠 타입 명시
 
-    content_type = models.CharField(max_length=2, null=True, verbose_name='타입', choices=CONTENT_CHOICES) # 컨텐츠 종류
+    contents_type = models.CharField(max_length=2, null=True, verbose_name='타입', choices=CONTENTS_CHOICES) # 컨텐츠 종류
     url_path = models.CharField(max_length=128, null=True, verbose_name='컨텐츠URL') # 컨텐츠 원본 URL
     title = models.CharField(max_length=64, null=True, verbose_name='제목') # 컨텐츠 제목
     description = models.TextField(max_length=1024) # 컨텐츠 내용
