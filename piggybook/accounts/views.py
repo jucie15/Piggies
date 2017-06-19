@@ -31,12 +31,14 @@ def signup_info(request):
 def signup_tag(request):
     # 회원 가입 태그 추가 페이지
 
+    user = request.user.profile_set
+
     if request.method == 'POST':
-        request.user.profile_set.tag = request.POST.get('tag') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
-        request.user.profile_set.save() # 디비에 프로필 정보 저장
+        user.tag = request.POST.get('tag') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
+        user.save() # 디비에 프로필 정보 저장
         return redirect('cast:index')
     else:
-        form = TagForm()
+        form = TagForm(instance = user)
     return render(request, 'accounts/signup_tag.html', {
         'form': form,
         })

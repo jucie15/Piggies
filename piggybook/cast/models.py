@@ -18,6 +18,10 @@ class Contents(models.Model):
     description = models.TextField(max_length=1024) # 컨텐츠 내용
     tag = TagField() # 컨텐츠 태그
 
+    def get_absolute_url(self):
+        return reverse('cast:contents_detail',
+            args = [self.pk])
+
     def __str__(self):
         return self.title
 
@@ -34,6 +38,9 @@ class CongressMan(models.Model):
 
     class Meta():
         ordering =['id']
+
+    def get_absolute_url(self):
+        return reverse('cast:congressman:detail')
 
     def __str__(self):
         return self.name

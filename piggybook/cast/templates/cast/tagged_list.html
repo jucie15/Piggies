@@ -1,0 +1,17 @@
+{% extends 'cast/layout.html' %}
+
+{% block content %}
+
+    {% for contents in contents_list %}
+        <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
+        {{ contents.title }}
+    {% endfor %}
+    <p>
+    {% for congressman in congressman_list %}
+        {{ congressman }}
+    {% endfor %}
+    <p>
+    {% for pledge in pledge_list %}
+        {{ pledge }}
+    {% endfor %}
+{% endblock %}

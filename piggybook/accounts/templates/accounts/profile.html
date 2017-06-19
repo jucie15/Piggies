@@ -7,6 +7,8 @@
 
     {% tags_for_object profile as tags %}
     {% for tag in tags %}
+    <a href="{% url 'cast:tagged_list'%}?tag={{ tag.name }}">
         {{ tag.name }}
+    </a>
     {% endfor %}
 {% endblock %}
