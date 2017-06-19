@@ -21,25 +21,25 @@ def signup_info(request):
             profile.user.email = profile.user.socialaccount_set.first().extra_data['kaccount_email'] # 유저의 이메일은 카카오톡 아이디로 저장
             profile.user.save() # 유저 모델에 저장
             profile.save() # 프로필 모델에 저장
-            return redirect('accounts:signup_tag')
+            return redirect('accounts:set_tag')
     else :
         form = ProfileForm()
     return render(request, 'accounts/signup_info.html', {
         'form': form,
     })
 
-def signup_tag(request):
-    # 회원 가입 태그 추가 페이지
+def set_tag(request):
+    # 태그 추가/수정 페이지
 
-    user = request.user.profile_set
+    user = request.user.profile_set # 현재 유저의 프로필
 
     if request.method == 'POST':
         user.tag = request.POST.get('tag') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
         user.save() # 디비에 프로필 정보 저장
         return redirect('cast:index')
     else:
-        form = TagForm(instance = user)
-    return render(request, 'accounts/signup_tag.html', {
+        form = TagForm(instance = user) # 유저 정보를 받아와 폼 인스턴스 생성
+    return render(request, 'accounts/tag_form.html', {
         'form': form,
         })
 

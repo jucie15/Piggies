@@ -3,5 +3,5 @@ from cast import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^tagged_contents/$', views.tagged_list, name='tagged_list'),
+    url(r'^tagged-contents/$', views.tagged_list, name='tagged_list'),
 ]
