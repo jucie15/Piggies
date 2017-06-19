@@ -35,7 +35,7 @@
             {% load socialaccount %}
             {% if not user.is_authenticated %}
                 <li>
-                    <a href="{% provider_login_url 'kakao' %}?a={{ request.path }}" >
+                    <a href="{% provider_login_url 'kakao' %}" >
                         <span class="glyphicon glyphicon-user"></span> Login</a>
                 </li>
             {% else %}

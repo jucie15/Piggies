@@ -1,0 +1,100 @@
+{% extends "cast/layout.html" %}
+{% block content %}
+
+
+<!-- ===========================
+BODY LEFT PART
+============================ -->
+<div class="col-md-8 mainleft">
+    <div id="statement" class="row mobmid">
+        <div class="col-sm-1">
+            <span class="secicon fa fa-user"></span>
+        </div><!--icon end-->
+
+        <div class="col-sm-11 ">
+            <strong style="font-size: 25px;">공약</strong></span>
+            <br/>
+            <br/>
+
+            <table class="table-responsive">
+                <table class="table">
+                    <tr class="success">
+                        <td ><strong>공약 번호</strong></td>
+                        <!-- 국회의원별로 공약이 안 나눠져 있어 번호혼동됨 -->
+                        <td><strong>공약 제목</strong></td>
+                        <td><strong>공약 설명</strong></td>
+                        <td><strong>진행 상태</strong></td>
+
+                        {% for pledge in congressman.pledge_set.all %}
+                    <tr>
+                        <td>{{pledge.pk}}</td>
+                        <td><a href="{% url 'cast:pledge_detail' pledge.id %}">{{ pledge.title }}</a></td>
+                        <td>{{pledge.description|truncatechars:10}}</td>
+                        <td>{{pledge.get_status_display}}</td>
+                    </tr><!-- 두번째 행 -->
+
+                    {% endfor%}
+                </table>
+            </table>
+        </div>
+    </div>
+</div><!--pledge end-->
+
+
+<!-- ===========================
+BODY RIGHT PART
+=========================== -->
+<div class="col-md-4 mainright">
+
+    <div class="row mombid">
+        <div class="col-sm-1 col-md-2">
+            <span class="secicon fa fa-magic"></span>
+        </div><!--icon end-->
+
+        <div class="col-sm-11 col-md-10">
+            <h3 class="mobmid">공약 신뢰도(공약 이행률)</h3>
+            <br/>
+            <div class="progress">
+                <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width:{{ pledge_status.not_enforcement }}%">
+                    미시행
+                </div>
+                <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" style="width:{{ pledge_status.progress }}%">
+                    진행중
+                </div>
+                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" style="width:{{ pledge_status.complete }}%">
+                    완료
+                </div>
+                <div class="progress-bar progress-bar-warning progress-bar-striped" role="progressbar" style="width:{{ pledge_status.failed }}%">
+                    실패
+                </div>
+            </div>
+        </div><!--tech skills end-->
+    </div>
+
+    <hr/>
+
+    <div class="row mobmid">
+        <div class="col-sm-1 col-md-2">
+            <span class="secicon fa fa-trophy"></span>
+        </div><!--icon end-->
+
+        <div class="col-sm-11 col-md-10 ">
+            <h3>Awards</h3>
+
+            <div class="award">
+                <h4>Best Designer 2012</h4>
+                <p class="sub"><a href="">Life View Media Ltd.</a></p>
+                <p>Studying all aspect of Graphic Design Including Advertising Design, Branding, Copy Exhibition Design, Ilustration.</p>
+            </div>
+            <!--1st award end-->
+
+        </div><!--awards end-->
+
+    </div>
+
+</div><!--right end-->
+</div>
+</div><!--container end. layout과 연결-->
+
+<hr/>
+{% endblock %}

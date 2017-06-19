@@ -31,12 +31,11 @@ def signup_info(request):
 def set_tag(request):
     # 태그 추가/수정 페이지
 
-    user = request.user.profile_set # 현재 유저의 프로필
-
+    user = request.user.profile_set # 현재 유저의 프로필 정보
     if request.method == 'POST':
         user.tag = request.POST.get('tag') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
         user.save() # 디비에 프로필 정보 저장
-        return redirect('cast:index')
+        return redirect('accounts:profile')
     else:
         form = TagForm(instance = user) # 유저 정보를 받아와 폼 인스턴스 생성
     return render(request, 'accounts/tag_form.html', {

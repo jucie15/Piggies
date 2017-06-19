@@ -1,0 +1,7 @@
+{% extends 'cast/layout.html' %}
+
+{% block content %}
+    <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
+    <a href={% url 'cast:contents_detail' contents.pk %}>
+        {{ contents.title }}</a>
+{% endblock %}
