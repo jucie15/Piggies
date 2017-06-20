@@ -7,6 +7,10 @@
 
     {% tags_for_object profile as tags %}
     {% for tag in tags %}
+    <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
         {{ tag.name }}
+    </a>
     {% endfor %}
+    <a href="{% url 'accounts:set_tag' %}">
+        <h2>수정</h2></a>
 {% endblock %}

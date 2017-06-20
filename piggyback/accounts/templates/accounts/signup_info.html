@@ -5,9 +5,7 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <input type="submit">
+        {{ form.as_p }}
+        <input type="submit" value="다음">
     </form>
 {% endblock %}

@@ -5,18 +5,22 @@ from tagging.fields import TagField
 
 
 
-class Content(models.Model):
+class Contents(models.Model):
     # 컨텐츠(뉴스/영상) 모델
-    CONTENT_CHOICES = (
+    CONTENTS_CHOICES = (
         ('0','뉴스'),
         ('1','영상')
     ) # 컨텐츠 타입 명시
 
-    content_type = models.CharField(max_length=2, null=True, verbose_name='타입', choices=CONTENT_CHOICES) # 컨텐츠 종류
+    contents_type = models.CharField(max_length=2, null=True, verbose_name='타입', choices=CONTENTS_CHOICES) # 컨텐츠 종류
     url_path = models.CharField(max_length=128, null=True, verbose_name='컨텐츠URL') # 컨텐츠 원본 URL
     title = models.CharField(max_length=64, null=True, verbose_name='제목') # 컨텐츠 제목
     description = models.TextField(max_length=1024) # 컨텐츠 내용
-    tag = TagField()
+    tag = TagField() # 컨텐츠 태그
+
+    def get_absolute_url(self):
+        return reverse('cast:contents_detail',
+            args = [self.pk])
 
     def __str__(self):
         return self.title
@@ -30,9 +34,13 @@ class CongressMan(models.Model):
     constituency = models.CharField(max_length=32, null=True, blank=True) # 선거구
     email = models.CharField(max_length=64, null=True, blank=True) # 이메일 주소
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True) # 업데이트 날짜
+    tag = TagField() # 국회의원 태그
 
     class Meta():
         ordering =['id']
+
+    def get_absolute_url(self):
+        return reverse('cast:congressman:detail')
 
     def __str__(self):
         return self.name
@@ -51,6 +59,9 @@ class Pledge(models.Model):
     status = models.CharField(max_length=2, choices=PLEDGE_STATUS_CHOICE) # 공약 상태
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
     created_at = models.DateTimeField(auto_now_add=True) # 공약 날짜
+    tag = TagField() # 공약 태그
+
+
 
     def __str__(self):
         return self.title
