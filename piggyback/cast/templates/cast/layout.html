@@ -6,11 +6,11 @@
     <meata charset="UTF-8">
     <title>타이틀</title>
     <meta name="viewport" content="width=device-width">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet" type="text/css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
     <link rel="stylesheet" href="{% static 'cast/css/cast_style.css' %}">
+    <link rel="stylesheet" href="{% static 'cast/css/jquery.scrolling-tabs.css' %}">
     {% block extra_style %}
     {% endblock %}
 </head>
@@ -51,6 +51,44 @@
     </nav>
 </div>
 
+<div class="box2">
+  <ul class="nav nav-tabs" role="tablist">
+      <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab">Tab Number 1</a></li>
+      <li role="presentation"><a href="#tab2" role="tab" data-toggle="tab">Tab Number 2</a></li>
+      <li role="presentation"><a href="#tab3" role="tab" data-toggle="tab">Tab Number 3</a></li>
+      <li role="presentation"><a href="#tab4" role="tab" data-toggle="tab">Tab Number 4</a></li>
+      <li role="presentation"><a href="#tab5" role="tab" data-toggle="tab">Tab Number 5</a></li>
+      <li role="presentation"><a href="#tab6" role="tab" data-toggle="tab">Tab Number 6</a></li>
+      <li role="presentation"><a href="#tab7" role="tab" data-toggle="tab">Tab Number 7</a></li>
+      <li role="presentation"><a href="#tab8" role="tab" data-toggle="tab">Tab Number 8</a></li>
+      <li role="presentation"><a href="#tab9" role="tab" data-toggle="tab">Tab Number 9</a></li>
+      <li role="presentation"><a href="#tab10" role="tab" data-toggle="tab">Tab Number 10</a></li>
+      <li role="presentation"><a href="#tab11" role="tab" data-toggle="tab">Tab Number 11</a></li>
+      <li role="presentation"><a href="#tab12" role="tab" data-toggle="tab">Tab Number 12</a></li>
+    </ul>
+</div>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="tab1">Tab 1 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab2">Tab 2 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab3">Tab 3 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab4">Tab 4 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab5">Tab 5 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab6">Tab 6 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab7">Tab 7 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab8">Tab 8 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab9">Tab 9 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab10">Tab 10 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab11">Tab 11 content...</div>
+      <div role="tabpanel" class="tab-pane" id="tab12">Tab 12 content...</div>
+    </div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'cast/js/jquery.scrolling-tabs.js' %}"></script>
+
 
 {% block content %}
 {% endblock %}
@@ -60,6 +98,14 @@
 <p>Copyright &copy; 국민회관</p>
 </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.nav-tabs').scrollingTabs().on('ready.scrtabs', function() {
+            $('.tab-content').show();
+        });
+    });
+</script>
 
 </body>
 
