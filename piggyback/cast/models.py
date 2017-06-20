@@ -20,7 +20,7 @@ class Contents(models.Model):
 
     def get_absolute_url(self):
         return reverse('cast:contents_detail',
-            args = [self.pk])
+            args=[self.pk])
 
     def __str__(self):
         return self.title
@@ -40,7 +40,7 @@ class CongressMan(models.Model):
         ordering =['id']
 
     def get_absolute_url(self):
-        return reverse('cast:congressman:detail')
+        return reverse('cast:congressman_detail', args=[self.pk])
 
     def __str__(self):
         return self.name

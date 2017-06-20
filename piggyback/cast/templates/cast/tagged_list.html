@@ -4,12 +4,12 @@
 
     {% for contents in contents_list %}
         <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
-        <a href="{% url 'cast:contents_detail' contents.pk %}">
+        <a href="{{ contents.get_absolute_url }}">
             {{ contents.title }}</a>
     {% endfor %}
     <p>
     {% for congressman in congressman_list %}
-        <a href="{% url 'cast:congressman_detail' congressman.pk %}">
+        <a href="{{ congressman.get_absolute_url }}">
             {{ congressman }}</a>
     {% endfor %}
     <p>
