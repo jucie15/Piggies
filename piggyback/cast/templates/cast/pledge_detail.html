@@ -9,7 +9,7 @@
     // 좋아요 버튼 처리
     // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
     $('.emobtn').click(function(){
-        var emotion_name = $(this).attr('name'); // 클릭한 요소의 attribute 중 name의 값을 가져온다.
+        var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 name의 값을 가져온다.
 
         $.ajax({
             url: "{% url 'cast:pledge_emotion' pledge.pk %}?emotion_name=" + emotion_name, // 통신할 url을 지정한다.

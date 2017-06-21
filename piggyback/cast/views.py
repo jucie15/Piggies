@@ -80,9 +80,14 @@ def contents_emotion(request, contents_pk):
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
         if user.contents_emotion_set.filter(contents=contents).exists():
             # 해당 컨텐츠에 감정 표현을 이미 해놓은 경우
-            contents_emotion = user.contents_emotion_set.get(contents=contents) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
-            contents_emotion.name = emotion_name # 감정을 바꿔준 후 저장
-            contents_emotion.save()
+            user_emotion = user.contents_emotion_set.get(contents=contents) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            if user_emotion.name == emotion_name:
+                # 같은 감정을 한번 더누르면 삭제.
+                ContentsEmotion.objects.filter(contents=contents, user=user).delete() # 인스턴스 삭제
+            else:
+                # 다른 감정을 누를 경우
+                user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
+                user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             ContentsEmotion.objects.create(
@@ -110,9 +115,14 @@ def pledge_emotion(request, pledge_pk):
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
         if user.pledge_emotion_set.filter(pledge=pledge).exists():
             # 해당 공약에 감정 표현을 이미 해놓은 경우
-            pledge_emotion = user.pledge_emotion_set.get(pledge=pledge) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
-            pledge_emotion.name = emotion_name # 감정을 바꿔준 후 저장
-            pledge_emotion.save()
+            user_emotion = user.pledge_emotion_set.get(pledge=pledge) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            if user_emotion.name == emotion_name:
+                # 같은 감정을 한번 더누르면 삭제.
+                PledgeEmotion.objects.filter(pledge=pledge, user=user).delete() # 인스턴스 삭제
+            else:
+                # 다른 감정을 누를 경우
+                user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
+                user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             PledgeEmotion.objects.create(
@@ -140,9 +150,14 @@ def congressman_emotion(request, congressman_pk):
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
         if user.congressman_emotion_set.filter(congressman=congressman).exists():
             # 해당 컨텐츠에 감정 표현을 이미 해놓은 경우
-            congressman_emotion = user.congressman_emotion_set.get(congressman=congressman) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
-            congressman_emotion.name = emotion_name # 감정을 바꿔준 후 저장
-            congressman_emotion.save()
+            user_emotion = user.congressman_emotion_set.get(congressman=congressman) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            if user_emotion.name == emotion_name:
+                # 같은 감정을 한번 더누르면 삭제.
+                CongressmanEmotion.objects.filter(congressman=congressman, user=user).delete() # 인스턴스 삭제
+            else:
+                # 다른 감정을 누를 경우
+                user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
+                user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             CongressmanEmotion.objects.create(
