@@ -30,7 +30,7 @@ class Contents(models.Model):
     def get_count_emotion(self):
         # 해당 컨텐츠의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
         total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for i in range(0,7):
+        for i in range(1,7):
             # 각 감정들 별로 개수 카운트
             total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
         return total_number
@@ -50,11 +50,22 @@ class Congressman(models.Model):
     class Meta():
         ordering =['id']
 
+    def __str__(self):
+        return self.name
+
     def get_absolute_url(self):
         return reverse('cast:congressman_detail', args=[self.pk])
 
-    def __str__(self):
-        return self.name
+
+    @property
+    def get_count_emotion(self):
+        # 해당 국회의원의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
+        total_number = {} # 각 감정들의 개수를 담을 dic 변수
+        for i in range(1,3):
+            # 각 감정들 별로 개수 카운트
+            total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
+        return total_number
+
 
 class Pledge(models.Model):
     # 공약 모델
@@ -77,6 +88,15 @@ class Pledge(models.Model):
 
     def get_absolute_url(self):
         return reverse('cast:pledge_detail', args = [self.pk])
+
+    @property
+    def get_count_emotion(self):
+        # 해당 공약의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
+        total_number = {} # 각 감정들의 개수를 담을 dic 변수
+        for i in range(1,3):
+            # 각 감정들 별로 개수 카운트
+            total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
+        return total_number
 
 class ContentsEmotion(models.Model):
     # 컨텐츠내 감정 표현 관계 모델
