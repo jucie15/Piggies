@@ -45,6 +45,7 @@ class Congressman(models.Model):
     constituency = models.CharField(max_length=32, null=True, blank=True) # 선거구
     email = models.CharField(max_length=64, null=True, blank=True) # 이메일 주소
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True) # 업데이트 날짜
+    emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CongressmanEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
     tag = TagField() # 국회의원 태그
 
     class Meta():
@@ -81,6 +82,7 @@ class Pledge(models.Model):
     status = models.CharField(max_length=2, choices=PLEDGE_STATUS_CHOICE) # 공약 상태
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
     created_at = models.DateTimeField(auto_now_add=True) # 공약 날짜
+    emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='PledgeEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
     tag = TagField() # 공약 태그
 
     def __str__(self):
@@ -146,6 +148,37 @@ class CongressmanEmotion(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='congressman_emotion_set') # 유저와 1:N 관계 설정
     congressman = models.ForeignKey(Congressman) #  국회의원모델과 1:N 관계 설정
     name = models.CharField(max_length=2, default='0', choices=CONGRESSMAN_EMOTION_CHOICE) # 감정의 이름
+
+    def __str__(self):
+        return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
+
+class Comment(models.Model):
+    # 댓글 모델
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 해당 댓글을 쓴 유저와 1:N 관계 설졍
+    contents = models.ForeignKey(Contents, default=None, null=True) # 컨텐츠에 댓글이 달릴 경우 관계 설정
+    congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원에 댓글이 달릴 경우 관계 설정
+    pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약에 댓글이 달릴 경우 관계 설정
+    message = models.TextField() # 댓글 내용
+
+    class Meta:
+        ordering = ['-id']
+
+    def __str__(self):
+        return "{}의 댓글 {}".format(self.user, self.message)
+
+class CommentEmotion(models.Model):
+    # 댓글의 좋아요/싫어요
+
+    LIKE_DISLIKE_CHOICE = (
+        ('0', '선택안함'),
+        ('1', '좋아요'),
+        ('2', '싫어요'),
+    ) # 감정 표현 종류
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comment_emotion_set') # 유저와 1:N 관계 설졍
+    comment = models.ForeignKey(Comment) # 해당 댓글과 1:N 관계 설정
+    name = models.CharField(max_length=2, default='0', choices=LIKE_DISLIKE_CHOICE) # 감정의 이름
 
     def __str__(self):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
