@@ -78,7 +78,6 @@ def pledge_detail(request, pledge_pk):
 
     return render(request, 'cast/pledge_detail.html', context)
 
-
 def contents_emotion(request, contents_pk):
     # 컨텐츠의 감정표현 처리
     if request.is_ajax():
