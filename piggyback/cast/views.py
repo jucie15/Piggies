@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from tagging.models import Tag
 from cast.models import *
-from cast.forms import CommentForm
+from cast.forms import CommentForm, ReCommentForm
 
 def index(request):
     # 메인 페이지
@@ -43,10 +43,10 @@ def contents_detail(request, contents_pk):
 
     return render(request, 'cast/contents_detail.html', context)
 
-def congressman_detail(request, cm_pk):
+def congressman_detail(request, congressman_pk):
     # 국회의원 세부 페이지
 
-    congressman = get_object_or_404(Congressman, pk=cm_pk)
+    congressman = get_object_or_404(Congressman, pk=congressman_pk)
     comment_form = CommentForm()
 
     pledge_status = {}
@@ -295,6 +295,51 @@ def comment_emotion(request, comment_pk):
 
     # dic 형식을 json 형식으로 바꾸어 전달한다.
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+@login_required
+def recomment_new(request, comment_pk):
+    # 대댓글 달기
+
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+
+    if request.method == 'POST':
+        # 포스트 요청일 경우
+        form = ReCommentForm(request.POST, request.FILES) # 받아온 데이터를 통해 폼 인스턴스 생성
+
+        if form.is_valid():
+            # 폼에 데이터가 유효할 경우
+            recomment = form.save(commit=False) # 디비에 저장하지 않고 인스턴스 생성
+            recomment.user = request.user
+            recomment.comment = comment
+            recomment.save() # 유저와 공약 연결 후 디비에 저장
+            messages.success(request, '새 댓글을 저장했습니다.')
+
+            return redirect(redirect_path)
+    else:
+        # 포스트 요청이 아닐 경우 빈 폼 생성
+        form = CommentForm()
+
+    return render(request, 'cast/comment_form.html', {
+        'form' : form,
+        }) # 포스트 요청이 아닐 경우 빈 폼으로 페이지 렌더링
+
+@login_required
+def recomment_delete(request, recomment_pk):
+    # 공약 디테일 내 댓글 지우기
+
+    recomment = get_object_or_404(ReComment, pk=recomment_pk)
+    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+
+    if recomment.user != request.user:
+        # 댓글 작성자와 현재 유저가 다를 경우
+        messages.warning(request, '작성자만 삭제할 수 있습니다.')
+    else:
+        # 작성자와 동일할 경우
+        recomment.delete() # 댓글 삭제
+        messages.success(request, '댓글을 삭제했습니다.')
+
+    return redirect(redirect_path)
 
 def ajax_tag_autocomplete(request):
     # 태그 검색 자동완성 기능

@@ -59,8 +59,16 @@
                 <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
                 <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
             {% endif %}
-            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="좋아요" value="1" style="color:white;">좋아요</button>
-            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="싫어요" value="2" style="color:white;">싫어요</button>
+            <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}">댓글</a>
+            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="like" value="1" style="color:white;">좋아요</button>
+            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="dislike" value="2" style="color:white;">싫어요</button>
+            <p>
+            {% for recomment in comment.recomment_set.all %}
+                {{ recomment.message }}
+                {% if recomment.user == user %}
+                    <a href="{% url "cast:recomment_delete" recomment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                {% endif %}
+            {% endfor %}
         </li>
         {% endfor %}
     </ul>

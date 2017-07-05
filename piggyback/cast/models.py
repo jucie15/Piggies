@@ -182,3 +182,16 @@ class CommentEmotion(models.Model):
 
     def __str__(self):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
+
+class ReComment(models.Model):
+    # 대댓글
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 유저와 1:N 관계 설정
+    comment = models.ForeignKey(Comment) # 해당 댓글과 1:N 관계 설정
+    message = models.TextField() # 대댓글의 내용
+
+    class Meta:
+        ordering = ['-id']
+
+    def __str__(self):
+        return "{}의 댓글 {}".format(self.user, self.message)
