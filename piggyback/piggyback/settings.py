@@ -45,9 +45,12 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
+    'el_pagination',
+
     # local_apps
     'cast',
     'accounts',
+    'board',
 ]
 
 MIDDLEWARE = [

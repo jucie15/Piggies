@@ -1,0 +1,41 @@
+{% extends "cast/layout.html" %}
+
+{% block content %}
+<div class='container'>
+    <h2>{{ feedback.title }}</h2>
+
+    {{ feedback.content }}
+
+    <hr/>
+    <div class='pull-right'>
+    <!-- 버튼 오른쪽 정렬-->
+        <a href="{% url "board:feedback_list" %}" class="btn btn-default">목록</a>
+        {% if feedback.user == user %}
+            <!-- 글 작성자와 현재 유저가 같을 경우에만 수정,삭제 버튼 표시-->
+            <a href="{% url "board:feedback_edit" feedback.pk %}" class="btn btn-primary">수정</a>
+            <a href="{% url "board:feedback_delete" feedback.pk %}" class="btn btn-danger">삭제</a>
+        {% endif %}
+    </div><!--.pull-right-->
+    <form action="{% url "board:comment_new" feedback.pk %}?next={{ request.path }}&type=feedback" method="post">
+        {% csrf_token %}
+        {{ comment_form.message }}
+        <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
+    </form>
+
+    <h3>Comments</h3>
+
+    <ul>
+        {% for comment in feedback.feedback_comment_set.all %}
+            <li>
+                {{ comment.message }}
+                <small>by {{ comment.user }}</small>
+
+                {% if comment.user == user %}
+                    <a href="{% url "board:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
+                    <a href="{% url "board:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                {% endif %}
+            </li>
+    {% endfor %}
+    </ul>
+</div><!--.container-->
+{% endblock %}
