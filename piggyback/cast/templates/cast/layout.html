@@ -121,12 +121,20 @@
 </main>
 
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 5,
-        spaceBetween: 0,
-        grabCursor: true,
-        freeMode: true,
-      });
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 5,
+    spaceBetween: 0,
+    grabCursor: true,
+    freeMode: true,
+  });
+
+  $(document).ready(function(){
+    for (var i = 7; i < 11; i++){
+      $("#pledge"+i).hide();
+    }
+
+  });
+
 
 </script>
 
