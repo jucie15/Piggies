@@ -88,6 +88,9 @@ def feedback_delete(request, feedback_pk):
         feedback.delete()
         return redirect('board:feedback_list')
 
+def post_list(request):
+    pass
+
 @login_required
 def comment_new(request, pk):
     # 각 컨텐츠내 댓글 쓰기

@@ -14,7 +14,6 @@ class Feedback(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) # 게시일
     updated_at = models.DateTimeField(auto_now=True) # 수정일
 
-
     class Meta:
         ordering = ['-id'] # 최신글 순서로 정렬
 

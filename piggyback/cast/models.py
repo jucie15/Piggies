@@ -19,6 +19,9 @@ class Contents(models.Model):
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ContentsEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
     tag = TagField() # 컨텐츠 태그
 
+    class Meta:
+        verbose_name_plural = 'contents' # 모델 복수개 명칭(admin표시)
+
     def get_absolute_url(self):
         return reverse('cast:contents_detail',
             args=[self.pk])
