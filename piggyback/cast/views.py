@@ -358,3 +358,68 @@ def ajax_tag_autocomplete(request):
         data = json.dumps(results) # json형식으로 변환
         mimetype = 'application/json'
         return HttpResponse(data, mimetype)
+
+def ajax_favorites(request, pk):
+    # 즐겨찾기 버튼 클릭 시
+    if request.is_ajax():
+        # ajax 요청일 경우
+        user = request.user
+        req_type = request.POST.get('type','')
+
+        isFavorite = False # 즐겨찾기 상태를 확인할 변수
+
+        if req_type == 'contents':
+            # 컨텐츠에서 요청이 왔을 경우
+            contents = get_object_or_404(Contents, pk=pk) # 컨텐츠 인스턴스 생성
+            if user.favorite_set.filter(contents=contents).exists():
+                # 유저가 이미 해당 컨텐츠를 즐겨찾기 추가해놨으면 삭제
+                Favorite.objects.filter(contents=contents, user=user).delete()
+                isFavorite = False # 즐겨찾기 해제
+            else:
+                # 추가되어 있지 않았다면 추가
+                Favorite.objects.create(
+                    user=user,
+                    contents=contents,
+                    )
+                isFavorite = True # 즐겨찾기 추가
+        elif req_type == 'pledge':
+            # 공약에서 요청이 왔을 경우
+            pledge = get_object_or_404(Pledge, pk=pk) # 공약 인스턴스 생성
+            if user.favorite_set.filter(pledge=pledge).exists():
+                # 유저가 이미 해당 공약을 즐겨찾기 추가해놨으면 삭제
+                Favorite.objects.filter(pledge=pledge, user=uesr).delete()
+                isFavorite = False
+
+            else:
+                # 추가 되어 있지 않다면 추가
+                Favorite.objects.create(
+                    user=user,
+                    pledge=pledge,
+                    )
+                isFavorite = True
+        else:
+            # 국회의원 페이지에서 요청이 왔을 경우
+            congressman = get_object_or_404(Congressman, pk=pk) # 의원 인스턴스 생성
+            if user.favorite_set.filter(congressman=congressman).exists():
+                # 유저가 이미 해당 국회의원을 즐겨찾기에 추가해놨으면 삭제
+                Favorite.objects.filter(congressman=congressman, user=user).delete()
+                isFavorite = False
+
+            else:
+                # 추가되어있지 않았다면 추가
+                Favorite.objects.create(
+                    user=user,
+                    congressman=congressman,
+                    )
+                isFavorite = True
+
+        context = {}
+        context['isFavorite'] = isFavorite
+        context['status'] = 'success'
+        data = json.dumps(context) # json 형식으로 파싱
+    else:
+        data = json.dump({
+            'status': 'fail',
+            }) # json 형식으로 파싱
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

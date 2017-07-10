@@ -44,6 +44,9 @@ class CommentAdmin(admin.ModelAdmin):
         ReCommentInline,
     ]
 
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    model = Favorite
 
 
 # admin.site.register(Contents)

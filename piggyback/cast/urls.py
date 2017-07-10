@@ -17,5 +17,7 @@ urlpatterns = [
     url(r'^(?P<comment_pk>\d+)/recomment/new/$', views.recomment_new, name='recomment_new'),
     url(r'^recomment/(?P<recomment_pk>\d+)/delete/$', views.recomment_delete, name='recomment_delete'),
     url(r'^ajax/tag/autocomplete/$', views.ajax_tag_autocomplete, name='ajax_tag_autocomplete'),
+    url(r'^ajax/favorites/(?P<pk>\d+)/$', views.ajax_favorites, name='ajax_favorites'),
+
 
 ]

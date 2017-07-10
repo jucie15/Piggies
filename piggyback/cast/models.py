@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
 from tagging.fields import TagField
-from accounts.models import Profile
 
 class Contents(models.Model):
     # 컨텐츠(뉴스/영상) 모델
@@ -198,3 +197,21 @@ class ReComment(models.Model):
 
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
+
+class Favorite(models.Model):
+    # 즐겨찾기
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 유저와 1:N 관계 생성
+    contents = models.ForeignKey(Contents, default=None, null=True) # 컨텐츠와 1:N 관계 생성
+    pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약과 1:N 관계 생성
+    congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원 1:N 관계 생성
+
+    def __str__(self):
+        if self.contents:
+            return self.contents.title
+        elif self.pledge:
+            return self.pledge.title
+        else:
+            return self.congressman.name
+
+
