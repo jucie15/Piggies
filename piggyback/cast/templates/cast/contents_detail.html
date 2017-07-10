@@ -54,6 +54,7 @@
     <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score">10</span></a></li>
 </ul>
 
+
 <!--
     <form action="{% url "cast:comment_new" contents.pk %}?next={{ request.path }}&type=contents" method="post">
         {% csrf_token %}
@@ -61,18 +62,23 @@
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
     </form>
 -->
-    <ul>
+  <p class="strapline">댓글 몇개</p>
+   <hr>
+    <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
-        <li>
-            {{ comment.message }}
-            <small>by {{ comment.user }}</small>
-            {% if comment.user == user %}
-                <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
-                <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
-            {% endif %}
-            <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}">댓글</a>
-            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="like" value="1" style="color:white;">좋아요</button>
-            <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="dislike" value="2" style="color:white;">싫어요</button>
+        <li class="comment">
+           <a href=""><img class="comment_user_img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Albert_Einstein_%28Nobel%29.png/100px-Albert_Einstein_%28Nobel%29.png" alt=""></a>
+            <div class="comment_content">
+                <strong class="comment_user"> {{ comment.user }}</strong>
+                <p>{{ comment.message }}</p>
+                {% if comment.user == user %}
+                    <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
+                    <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                {% endif %}
+                <p style="font-size:10px;"><a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}">댓글달기</a></p>
+            </div>
+            <div class="comment_emotion"><a  href="" role="button"  id={{ comment.pk }} name="like" value="1" >좋아요</a>
+            <a href="" role="button"  id={{ comment.pk }} name="dislike" value="2"> 싫어요</a></div>
             <p>
             {% for recomment in comment.recomment_set.all %}
                 {{ recomment.message }}
