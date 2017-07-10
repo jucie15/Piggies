@@ -743,3 +743,15 @@ body
     margin-top: 0px;
 }
 
+.comment-form {
+    width: 96%;
+    margin: auto;
+}
+
+
+.contents_title, .contents_description {
+    width:96%;
+    margin: auto;
+}
+
+

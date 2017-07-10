@@ -25,9 +25,9 @@
 </div>
 
 <br/>
-<h4>{{ contents.title }}(글 제목)</h4> <br/>
+<div class="contents_title"><h4>{{ contents.title }}(글 제목)</h4> <br/></div>
 
-{{ contents.description }}(글 내용) <br/><br/>
+<div class="contents_description">{{ contents.description }}(글 내용) <br/><br/></div>
 
 </article>
 
@@ -36,6 +36,8 @@
 <span class="tag">#박근혜</span>
 <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i>추가</span>
 </div>
+
+<hr>
 
 <ul class="emotion_box">
   <li class="emotion"><a href="" role="button" id="glad" name="기뻐요" value="3">
@@ -52,11 +54,13 @@
     <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score">10</span></a></li>
 </ul>
 
+<!--
     <form action="{% url "cast:comment_new" contents.pk %}?next={{ request.path }}&type=contents" method="post">
         {% csrf_token %}
         {{ comment_form.message }}
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
     </form>
+-->
     <ul>
         {% for comment in contents.comment_set.all %}
         <li>
