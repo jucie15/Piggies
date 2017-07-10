@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{% load staticfiles %}
 <nav class="mobile navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
@@ -37,6 +38,12 @@
 </div>
 
 <div class="emotion_box">
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/glad.png' %}" alt="" style="width:26px;"></a></div>
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:26px;"></a></div>
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/angry.png' %}" alt="" style="width:26px;"></a></div>
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/nice.png' %}" alt="" style="width:26px;"></a></div>
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/sad.png' %}" alt="" style="width:26px;"></a></div>
+  <div class="emotion"><a href=""><img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:26px;"></a></div>
     <button type="button" class="emobtn btn btn-primary" id="disgusting" name="역겨워요" value="1" style="color:white;">역겨워요</button>
     <button type="button" class="emobtn btn btn-primary" id="surprising" name="놀라워요" value="2" style="color:white;">놀라워요</button>
     <button type="button" class="emobtn btn btn-primary" id="glad" name="기뻐요" value="3" style="color:white;">기뻐요</button>
@@ -121,5 +128,3 @@
 </script>
 
 {% endblock %}
-
-

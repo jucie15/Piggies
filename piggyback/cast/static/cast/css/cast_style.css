@@ -548,6 +548,12 @@ body
     font-weight: bold;
 }
 
+.tag_add 
+{
+    color: white;
+    background: #FFD124;
+}
+
 .emotion_box
 {
     margin-top: 15px;
@@ -713,5 +719,9 @@ body
     margin-right: auto;
 }
 
+
 }
 
+.emotion {
+    display: inline;
+}
