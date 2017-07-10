@@ -556,8 +556,13 @@ body
 
 .emotion_box
 {
+    display: table;
     margin-top: 15px;
     margin-bottom: 15px;
+    width:100%;
+    -webkit-padding-start: 0px;
+    padding: 10px;
+    position: static;
 }
 /*
 반응형 시작
@@ -723,5 +728,18 @@ body
 }
 
 .emotion {
-    display: inline;
+    display: table-cell;
+    text-align: center;
+    width: 16%;
 }
+
+.emotion_name, .emotion_score {
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.emotion_score{
+    margin-top: 0px;
+}
+
