@@ -548,10 +548,21 @@ body
     font-weight: bold;
 }
 
+.tag_add 
+{
+    color: white;
+    background: #FFD124;
+}
+
 .emotion_box
 {
+    display: table;
     margin-top: 15px;
     margin-bottom: 15px;
+    width:100%;
+    -webkit-padding-start: 0px;
+    padding: 10px;
+    position: static;
 }
 /*
 반응형 시작
@@ -713,5 +724,85 @@ body
     margin-right: auto;
 }
 
+
 }
 
+.emotion {
+    display: table-cell;
+    text-align: center;
+    width: 16%;
+}
+
+.emotion_name, .emotion_score {
+    display: block;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.emotion_score{
+    margin-top: 0px;
+}
+
+.comment-form {
+    width: 96%;
+    margin: auto;
+}
+
+
+.contents_title, .contents_description {
+    width:92%;
+    margin: auto;
+}
+
+hr {
+    width:92%;
+    margin: auto;    
+}
+
+
+
+.comment_box {
+    width: 92%;
+    float: left;
+    margin-top: 20px;
+    -webkit-padding-start: 5%;
+}
+
+.comment {
+     list-style:none;
+     height: 80px;
+     border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+.comment_user {
+}
+
+.comment_user_img {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    float: left
+}
+
+.comment_content {
+    position: relative;
+    float: left;
+    margin-left: 5%;
+}
+
+.strapline {
+    margin-left: 5%;
+    margin-top: 10px;
+}
+
+.comment_emotion {
+    float: right;
+    font-size: 12px;
+}
+
+a{
+    color: #333;
+}
