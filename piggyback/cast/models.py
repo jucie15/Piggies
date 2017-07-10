@@ -207,9 +207,9 @@ class Favorite(models.Model):
     congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원 1:N 관계 생성
 
     def __str__(self):
-        if self.contents:
+        if self.contents != None:
             return self.contents.title
-        elif self.pledge:
+        elif self.pledge != None:
             return self.pledge.title
         else:
             return self.congressman.name

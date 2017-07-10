@@ -9,9 +9,14 @@
       <li><a href="{% url 'cast:index' %}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a id="favorite"><i class="fa fa-heart-o fa-lg fa-fw"  aria-hidden="true" style='color:gray'></i></a></li>
-      <li><a href="#"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
-      <li><a href="#"><i class="fa fa-ellipsis-v fa-lg fa-fw fa-flip-horizontal" aria-hidden="true"></i></a></li>
+        {% if user_is_favorite == True %}
+          <li><a id="favorite" style='color:red'>
+        {% else %}
+          <li><a id="favorite" style='color:gray'>
+        {% endif %}
+        <i class="fa fa-heart-o fa-lg fa-fw"  aria-hidden="true" ></i></a></li>
+        <li><a href="#"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
+        <li><a href="#"><i class="fa fa-ellipsis-v fa-lg fa-fw fa-flip-horizontal" aria-hidden="true"></i></a></li>
     </ul>
   </div>
 </nav>
@@ -66,7 +71,7 @@
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
-           <a href=""><img class="comment_user_img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+            <a href=""><img class="comment_user_img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
                 <p>{{ comment.message }}</p>
@@ -151,7 +156,7 @@
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
                 if(data.isFavorite == true)
                 {
-                    $('#favorite').css('color','yellow');
+                    $('#favorite').css('color','red');
                     alert('즐겨찾기 추가')
                 }
                 else

@@ -35,11 +35,17 @@ def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
 
     contents = get_object_or_404(Contents, pk=contents_pk)
+    if request.user.favorite_set.filter(contents=contents).exists():
+        user_is_favorite = True
+    else:
+        user_is_favorite = False
+
     comment_form = CommentForm()
 
     context = {}
     context['contents'] = contents
     context['comment_form'] = comment_form
+    context['user_is_favorite'] = user_is_favorite
 
     return render(request, 'cast/contents_detail.html', context)
 
