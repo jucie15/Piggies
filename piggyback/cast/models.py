@@ -26,7 +26,7 @@ class Contents(models.Model):
             args=[self.pk])
 
     def __str__(self):
-        return self.title
+        return '{}번 {}'.format(self.id, self.title)
 
     @property
     def get_count_emotion(self):
@@ -162,6 +162,7 @@ class Comment(models.Model):
     congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원에 댓글이 달릴 경우 관계 설정
     pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약에 댓글이 달릴 경우 관계 설정
     message = models.TextField() # 댓글 내용
+    created_at = models.DateTimeField(auto_now_add=True) # 댓글 작성 시간
 
     class Meta:
         ordering = ['-id']
