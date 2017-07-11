@@ -74,16 +74,24 @@
             <a href=""><img class="comment_user_img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
-                <p>{{ comment.message }}</p>
-                {% if comment.user == user %}
-                    <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
-                    <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
-                {% endif %}
-                <p style="font-size:10px;"><a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}">댓글달기</a></p>
+                <p class="comment_message">{{ comment.message }}</p>
+                           
+            {% if comment.user == user %}
+               <p class="comment_edit">
+                   <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}" >수정</a>
+                    <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">삭제</a>    
+               </p>
+            {% endif %}
+               
+                <p style="font-size:10px;">
+                <span style="color:#9c9c9c;">3분전</span>&nbsp;&nbsp;
+                <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;<span style="color:#9c9c9c;">10</span></a>
+                   <a  href="" role="button"  id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                    <span style="color:#9c9c9c;">10</span>
+                    <a href="" role="button"  id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                    <span style="color:#9c9c9c;">6</span>
+                </p>
             </div>
-            <div class="comment_emotion"><a  href="" role="button"  id={{ comment.pk }} name="like" value="1" >좋아요</a>
-            <a href="" role="button"  id={{ comment.pk }} name="dislike" value="2"> 싫어요</a></div>
-            <p>
             {% for recomment in comment.recomment_set.all %}
                 {{ recomment.message }}
                 {% if recomment.user == user %}
@@ -101,8 +109,6 @@
         $(".box2").hide();
         $(".select-content").hide();
   });
-
-
     // 좋아요 버튼 처리
     // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
     $('.emobtn').click(function(){
