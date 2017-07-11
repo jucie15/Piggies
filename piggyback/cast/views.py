@@ -41,11 +41,13 @@ def contents_detail(request, contents_pk):
         user_is_favorite = False
 
     comment_form = CommentForm()
-
+    arr = []
+    arr.append(1)
     context = {}
     context['contents'] = contents
     context['comment_form'] = comment_form
     context['user_is_favorite'] = user_is_favorite
+    context['arr']=arr
 
     return render(request, 'cast/contents_detail.html', context)
 

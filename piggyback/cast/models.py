@@ -32,9 +32,9 @@ class Contents(models.Model):
     def get_count_emotion(self):
         # 해당 컨텐츠의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
         total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for i in range(1,7):
+        for idx in range(1,7):
             # 각 감정들 별로 개수 카운트
-            total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
+            total_number[idx] = ContentsEmotion.objects.filter(contents_id=self.id, name=idx).count()
         return total_number
 
 
@@ -64,9 +64,9 @@ class Congressman(models.Model):
     def get_count_emotion(self):
         # 해당 국회의원의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
         total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for i in range(1,3):
+        for idx in range(1,3):
             # 각 감정들 별로 개수 카운트
-            total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
+            total_number[idx] = CongressmanEmotion.objects.filter(congressman_id=self.id, name=idx).count()
         return total_number
 
 
@@ -97,9 +97,9 @@ class Pledge(models.Model):
     def get_count_emotion(self):
         # 해당 공약의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
         total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for i in range(1,3):
+        for idx in range(1,3):
             # 각 감정들 별로 개수 카운트
-            total_number[i] = ContentsEmotion.objects.filter(contents_id=self.id, name=i).count()
+            total_number[idx] = PledgeEmotion.objects.filter(pledge_id=self.id, name=idx).count()
         return total_number
 
 class ContentsEmotion(models.Model):
@@ -169,6 +169,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
+
+    @property
+    def get_count_emotion(self):
+        # 해당 댓글의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
+        total_number = {} # 각 감정들의 개수를 담을 dic 변수
+        for idx in range(1,3):
+            # 각 감정들 별로 개수 카운트
+            total_number[idx] = CommentEmotion.objects.filter(comment_id=self.id, name=idx).count()
+        return total_number
 
 class CommentEmotion(models.Model):
     # 댓글의 좋아요/싫어요
