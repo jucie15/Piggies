@@ -65,7 +65,8 @@
         {{ comment_form.message }}
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
     </form>
-
+    
+  <!--댓글개수 가져오기-->
   <p class="strapline">댓글 몇개</p>
    <hr>
     <ul class="comment_box">
@@ -84,11 +85,16 @@
             {% endif %}
                
                 <p style="font-size:10px;">
+                <!--댓글 작성 시간 가져오기-->
                 <span style="color:#9c9c9c;">3분전</span>&nbsp;&nbsp;
-                <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;<span style="color:#9c9c9c;">10</span></a>
+                <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                  <!--대댓 개수 가져오기-->
+                  <span style="color:#9c9c9c;">10</span></a>
                    <a  href="" role="button"  id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                   <!--좋아요 개수 가져오기-->
                     <span style="color:#9c9c9c;">10</span>
                     <a href="" role="button"  id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                    <!--싫어요 개수 가져오기-->
                     <span style="color:#9c9c9c;">6</span>
                 </p>
             </div>
