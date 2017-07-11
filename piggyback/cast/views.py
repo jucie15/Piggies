@@ -41,13 +41,11 @@ def contents_detail(request, contents_pk):
         user_is_favorite = False
 
     comment_form = CommentForm()
-    arr = []
-    arr.append(1)
+
     context = {}
     context['contents'] = contents
     context['comment_form'] = comment_form
     context['user_is_favorite'] = user_is_favorite
-    context['arr']=arr
 
     return render(request, 'cast/contents_detail.html', context)
 
@@ -431,3 +429,20 @@ def ajax_favorites(request, pk):
             }) # json 형식으로 파싱
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+def ajax_add_tag(request, pk):
+    # 태그 추가 버튼 클릭시
+    if request.is_ajax():
+        # ajax 요청시
+        tag = request.GET.get('tag','')
+        req_type = request.GET.get('type','')
+
+        if req_type == 'contents':
+            objects = get_object_or_404(Contents, pk=pk)
+        elif req_type == 'pledge':
+            objects = get_object_or_404(Pledge, pk=pk)
+        else:
+            objects = get_object_or_404(Congressman, pk=pk)
+
+        Tag.objects.add_tag(objects, tag) # 해당 인스턴스에 태그 추가
+    return HttpResponse('성공')

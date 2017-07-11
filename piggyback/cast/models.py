@@ -69,7 +69,6 @@ class Congressman(models.Model):
             total_number[idx] = CongressmanEmotion.objects.filter(congressman_id=self.id, name=idx).count()
         return total_number
 
-
 class Pledge(models.Model):
     # 공약 모델
     PLEDGE_STATUS_CHOICE = (
