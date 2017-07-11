@@ -66,8 +66,9 @@
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
     </form>
     
-  <!--댓글개수 가져오기-->
-  <p class="strapline">댓글 몇개</p>
+  <p class="strapline">댓글
+      <span style="color:#E8BC15;padding-right:2px;">{{contents.comment_set.all|length}}</span>
+  </p>
    <hr>
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
