@@ -17,6 +17,7 @@ class Profile(models.Model):
     ) # 성별 종류 명시
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL) # AUTH_USER 모델과 1:1 관계 설장
+    nickname = models.CharField(max_length=16, null=True, verbose_name='닉네임') # 닉네임
     sex = models.CharField(max_length=2, choices=SEX_CHOICES, verbose_name='성별') # 성별
     birth = models.CharField(max_length=16, null=True, verbose_name='생년월일', validators=[birth_validator]) # 생년월일
     city = models.CharField(max_length=16, null=True, verbose_name='시/도') # 시/구
@@ -24,5 +25,5 @@ class Profile(models.Model):
     tag = TagField() # 관심사 태그
 
     def __str__(self):
-        return  self.user.username
+        return '{}-{}'.format(self.user.username, self.nickname)
 

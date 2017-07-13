@@ -48,8 +48,10 @@
                 </a>
             </span>
         {% endfor %}
-    <input type="text" id="add-tag-value" placeholder="태그를 입력 해주세요."></input>
-    <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i><a href="" id="add-tag">추가</span>
+    {% if not request.user.is_anonymous %}
+        <input type="text" id="add-tag-value" placeholder="태그를 입력 해주세요."></input>
+        <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i><a href="" id="add-tag">추가</span>
+    {% endif %}
 </div>
 
 <hr>

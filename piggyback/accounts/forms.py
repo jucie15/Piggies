@@ -7,7 +7,7 @@ from tagging.forms import TagField
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['sex', 'birth', 'city', 'district']
+        fields = ['nickname', 'sex', 'birth', 'city', 'district']
         widgets = {
             "sex": forms.Select(attrs={"class":"form-control"}),
             "birth": forms.TextInput(attrs={"class":"form-control"}),
