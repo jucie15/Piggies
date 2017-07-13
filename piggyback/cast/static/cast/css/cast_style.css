@@ -404,8 +404,8 @@ body
 {
     float: left;
     width: 80%;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 30px;
+    padding-right: 30px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -438,24 +438,20 @@ body
     padding: 0;
  }
 
-.box3-1 .summary
-{
-    float: left;
-    padding: 0;
-}
 
-.box3-1 .summary:nth-child(odd)
+.box3-1 .grid:nth-child(odd)
 {
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    clear: both;
 }
 
-.box3-1 .summary:nth-child(even)
+.box3-1 .grid:nth-child(even)
 {
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -548,7 +544,7 @@ body
     font-weight: bold;
 }
 
-.tag_add 
+.tag_add
 {
     color: white;
     background: #FFD124;
@@ -574,6 +570,28 @@ body
 {
     width: 100%;
     padding: 0;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
+.box3-1 .grid:nth-child(odd)
+{
+    padding-left: 10px;
+    padding-right: 15px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.box3-1 .grid:nth-child(even)
+{
+    padding-left: 15px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .box4
@@ -674,6 +692,12 @@ body
 
 @media (min-width: 768px) and (max-width: 991px) {
 
+.box3
+{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .box4
 {
     float: right;
@@ -756,7 +780,7 @@ body
 
 hr {
     width:92%;
-    margin: auto;    
+    margin: auto;
 }
 
 
@@ -808,7 +832,7 @@ hr {
 
 
 .comment_edit {
-    font-size: 10px; 
+    font-size: 10px;
 }
 
 .comment_user {
