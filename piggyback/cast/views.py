@@ -35,10 +35,15 @@ def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
 
     contents = get_object_or_404(Contents, pk=contents_pk)
-    if request.user.favorite_set.filter(contents=contents).exists():
-        user_is_favorite = True
-    else:
+
+    if request.user.is_anonymous():
+        # 로그인을 안했을 경우
         user_is_favorite = False
+    else:
+        if request.user.favorite_set.filter(contents=contents).exists():
+            user_is_favorite = True
+        else:
+            user_is_favorite = False
 
     comment_form = CommentForm()
 
