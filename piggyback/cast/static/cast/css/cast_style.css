@@ -470,6 +470,28 @@ a {
     -webkit-box-sizing: border-box;
 }
 
+.box3-1 .grid .grid-text h1
+{
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-height: 1.2em;
+    height: 1.2em;
+}
+
+.box3-1 .grid .grid-text p
+{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5; /* 라인수 */
+    -webkit-box-orient: vertical;
+    line-height: 2em;
+    height: 10em;
+}
+
 
 .boxA:after
 {

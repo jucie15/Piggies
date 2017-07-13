@@ -5,6 +5,29 @@
         <div class="box3-1">
             <div class="container">
                 <div class="row">
+
+                {% for contents in contents_list|slice:":12" %}
+                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 col-xl-3 grid">
+                        <article class="summary">
+                            <!--<a href="https://www.youtube.com/watch?v=NQ6gup07wRI">-->
+                            <a href="{% url 'cast:contents_detail' 3%}">
+                                <img src="{{ contents.get_image_url }}" alt="">
+                                <div class="grid-text">
+                                <h1>{{ contents.title }}</h1>
+                                <p>이 글이 현재 화제입니다.{{ forloop.counter }} {{ contents.description}} </p>
+                                </div>
+                                <div class="tag_box">
+                                {% for t in tag %}
+                                    <span class="tag">{{ t.name }}</span>
+                                {% endfor %}
+                                    <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i>추가</span>
+                                </div>
+                            </a>
+                        </article>
+                    </div>
+                    {% endfor %}
+
+
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 col-xl-3 grid">
                         <article class="summary">
                             <!--<a href="https://www.youtube.com/watch?v=NQ6gup07wRI">-->
