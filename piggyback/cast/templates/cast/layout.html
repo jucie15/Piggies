@@ -49,22 +49,22 @@
               </li>
           </ul>
       </div>
-    {% endif %}
         <ul class="side_bar_menu">
-            <li><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
-            {% load tagging_tags %}
-            {% tags_for_object profile as tags %}
-            <li style="padding-top:8px;">
-                {% for tag in tags %}
-                    <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
-                        <span class="tag">#{{ tag.name }}</span>
-                    </a>
-                {% endfor %}
-            </li>
+                <li><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
+                {% load tagging_tags %}
+                {% tags_for_object profile as tags %}
+                <li style="padding-top:8px;">
+                    {% for tag in tags %}
+                        <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+                            <span class="tag">#{{ tag.name }}</span>
+                        </a>
+                    {% endfor %}
+                </li>
             <li><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#" data-sidebar-button>&times;</a></li>
         </ul>
+    {% endif %}
 </div>
 </aside>
 <div class="overlay" data-sidebar-overlay></div>
