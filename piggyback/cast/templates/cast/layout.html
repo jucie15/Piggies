@@ -31,12 +31,16 @@
 
 <aside class="sidebar" data-sidebar>
 <div>
+
+
     {% load socialaccount %}
+    <ul class="side_bar_menu">
     {% if not user.is_authenticated %}
         <li>
             <a href="{% provider_login_url 'kakao' %}" >
                 <span class="glyphicon glyphicon-user"></span> Login</a>
         </li>
+
     {% else %}
       <div class="profile">
           <a href=""><img class="profile_user_img" src="{{ user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
@@ -49,7 +53,6 @@
               </li>
           </ul>
       </div>
-        <ul class="side_bar_menu">
                 <li><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
                 {% load tagging_tags %}
                 {% tags_for_object profile as tags %}
@@ -60,11 +63,14 @@
                         </a>
                     {% endfor %}
                 </li>
+      {% endif %}
+
+
             <li><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#" data-sidebar-button>&times;</a></li>
         </ul>
-    {% endif %}
+
 </div>
 </aside>
 <div class="overlay" data-sidebar-overlay></div>
