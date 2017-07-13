@@ -27,7 +27,7 @@ a {
  min-height: inherit;
 }
 
-.sidebar { 
+.sidebar {
     background-color: white;
     width: 230px;
 }
@@ -85,6 +85,11 @@ a {
 .site .navbar-left .input-group
 {
     width: 100%;
+}
+
+.site .navbar-left .input-group .input-btn
+{
+    display: none;
 }
 
 .site .navbar-right
@@ -627,7 +632,7 @@ a {
 
 .site h1
 {
-    font-size: 24px;
+    font-size: 27px;
     margin-top: 5px;
 }
 
@@ -638,17 +643,61 @@ a {
 
 .box1 .navbar-header
 {
-    width: 50%;
+    width: 80%;
     float: left;
     margin: 0;
 }
 
+.box1 .navbar-header .navbar-index
+{
+    width: 34%;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.box1 .navbar-header .navbar-logo
+{
+    width: 66%;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.box1 .navbar-header .navbar-logo .logo
+{
+    width: 100%;
+    text-align: center;
+}
+
 .box1 .navbar-left
 {
-    width: 50%;
+    width: 20%;
     float: left;
     margin: 0;
 }
+
+.box1 .navbar-left .form-control
+{
+    display: none;
+}
+
+.box1 .navbar-left .input-group-btn
+{
+    display: none;
+}
+
+.box1 .navbar-left .input-group .input-btn
+{
+    display: block;
+}
+
+.box1 .navbar-left .input-group .input-btn .btn-default
+{
+    background-color: #FFD124;
+    border: none;
+}
+
 
 .box1 .navbar-right
 {
@@ -886,7 +935,7 @@ hr {
 }
 
 .side_bar_menu {
-    
+
 }
 
 .side_bar_menu li{
