@@ -6,6 +6,11 @@ body
     margin: 0;
     font-family: '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
 }
+
+a {
+    color: #e8bc15;
+}
+
 [data-sidebar] {
  display: none;
  position: fixed;
@@ -22,7 +27,10 @@ body
  min-height: inherit;
 }
 
-.sidebar { background-color: #ddd;box-shadow: 0 6px 0 0 rgba(0,0,0,0.5); }
+.sidebar { 
+    background-color: white;
+    width: 230px;
+}
 .sidebar a { color:#000000; text-decoration:none;}
 .overlay { background-color: #ddd; }
 .padding { padding: 2em; }
@@ -789,7 +797,8 @@ hr {
     width: 92%;
     float: left;
     margin-top: 10px;
-    -webkit-padding-start: 5%;
+    -webkit-margin-start: 4%;
+    padding-left: 0px;
 }
 
 .comment {
@@ -802,7 +811,7 @@ hr {
 
 
 
-.comment_user_img {
+.comment_user_img, .profile_user_img {
     width: 36px;
     height: 36px;
     object-fit: cover;
@@ -842,4 +851,45 @@ hr {
 
 .comment_message {
     padding-top:2px;
+}
+
+.more {
+    list-style: none;
+    text-align: center;
+    color: #e8bc15;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.profile_user_img {
+    width: 54px;
+    height: 54px;
+    margin-left: 30px;
+}
+
+.profile {
+    background-color: #F3F3F3;
+    height: 120px;
+    padding: 20px;
+}
+
+.user_profile {
+    float: right;
+    margin-right: 25%;
+    padding-left: 0px;
+    margin-top: 17px;
+    font-size: 16px;
+    text-align: center;
+}
+.user_profile li{
+    list-style:none;
+}
+
+.side_bar_menu {
+    
+}
+
+.side_bar_menu li{
+    list-style:none;
+    padding-top: 30px;
 }

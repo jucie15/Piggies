@@ -30,7 +30,7 @@
 <body class="top">
 
 <aside class="sidebar" data-sidebar>
-<div  class="padding">
+<div>
     {% load socialaccount %}
     {% if not user.is_authenticated %}
         <li>
@@ -38,21 +38,33 @@
                 <span class="glyphicon glyphicon-user"></span> Login</a>
         </li>
     {% else %}
-        <li>
-            <a href="{% url 'accounts:profile' %}">{{ user.username }}'s 프로필</a>
-        </li>
-        <li>
-            <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        </li>
+      <div class="profile">
+          <a href=""><img class="profile_user_img" src="{{ user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+          <ul class="user_profile">
+              <li>
+                  <a href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+              </li>
+              <li style="font-size:13px;">
+                  <a href="{% url 'accounts:logout' %}">로그아웃</a>
+              </li>
+          </ul>
+      </div>
+        <ul class="side_bar_menu">
+                <li><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
+                {% load tagging_tags %}
+                {% tags_for_object profile as tags %}
+                <li style="padding-top:8px;">
+                    {% for tag in tags %}
+                        <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+                            <span class="tag">#{{ tag.name }}</span>
+                        </a>
+                    {% endfor %}
+                </li>
+            <li><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#" data-sidebar-button>&times;</a></li>
+        </ul>
     {% endif %}
-    <a href="{% url 'cast:index' %}">Home</a><br>
-    <br>
-    <a href="{% url 'cast:tagged_list' %}">Tags</a><br>
-    <br>
-    <a href="{% url 'board:feedback_list' %}">Feedback</a><br>
-    <br>
-    <a href="#">About</a><br>
-    <a href="#" data-sidebar-button>&times;</a><br>
 </div>
 </aside>
 <div class="overlay" data-sidebar-overlay></div>
