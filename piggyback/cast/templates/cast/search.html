@@ -5,7 +5,7 @@
         <input type="text" id="id-tag" class="form-control search_web"  placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" style="width:300px;" >
         <button type="submit" class="btn btn-primary" value="검색">검색</button>
     </form>
-    {% for contents in contents_list %}
+    {% for contents in contents_list|slice:":12" %}
         <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
         <a href="{{ contents.get_absolute_url }}">
             {{ contents.title }}</a>

@@ -7,6 +7,7 @@ from django.db.models import Q
 from tagging.models import Tag
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
+from accounts.models import Profile
 
 def index(request):
     # 메인 페이지
@@ -14,6 +15,12 @@ def index(request):
 
     context = {}
     context['contents_list'] = contents_list
+
+    if request.user.is_authenticated():
+        # 로그인을 했을 경우
+        profile = get_object_or_404(Profile, user=request.user)
+        context['profile'] = profile
+
     return render(request, 'cast/index.html', context)
 
 def tagged_list(request):

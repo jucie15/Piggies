@@ -71,7 +71,7 @@
     <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_2">{{ contents.get_count_emotion.2 }}</span></a></li>
 </ul>
 
-    <form action="{% url "cast:comment_new" contents.pk %}?next={{ request.path }}&type=contents" method="post">
+    <form action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
         {% csrf_token %}
         {{ comment_form.message }}
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
@@ -91,17 +91,19 @@
 
             {% if comment.user == user %}
                <p class="comment_edit">
-                   <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}" >수정</a>
-                    <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">삭제</a>
+                   <a href="{% url 'cast:comment_edit' comment.pk %}?next={{ request.path }}" >수정</a>
+                    <a href="{% url 'cast:comment_delete' comment.pk %}?next={{ request.path }}" class="text-danger">삭제</a>
                </p>
             {% endif %}
 
                 <p style="font-size:10px;">
                 <!--댓글 작성 시간 가져오기-->
                 <span style="color:#9c9c9c;">
+                {% if comment.created_at %}
                     {{ comment.created_at|date:'Y-m-d H:i' }}
+                {% endif %}
                 </span>&nbsp;&nbsp;
-                <a href="{% url "cast:recomment_new" comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                   <!--대댓 개수 가져오기-->
                   <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
                    <a  href="" role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
@@ -119,11 +121,12 @@
             {% for recomment in comment.recomment_set.all %}
                 {{ recomment.message }}
                 {% if recomment.user == user %}
-                    <a href="{% url "cast:recomment_delete" recomment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                    <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
                 {% endif %}
             {% endfor %}
         </li>
         {% endfor %}
+        <li class="more"><a href="">+더보기</a></li>
     </ul>
 
 <script type="text/javascript">

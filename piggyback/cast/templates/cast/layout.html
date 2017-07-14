@@ -30,29 +30,47 @@
 <body class="top">
 
 <aside class="sidebar" data-sidebar>
-<div  class="padding">
+<div>
+
+
     {% load socialaccount %}
+    <ul class="side_bar_menu">
     {% if not user.is_authenticated %}
         <li>
             <a href="{% provider_login_url 'kakao' %}" >
                 <span class="glyphicon glyphicon-user"></span> Login</a>
         </li>
+
     {% else %}
-        <li>
-            <a href="{% url 'accounts:profile' %}">{{ user.username }}'s 프로필</a>
-        </li>
-        <li>
-            <a href="{% url 'accounts:logout' %}">로그아웃</a>
-        </li>
-    {% endif %}
-    <a href="{% url 'cast:index' %}">Home</a><br>
-    <br>
-    <a href="{% url 'cast:tagged_list' %}">Tags</a><br>
-    <br>
-    <a href="{% url 'board:feedback_list' %}">Feedback</a><br>
-    <br>
-    <a href="#">About</a><br>
-    <a href="#" data-sidebar-button>&times;</a><br>
+      <div class="profile">
+          <a href=""><img class="profile_user_img" src="{{ user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+          <ul class="user_profile">
+              <li style="margin-top:20px;">
+                  <a href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+              </li>
+              <li style="font-size:13px;">
+                  <a href="{% url 'accounts:logout' %}">로그아웃</a>
+              </li>
+          </ul>
+      </div>
+                <li class="menu"><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
+                {% load tagging_tags %}
+                {% tags_for_object profile as tags %}
+                <li style="padding-top:8px; padding-left:20px;">
+                    {% for tag in tags %}
+                        <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+                            <span class="tag">#{{ tag.name }}</span>
+                        </a>
+                    {% endfor %}
+                </li>
+      {% endif %}
+
+
+            <li class="menu"><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
+            <li class="menu"><a href="#">About</a></li>
+            <li class="menu"><a href="#" data-sidebar-button>&times;</a></li>
+        </ul>
+
 </div>
 </aside>
 <div class="overlay" data-sidebar-overlay></div>
@@ -61,14 +79,25 @@
     <nav class="site navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
+            <div class="navbar-index">
             <a href="#" data-sidebar-button><i class="fa fa-bars" aria-hidden="true"></i></a>
+            </div>
+            <div class="navbar-logo">
+            <div class="logo">
               <h1><a href="{% url 'cast:index' %}">ㄱㅁㅎㄱ</a></h1>
+              </div>
+              </div>
             </div>
             <div class="navbar-form navbar-left">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search">
                     <div class="input-group-btn">
                         <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                    <div class="input-btn">
+                        <a href="{% url 'cast:tagged_list' %}">
+                        <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -116,9 +145,9 @@
 </div>
 <div class="select-content">
   <ul class="nav nav-pills">
-    <li role="presentation"><a href="#">공약</a></li>
-    <li role="presentation"  class="active"><a href="#">이슈</a></li>
-    <li role="presentation"><a href="#">국회의원</a></li>
+    <li role="presentation" id="li1"><a href="#">공약</a></li>
+    <li role="presentation" id="li2" class="active"><a href="#">이슈</a></li>
+    <li role="presentation" id="li3"><a href="#">국회의원</a></li>
   </ul>
 </div>
 
@@ -146,6 +175,56 @@
     for (var i = 5; i < 11; i++){
       $("#pledge"+i).hide();
     }
+
+    $("#li1").click(function(){
+      $("#li1").addClass('active');
+      if( $("#li2").hasClass('active') )
+      {
+        $("#li2").removeClass('active');
+      }
+      if( $("#li3").hasClass('active') )
+      {
+        $("#li3").removeClass('active');
+      }
+
+      $('.box3').css("display", "none");
+      $('.box5').css("display", "none");
+      $('.box4').css("display", "block");
+    });
+
+
+    $("#li2").click(function(){
+      $("#li2").addClass('active');
+      if( $("#li1").hasClass('active') )
+      {
+        $("#li1").removeClass('active');
+      }
+      if( $("#li3").hasClass('active') )
+      {
+        $("#li3").removeClass('active');
+      }
+
+      $('.box4').css("display", "none");
+      $('.box5').css("display", "none");
+      $('.box3').css("display", "block");
+    });
+
+   $("#li3").click(function(){
+      $("#li3").addClass('active');
+      if( $("#li1").hasClass('active') )
+      {
+        $("#li1").removeClass('active');
+      }
+      if( $("#li2").hasClass('active') )
+      {
+        $("#li2").removeClass('active');
+      }
+
+      $('.box3').css("display", "none");
+      $('.box4').css("display", "none");
+      $('.box5').css("display", "block");
+    });
+
 
   });
 

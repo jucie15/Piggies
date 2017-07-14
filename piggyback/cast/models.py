@@ -25,6 +25,11 @@ class Contents(models.Model):
         return reverse('cast:contents_detail',
             args=[self.pk])
 
+    def get_image_url(self):
+        image = self.url_path
+        image = "https://img.youtube.com/vi/" + image[30:] + "/0.jpg"
+        return image
+
     def __str__(self):
         return '{}번 {}'.format(self.id, self.title)
 
