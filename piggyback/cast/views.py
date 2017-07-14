@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from tagging.models import Tag
+from tagging.models import Tag, TaggedItem
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
 from accounts.models import Profile
@@ -13,7 +13,6 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
-
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
     paginator = Paginator(contents_list, 6) # 페이지 당 6개씩 표현
 
@@ -36,9 +35,9 @@ def tagged_list(request):
     # 해당 태그가 포함 되어있는 전체 리스트
     tag = request.GET.get('tag','')
 
-    pledge_list = Pledge.objects.filter(tag__icontains=tag) # 공약 리스트
-    contents_list = Contents.objects.filter(tag__icontains=tag) # 콘텐츠 리스트
-    congressman_list = Congressman.objects.filter(tag__icontains=tag) # 국회의원 리스트
+    pledge_list = TaggedItem.objects.get_by_model(Pledge, tag) # 공약 리스트
+    contents_list = TaggedItem.objects.get_by_model(Contents, tag) # 콘텐츠 리스트
+    congressman_list = TaggedItem.objects.get_by_model(Congressman, tag) # 국회의원 리스트
 
     context = {}
     context['contents_list'] = contents_list
