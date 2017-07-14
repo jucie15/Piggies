@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from tagging.models import Tag
 from cast.models import *
@@ -12,6 +13,19 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
+
+    page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
+    paginator = Paginator(contents_list, 6) # 페이지 당 6개씩 표현
+
+    try:
+        # 페이지 번호가 있으면 해당 페이지로 이동
+        contents_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 페이지 번호가 숫자가 아닐 경우 첫페이지로 이동
+        contents_list = paginator.page(1)
+    except EmptyPage:
+        # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
+        contents_list = paginator.page(paginator.num_pages)
 
     context = {}
     context['contents_list'] = contents_list
