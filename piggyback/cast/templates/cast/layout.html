@@ -45,7 +45,7 @@
       <div class="profile">
           <a href=""><img class="profile_user_img" src="{{ user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
           <ul class="user_profile">
-              <li>
+              <li style="margin-top:20px;">
                   <a href="{% url 'accounts:profile' %}">{{ user.username }}</a>
               </li>
               <li style="font-size:13px;">
@@ -53,10 +53,10 @@
               </li>
           </ul>
       </div>
-                <li><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
+                <li class="menu"><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
                 {% load tagging_tags %}
                 {% tags_for_object profile as tags %}
-                <li style="padding-top:8px;">
+                <li style="padding-top:8px; padding-left:20px;">
                     {% for tag in tags %}
                         <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
                             <span class="tag">#{{ tag.name }}</span>
@@ -66,9 +66,9 @@
       {% endif %}
 
 
-            <li><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#" data-sidebar-button>&times;</a></li>
+            <li class="menu"><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
+            <li class="menu"><a href="#">About</a></li>
+            <li class="menu"><a href="#" data-sidebar-button>&times;</a></li>
         </ul>
 
 </div>
