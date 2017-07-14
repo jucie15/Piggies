@@ -12,7 +12,6 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
-    sffsfsdfsdfs
     context = {}
     context['contents_list'] = contents_list
 
