@@ -171,16 +171,19 @@ def pledge_emotion(request, pledge_pk):
                 pledge=pledge,
                 name=emotion_name,
             )
+
         context = {}
         context['status'] = 'success'
-
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 def congressman_emotion(request, congressman_pk):
     # 컨텐츠의 감정표현 처리
@@ -208,14 +211,16 @@ def congressman_emotion(request, congressman_pk):
             )
         context = {}
         context['status'] = 'success'
-
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 @login_required
 def comment_new(request, pk):
@@ -317,16 +322,24 @@ def comment_emotion(request, comment_pk):
                 comment=comment,
                 name=emotion_name,
             )
+
+        like_count = CommentEmotion.objects.filter(comment=comment, name=1).count()
+        dislike_count = CommentEmotion.objects.filter(comment=comment, name=2).count()
+
         context = {}
         context['status'] = 'success'
-
+        context['like_count'] = like_count
+        context['dislike_count'] = dislike_count
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 @login_required
 def recomment_new(request, comment_pk):
@@ -450,7 +463,7 @@ def ajax_favorites(request, pk):
         context['status'] = 'success'
         data = json.dumps(context) # json 형식으로 파싱
     else:
-        data = json.dump({
+        data = json.dumps({
             'status': 'fail',
             }) # json 형식으로 파싱
     mimetype = 'application/json'
@@ -471,4 +484,15 @@ def ajax_add_tag(request, pk):
             objects = get_object_or_404(Congressman, pk=pk)
 
         Tag.objects.add_tag(objects, tag) # 해당 인스턴스에 태그 추가
-    return HttpResponse('성공')
+
+        data = json.dumps({
+            'status': 'success',
+            }) # json 형식으로 파싱
+
+    else:
+        data = json.dumps({
+            'status': 'fail',
+            }) # json 형식으로 파싱
+
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
