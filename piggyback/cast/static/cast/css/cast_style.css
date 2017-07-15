@@ -975,3 +975,26 @@ hr {
     padding-left: 4px;
     color: white;
 }
+
+.search-bar {
+    width: 100%;
+    height: 60px;
+    box-shadow: 0 0 10px #dddddd;
+}
+
+.search-form {
+    padding-top: 3%;
+}
+
+.search_ipt {
+    width: 80%;
+    display:inline;
+    height: 40px;
+    border: 1px solid #ffd124;
+    border-radius: 0px;
+}
+
+#back-btn {
+    padding-right: 10px;
+    color: #FFD846;
+}
