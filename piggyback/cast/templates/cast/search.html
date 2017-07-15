@@ -1,10 +1,16 @@
 {% extends "cast/layout.html" %}
 
 {% block content %}
-    <form id="form" method="GET" action="/cast/tags">
+   
+<nav class="mobile navbar-inverse">
+  <div class="container-fluid" style="box-shadow: 0 0 10px #dddddd;">
+      <form id="form" method="GET" action="/cast/tags">
         <input type="text" id="id-tag" class="form-control search_web"  placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" style="width:300px;" >
         <button type="submit" class="btn btn-primary" value="검색">검색</button>
     </form>
+  </div>
+</nav>
+   
     {% for contents in contents_list|slice:":12" %}
         <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
         <a href="{{ contents.get_absolute_url }}">
@@ -23,6 +29,11 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        //box2 없앰
+        $(".box2").hide();
+        $(".select-content").hide();
+        
+        
         $('#id-tag').autocomplete({
             minLength: 2, // 자동완성 최소 글자 수
             source:"{% url 'cast:ajax_tag_autocomplete' %}",
