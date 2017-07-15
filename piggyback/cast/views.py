@@ -13,6 +13,7 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
+
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
     paginator = Paginator(contents_list, 6) # 페이지 당 6개씩 표현
 
