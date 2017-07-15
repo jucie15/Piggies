@@ -967,3 +967,11 @@ hr {
     padding-top: 30px;
     padding-left: 20px;
 }
+
+
+
+.glyphicon-search {
+    font-size: 22px;
+    padding-left: 4px;
+    color: white;
+}
