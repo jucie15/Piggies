@@ -760,8 +760,8 @@ a {
 
 .select-content ul li a:hover, .select-content ul .active a:hover
 {
-    color: #FFFFFF;
-    background-color: #000000;
+    color: #E7BC1A;
+    background-color: #ffffff;
 }
 
 .select-content ul .active a
@@ -836,7 +836,7 @@ a {
 .emotion {
     display: table-cell;
     text-align: center;
-    width: 16%;
+    width: 16.5%;
 }
 
 .emotion_name, .emotion_score {

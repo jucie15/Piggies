@@ -121,7 +121,7 @@
             {% for recomment in comment.recomment_set.all %}
                 {{ recomment.message }}
                 {% if recomment.user == user %}
-                    <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                    <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger comment_edit">삭제</a>
                 {% endif %}
             {% endfor %}
         </li>
