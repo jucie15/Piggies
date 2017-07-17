@@ -54,7 +54,9 @@
               </li>
           </ul>
       </div>
-    {% endif %}
+                <li class="menu"><img src="{% static 'cast/img/tag.png' %}" alt="" style="width:15px;margin-right:5px;"><a href="{% url 'cast:tagged_list' %}">Tags</a></li>
+                </li>
+      {% endif %}
 
 
             <li class="menu"><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
@@ -71,7 +73,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
             <div class="navbar-index">
-            <a href="#" data-sidebar-button><i class="fa fa-bars" aria-hidden="true"></i></a>
+            <a href="#" data-sidebar-button><i class="fa fa-bars navbar-menu" style="color:white;" aria-hidden="true"></i></a>
             </div>
             <div class="navbar-logo">
             <div class="logo">
@@ -136,9 +138,9 @@
 </div>
 <div class="select-content">
   <ul class="nav nav-pills">
-    <li role="presentation" id="li1"><a href="#">공약</a></li>
-    <li role="presentation" id="li2" class="active"><a href="#">이슈</a></li>
-    <li role="presentation" id="li3"><a href="#">국회의원</a></li>
+    <li role="presentation" id="li1" class="idx_btn"><a href="#">공약</a></li>
+    <li role="presentation" id="li2" class="idx_btn active" ><a href="#">이슈</a></li>
+    <li role="presentation" id="li3" class="idx_btn"><a href="#">국회의원</a></li>
   </ul>
 </div>
 
@@ -166,56 +168,25 @@
     for (var i = 5; i < 11; i++){
       $("#pledge"+i).hide();
     }
+      
+      $(".idx_btn").click(function() {
+          $(".idx_btn").removeClass('active');
+          
+          $(this).addClass('active');
 
-    $("#li1").click(function(){
-      $("#li1").addClass('active');
-      if( $("#li2").hasClass('active') )
-      {
-        $("#li2").removeClass('active');
-      }
-      if( $("#li3").hasClass('active') )
-      {
-        $("#li3").removeClass('active');
-      }
-
-      $('.box3').css("display", "none");
-      $('.box5').css("display", "none");
-      $('.box4').css("display", "block");
-    });
-
-
-    $("#li2").click(function(){
-      $("#li2").addClass('active');
-      if( $("#li1").hasClass('active') )
-      {
-        $("#li1").removeClass('active');
-      }
-      if( $("#li3").hasClass('active') )
-      {
-        $("#li3").removeClass('active');
-      }
-
-      $('.box4').css("display", "none");
-      $('.box5').css("display", "none");
-      $('.box3').css("display", "block");
-    });
-
-   $("#li3").click(function(){
-      $("#li3").addClass('active');
-      if( $("#li1").hasClass('active') )
-      {
-        $("#li1").removeClass('active');
-      }
-      if( $("#li2").hasClass('active') )
-      {
-        $("#li2").removeClass('active');
-      }
-
-      $('.box3').css("display", "none");
-      $('.box4').css("display", "none");
-      $('.box5').css("display", "block");
-    });
-
+          var idVal = this.id.split("li")[1];
+          window.z = idVal;
+          $('.contents_box').css("display", "none");
+            if(idVal == 1) {
+                $('#box4').css("display", "block");   
+            }
+            else if(idVal == 2){
+                $('#box3').css("display", "block");  
+            } 
+            else if(idVal == 3){
+                $('#box5').css("display", "block");  
+            } 
+      });
 
   });
 

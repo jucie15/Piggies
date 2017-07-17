@@ -256,6 +256,10 @@ a {
     background-color: #cccccc;
 }
 
+.select-content ul .active {
+    border-bottom: 2px solid #FFD124;
+}
+
 .pagination li a:hover
 {
     background-color: #eeeeee;
@@ -410,16 +414,16 @@ a {
 
 .top .boxA
 {
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-top: 14px;
+    padding-bottom: 14px;
 }
 
 .box3
 {
     float: left;
-    width: 80%;
-    padding-left: 30px;
-    padding-right: 30px;
+    width: 92%;
+    padding-left: 10px;
+    padding-right: 10px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -455,8 +459,8 @@ a {
 
 .box3-1 .grid:nth-child(odd)
 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 6px;
+    padding-right: 6px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -464,8 +468,8 @@ a {
 
 .box3-1 .grid:nth-child(even)
 {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 6px;
+    padding-right: 6px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -606,16 +610,17 @@ a {
 {
     width: 100%;
     padding: 0;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 
 .box3-1 .grid:nth-child(odd)
 {
+/*
     padding-left: 10px;
     padding-right: 15px;
+*/
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -623,8 +628,10 @@ a {
 
 .box3-1 .grid:nth-child(even)
 {
+/*
     padding-left: 15px;
     padding-right: 10px;
+*/
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -758,8 +765,8 @@ a {
 
 .select-content ul li a:hover, .select-content ul .active a:hover
 {
-    color: #FFFFFF;
-    background-color: #000000;
+    color: #E7BC1A;
+    background-color: #ffffff;
 }
 
 .select-content ul .active a
@@ -834,7 +841,7 @@ a {
 .emotion {
     display: table-cell;
     text-align: center;
-    width: 16%;
+    width: 16.5%;
 }
 
 .emotion_name, .emotion_score {
@@ -964,4 +971,56 @@ hr {
     list-style:none;
     padding-top: 30px;
     padding-left: 20px;
+}
+
+
+
+.glyphicon-search {
+    font-size: 22px;
+    padding-left: 4px;
+    color: white;
+}
+
+.search-bar {
+    width: 100%;
+    height: 60px;
+    box-shadow: 0 0 10px #dddddd;
+    position: relative;
+}
+
+.search-form {
+    padding-top: 3%;
+}
+
+.search_ipt {
+    width: 90%;
+    display: inline;
+    height: 40px;
+    border: 1px solid #ffd124;
+    border-radius: 0px;
+}
+
+#back-btn {
+    padding-right: 10px;
+    color: #FFD846;
+}
+
+.icon {
+    position: absolute;
+    top: 27%;
+    left: 86%;
+    z-index: 1;
+    font-size: 20px;
+    color: #ffd846;
+    cursor:pointer;
+}
+
+.search {
+    font-family:FontAwesome;
+    position: absolute;
+    top: 23%;
+    left: 83%;
+    z-index: 1;
+    font-size: 18px;
+    color: #ffd846;
 }
