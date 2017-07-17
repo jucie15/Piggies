@@ -9,6 +9,7 @@ body
 
 a {
     color: #e8bc15;
+    cursor: pointer;
 }
 
 [data-sidebar] {
@@ -963,7 +964,7 @@ hr {
 }
 
 .side_bar_menu {
- padding-left: 0px;   
+ padding-left: 0px;
 }
 
 .side_bar_menu .menu{

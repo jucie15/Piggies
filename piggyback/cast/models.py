@@ -20,6 +20,7 @@ class Contents(models.Model):
 
     class Meta:
         verbose_name_plural = 'contents' # 모델 복수개 명칭(admin표시)
+        ordering = ['id']
 
     def get_absolute_url(self):
         return reverse('cast:contents_detail',

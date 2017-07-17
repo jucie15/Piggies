@@ -15,7 +15,7 @@
           <li><a id="favorite" style='color:gray'>
         {% endif %}
         <i class="fa fa-heart-o fa-lg fa-fw"  aria-hidden="true" ></i></a></li>
-        <li><a href="#"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
+        <li><a href="#comment"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
         <li><a href="#"><i class="fa fa-ellipsis-v fa-lg fa-fw fa-flip-horizontal" aria-hidden="true"></i></a></li>
     </ul>
   </div>
@@ -50,25 +50,25 @@
         {% endfor %}
     {% if not request.user.is_anonymous %}
         <input type="text" id="add-tag-value" placeholder="태그를 입력 해주세요."></input>
-        <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i><a href="" id="add-tag">추가</span>
+        <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i><a id="add-tag">추가</span>
     {% endif %}
 </div>
 
 <hr>
 
 <ul class="emotion_box">
-  <li class="emotion"><a href="" class="emobtn" role="button" id="glad" name="기뻐요" value="3">
-    <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score">{{ contents.get_count_emotion.3 }}</span></a></li>
-  <li class="emotion"><a href="" class="emobtn" role="button" id="disgusting" name="역겨워요" value="1">
-    <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score">{{ contents.get_count_emotion.1 }}</span></a></li>
-  <li class="emotion"><a href="" class="emobtn" role="button" id="angry" name="화나요" value="5">
-    <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score">{{ contents.get_count_emotion.5 }}</span></a></li>
-  <li class="emotion"><a href="" class="emobtn" role="button" id="nice" name="멋져요" value="6">
-    <img src="{% static 'cast/img/nice.png' %}" alt="" style="width:23px;"><span class="emotion_name">멋져요</span><span class="emotion_score">{{ contents.get_count_emotion.6 }}</span></a></li>
-  <li class="emotion"><a href="" class="emobtn" role="button" id="sad" name="슬퍼요" value="4">
-    <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score">{{ contents.get_count_emotion.4 }}</span></a></li>
-  <li class="emotion"><a href="" class="emobtn"role="button" id="surprising" name="놀라워요" value="2">
-    <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score">{{ contents.get_count_emotion.2 }}</span></a></li>
+  <li class="emotion"><a class="emobtn" role="button" id="glad" name="기뻐요" value="3">
+    <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score" id="emo_3">{{ contents.get_count_emotion.3 }}</span></a></li>
+  <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="역겨워요" value="1">
+    <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score" id="emo_1">{{ contents.get_count_emotion.1 }}</span></a></li>
+  <li class="emotion"><a class="emobtn" role="button" id="angry" name="화나요" value="5">
+    <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score" id="emo_5">{{ contents.get_count_emotion.5 }}</span></a></li>
+  <li class="emotion"><a class="emobtn" role="button" id="nice" name="멋져요" value="6">
+    <img src="{% static 'cast/img/nice.png' %}" alt="" style="width:23px;"><span class="emotion_name">멋져요</span><span class="emotion_score" id="emo_6">{{ contents.get_count_emotion.6 }}</span></a></li>
+  <li class="emotion"><a class="emobtn" role="button" id="sad" name="슬퍼요" value="4">
+    <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score" id="emo_4">{{ contents.get_count_emotion.4 }}</span></a></li>
+  <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="2">
+    <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_2">{{ contents.get_count_emotion.2 }}</span></a></li>
 </ul>
 
     <form action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
@@ -81,6 +81,7 @@
       <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_set.all.count }}</span>
   </p>
    <hr>
+    <a name="comment">
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
@@ -106,14 +107,14 @@
                 <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                   <!--대댓 개수 가져오기-->
                   <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
-                   <a  href="" role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                   <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
                    <!--좋아요 개수 가져오기-->
-                    <span style="color:#9c9c9c;">
+                    <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
                         {{ comment.get_count_emotion.1 }}
                     </span>
-                    <a href="" role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                    <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
                     <!--싫어요 개수 가져오기-->
-                    <span style="color:#9c9c9c;">
+                    <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
                         {{ comment.get_count_emotion.2 }}
                     </span>
                 </p>
@@ -146,11 +147,14 @@
             data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
-            success: function(response){
+            success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+                $('#emo_' + emotion_name).text(data.emotion_count)
+                $('#emo_' + data.before_emotion_name).text(data.before_emotion_count)
             },
             error:function(error){
                 // 요청이 실패했을 경우
+                console.log(error.status + error.message)
             }
         });
     });
@@ -164,10 +168,13 @@
             data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
-            success: function(response){
+            success: function(res){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+                $('#comment-like-count-' + comment_pk).text(res.like_count)
+                $('#comment-dislike-count-' + comment_pk).text(res.dislike_count)
             },
             error:function(error){
+                console.log(error)
                 // 요청이 실패했을 경우
             }
         });
@@ -190,16 +197,15 @@
                 if(data.isFavorite == true)
                 {
                     $('#favorite').css('color','red');
-                    alert('즐겨찾기 추가')
                 }
                 else
                 {
                     $('#favorite').css('color','gray');
-                    alert('즐겨찾기 해제')
                 }
             },
             error:function(error){
                 // 요청이 실패했을 경우
+                console.log(error)
             }
         });
     });
@@ -215,9 +221,11 @@
 
             success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+                $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>")
             },
             error:function(error){
                 // 요청이 실패했을 경우
+                console.log(error)
             }
         });
     });

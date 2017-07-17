@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
-from tagging.models import Tag
+from tagging.models import Tag, TaggedItem
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
 from accounts.models import Profile
@@ -12,13 +13,22 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
+
+    page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
+    paginator = Paginator(contents_list, 6) # 페이지 당 6개씩 표현
+
+    try:
+        # 페이지 번호가 있으면 해당 페이지로 이동
+        contents_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 페이지 번호가 숫자가 아닐 경우 첫페이지로 이동
+        contents_list = paginator.page(1)
+    except EmptyPage:
+        # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
+        contents_list = paginator.page(paginator.num_pages)
+
     context = {}
     context['contents_list'] = contents_list
-
-    if request.user.is_authenticated():
-        # 로그인을 했을 경우
-        profile = get_object_or_404(Profile, user=request.user)
-        context['profile'] = profile
 
     return render(request, 'cast/index.html', context)
 
@@ -26,9 +36,9 @@ def tagged_list(request):
     # 해당 태그가 포함 되어있는 전체 리스트
     tag = request.GET.get('tag','')
 
-    pledge_list = Pledge.objects.filter(tag__icontains=tag) # 공약 리스트
-    contents_list = Contents.objects.filter(tag__icontains=tag) # 콘텐츠 리스트
-    congressman_list = Congressman.objects.filter(tag__icontains=tag) # 국회의원 리스트
+    pledge_list = TaggedItem.objects.get_by_model(Pledge, tag) # 공약 리스트
+    contents_list = TaggedItem.objects.get_by_model(Contents, tag) # 콘텐츠 리스트
+    congressman_list = TaggedItem.objects.get_by_model(Congressman, tag) # 국회의원 리스트
 
     context = {}
     context['contents_list'] = contents_list
@@ -104,9 +114,11 @@ def contents_emotion(request, contents_pk):
         user = request.user # 현재 유저의 정보를 받아온다.
         contents = get_object_or_404(Contents, pk=contents_pk) # 현재 콘텐츠 인스턴스 생성
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
+        before_emotion_name = ''
         if user.contents_emotion_set.filter(contents=contents).exists():
             # 해당 컨텐츠에 감정 표현을 이미 해놓은 경우
             user_emotion = user.contents_emotion_set.get(contents=contents) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            before_emotion_name = user_emotion.name
             if user_emotion.name == emotion_name:
                 # 같은 감정을 한번 더누르면 삭제.
                 ContentsEmotion.objects.filter(contents=contents, user=user).delete() # 인스턴스 삭제
@@ -121,9 +133,13 @@ def contents_emotion(request, contents_pk):
                 contents=contents,
                 name=emotion_name,
             )
+        emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
+        before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
         context = {}
         context['status'] = 'success'
-
+        context['emotion_count'] = emotion_count
+        context['before_emotion_name'] = before_emotion_name
+        context['before_emotion_count'] = before_emotion_count
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
@@ -156,16 +172,19 @@ def pledge_emotion(request, pledge_pk):
                 pledge=pledge,
                 name=emotion_name,
             )
+
         context = {}
         context['status'] = 'success'
-
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 def congressman_emotion(request, congressman_pk):
     # 컨텐츠의 감정표현 처리
@@ -193,14 +212,16 @@ def congressman_emotion(request, congressman_pk):
             )
         context = {}
         context['status'] = 'success'
-
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 @login_required
 def comment_new(request, pk):
@@ -302,16 +323,24 @@ def comment_emotion(request, comment_pk):
                 comment=comment,
                 name=emotion_name,
             )
+
+        like_count = CommentEmotion.objects.filter(comment=comment, name=1).count()
+        dislike_count = CommentEmotion.objects.filter(comment=comment, name=2).count()
+
         context = {}
         context['status'] = 'success'
-
+        context['like_count'] = like_count
+        context['dislike_count'] = dislike_count
+        data = json.dumps(context)
     else:
         context = {}
         context['message'] = '잘못된 접근입니다.'
         context['status'] = 'fail'
+        data = json.dumps(context)
 
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype)
 
 @login_required
 def recomment_new(request, comment_pk):
@@ -435,7 +464,7 @@ def ajax_favorites(request, pk):
         context['status'] = 'success'
         data = json.dumps(context) # json 형식으로 파싱
     else:
-        data = json.dump({
+        data = json.dumps({
             'status': 'fail',
             }) # json 형식으로 파싱
     mimetype = 'application/json'
@@ -456,4 +485,15 @@ def ajax_add_tag(request, pk):
             objects = get_object_or_404(Congressman, pk=pk)
 
         Tag.objects.add_tag(objects, tag) # 해당 인스턴스에 태그 추가
-    return HttpResponse('성공')
+
+        data = json.dumps({
+            'status': 'success',
+            }) # json 형식으로 파싱
+
+    else:
+        data = json.dumps({
+            'status': 'fail',
+            }) # json 형식으로 파싱
+
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
