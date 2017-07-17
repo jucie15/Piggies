@@ -255,6 +255,10 @@ a {
     background-color: #cccccc;
 }
 
+.select-content ul .active {
+    border-bottom: 2px solid #FFD124;
+}
+
 .pagination li a:hover
 {
     background-color: #eeeeee;
