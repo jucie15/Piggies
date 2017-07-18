@@ -1,3 +1,4 @@
+import urllib
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
@@ -29,6 +30,8 @@ class Contents(models.Model):
     def get_image_url(self):
         image = self.url_path
         image = "https://img.youtube.com/vi/" + image[30:] + "/0.jpg"
+        if urllib.request.urlopen(image).getcode() == 404:
+            return "https://lh4.googleusercontent.com/-4QDxins1Vgw/AAAAAAAAAAI/AAAAAAAB0gI/7KsNXI7cgqo/s0-c-k-no-ns/photo.jpg"
         return image
 
     def __str__(self):
@@ -42,6 +45,8 @@ class Contents(models.Model):
             # 각 감정들 별로 개수 카운트
             total_number[idx] = ContentsEmotion.objects.filter(contents_id=self.id, name=idx).count()
         return total_number
+
+
 
 
 class Congressman(models.Model):
