@@ -5,15 +5,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ProfileForm, TagForm
 from accounts.models import Profile
 
+@login_required
 def signup_info(request):
     # 회원 가입 정보 입력 페이지
-
+    print(request.POST)
     if Profile.objects.filter(user=request.user).exists():
         # 사용자 프로필 정보가 이미 존재할 경우 메인 페이지로
         return redirect('cast:index')
 
     if request.method == 'POST' :
         form = ProfileForm(request.POST)
+        print(form)
         if form.is_valid():
             profile = form.save(commit=False) # 사용자한테 받아온 정보로 프로필 폼 인스턴스 생성(모델에 저장하지 않음)
             profile.user = request.user # 프로필 유저에 유저 정보 저장

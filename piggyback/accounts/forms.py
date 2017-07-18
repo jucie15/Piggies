@@ -11,8 +11,8 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             "sex": forms.Select(attrs={"class":"form-control"}),
             "birth": forms.TextInput(attrs={"class":"form-control"}),
-            "city": forms.TextInput(attrs={"class":"form-control"}),
-            "district": forms.TextInput(attrs={"class":"form-control"}),
+            "city": forms.HiddenInput(),
+            "district": forms.HiddenInput(),
         }
 
         def clean_sex(self):
