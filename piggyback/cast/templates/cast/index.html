@@ -19,11 +19,18 @@
                                                 <h1>{{ contents.title }}</h1>
                                                 <p>{{ contents.description }}</p>
                                             </div>
+
+                                            {% load tagging_tags %}
+
                                             <div class="tag_box">
-                                                <span class="tag">#정유라</span>
-                                                <span class="tag">#박근혜</span>
-                                                <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i>추가</span>
+                                            {% tags_for_object contents as tags %}
+                                            {% for tag in tags %}
+                                            <span class="tag">#{{ tag.name }}</span>
+                                            {% empty %}
+                                            </br>
+                                            {% endfor %}
                                             </div>
+
                                         </a>
                                     </article>
                                 </div>
@@ -184,7 +191,6 @@
 
 
 <script>
-    {% load staticfiles %}
 
     var infinite = new Waypoint.Infinite({
       element: $('.infinite-container')[0],

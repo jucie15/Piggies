@@ -120,6 +120,36 @@
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
           <!-- Slides -->
+
+        {% load socialaccount %}
+        {% load tagging_tags %}
+
+        {% if not user.is_authenticated %}
+
+        {% tags_for_object profile as tags %}
+          {% for tag in tags %}
+          <div class="swiper-slide">#{{ tag.name }}</div>
+
+        {% empty %}
+
+          {% tags_for_model contents as tags with counts %}
+          {% for tag in tags %}
+          <div class="swiper-slide">#{{ tag.name }}</div>
+          {% endfor %}
+
+        {% else %}
+
+        {% tags_for_model contents as tags with counts %}
+          {% for tag in tags %}
+          <div class="swiper-slide">#{{ tag.name }}</div>
+          {% endfor %}
+
+
+
+
+
+
+
           <div class="swiper-slide">Slide 1</div>
           <div class="swiper-slide">Slide 2</div>
           <div class="swiper-slide">Slide 3</div>
