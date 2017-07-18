@@ -38,12 +38,14 @@ def tagged_list(request):
 
     pledge_list = TaggedItem.objects.get_by_model(Pledge, tag) # 공약 리스트
     contents_list = TaggedItem.objects.get_by_model(Contents, tag) # 콘텐츠 리스트
+    profile = get_object_or_404(Profile, user=request.user)
     congressman_list = TaggedItem.objects.get_by_model(Congressman, tag) # 국회의원 리스트
 
     context = {}
     context['contents_list'] = contents_list
     context['pledge_list'] = pledge_list
     context['congressman_list'] = congressman_list
+    context['profile'] = profile
 
     return render(request, 'cast/search.html', context)
 
