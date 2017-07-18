@@ -126,31 +126,31 @@
         {% load socialaccount %}
         {% load tagging_tags %}
 
-        {% if not user.is_authenticated %}
+        {% if not user.is_authenticated %} <!-- 비로그인일 때-->
 
-        {% tags_for_object profile as tags %}
+        {% for contents in contents_list %} <!-- contents에서 불러옴-->
+
+          {% tags_for_object contents as tags %}
+            {% for tag in tags %}
+            <div class="swiper-slide">#{{ tag.name }}</div>
+            {% endfor %}
+
+        {% endfor %}
+
+        {% else %} <!-- 로그인일 때-->
+
+        {% tags_for_object profile as tags %} <!-- profile에서 불러옴-->
           {% for tag in tags %}
           <div class="swiper-slide">#{{ tag.name }}</div>
 
-        {% empty %}
-
-          {% tags_for_model contents as tags with counts %}
-          {% for tag in tags %}
-          <div class="swiper-slide">#{{ tag.name }}</div>
+          {% empty %} <!-- profile에 태그가 없으면 contents에서 불러옴 -->
+          {% tags_for_object contents as tags %}
+            {% for tag in tags %}
+            <div class="swiper-slide">#{{ tag.name }}</div>
+            {% endfor %}
           {% endfor %}
 
-        {% else %}
-
-        {% tags_for_model contents as tags with counts %}
-          {% for tag in tags %}
-          <div class="swiper-slide">#{{ tag.name }}</div>
-          {% endfor %}
-
-
-
-
-
-
+        {% endif %}
 
           <div class="swiper-slide">Slide 1</div>
           <div class="swiper-slide">Slide 2</div>
@@ -185,7 +185,7 @@
 
 
 </main>
-    
+
 <script>
   var swiper = new Swiper('.swiper-container', {
     slidesPerView: 5,
@@ -198,24 +198,24 @@
     for (var i = 5; i < 11; i++){
       $("#pledge"+i).hide();
     }
-      
+
       $(".idx_btn").click(function() {
           $(".idx_btn").removeClass('active');
-          
+
           $(this).addClass('active');
 
           var idVal = this.id.split("li")[1];
           window.z = idVal;
           $('.contents_box').css("display", "none");
             if(idVal == 1) {
-                $('#box4').css("display", "block");   
+                $('#box4').css("display", "block");
             }
             else if(idVal == 2){
-                $('#box3').css("display", "block");  
-            } 
+                $('#box3').css("display", "block");
+            }
             else if(idVal == 3){
-                $('#box5').css("display", "block");  
-            } 
+                $('#box5').css("display", "block");
+            }
       });
 
   });
