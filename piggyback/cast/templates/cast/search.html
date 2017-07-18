@@ -1,10 +1,19 @@
 {% extends "cast/layout.html" %}
 
 {% block content %}
-    <form id="form" method="GET" action="/cast/tags">
-        <input type="text" id="id-tag" class="form-control search_web"  placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" style="width:300px;" >
-        <button type="submit" class="btn btn-primary" value="검색">검색</button>
+   
+<nav class="mobile navbar-inverse">
+  <div class="container-fluid search-bar" >
+    <ul class="nav navbar-nav navbar-left">
+      <li><a href="{% url 'cast:index' %}"><span class="glyphicon glyphicon-chevron-left" id="back-btn"></span></a></li>
+    </ul>
+   <form class="search-form" id="form" method="GET" action="/cast/tags">
+        <input type="text" id="id-tag" class="search_web search_ipt"   placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" >
+        <input type="submit" class="search" value="&#xf002;">
     </form>
+  </div>
+</nav>
+   
     {% for contents in contents_list|slice:":12" %}
         <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
         <a href="{{ contents.get_absolute_url }}">
@@ -23,6 +32,13 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        //box1,2,6 없앰
+        $(".box1").hide();
+        $(".box2").hide();
+        $(".box6").hide();
+        $(".select-content").hide();
+        
+        
         $('#id-tag').autocomplete({
             minLength: 2, // 자동완성 최소 글자 수
             source:"{% url 'cast:ajax_tag_autocomplete' %}",
