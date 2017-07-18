@@ -30,8 +30,6 @@ class Contents(models.Model):
     def get_image_url(self):
         image = self.url_path
         image = "https://img.youtube.com/vi/" + image[30:] + "/0.jpg"
-        if urllib.request.urlopen(image).getcode() == 404:
-            return "https://lh4.googleusercontent.com/-4QDxins1Vgw/AAAAAAAAAAI/AAAAAAAB0gI/7KsNXI7cgqo/s0-c-k-no-ns/photo.jpg"
         return image
 
     def __str__(self):
