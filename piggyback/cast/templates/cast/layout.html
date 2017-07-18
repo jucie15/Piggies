@@ -139,16 +139,13 @@
 
         {% else %} <!-- 로그인일 때-->
 
-        {% tags_for_object profile as tags %} <!-- profile에서 불러옴-->
-          {% for tag in tags %}
-          <div class="swiper-slide">#{{ tag.name }}</div>
-
-          {% empty %} <!-- profile에 태그가 없으면 contents에서 불러옴 -->
+        {% for contents in contents_list %}
           {% tags_for_object contents as tags %}
             {% for tag in tags %}
             <div class="swiper-slide">#{{ tag.name }}</div>
             {% endfor %}
-          {% endfor %}
+        {% endfor %}
+
 
         {% endif %}
 
