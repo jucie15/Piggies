@@ -44,13 +44,17 @@
         {% for tag in tags %}
             <span class="tag">
                 <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
-                    {{ tag.name }}
+                    #{{ tag.name }}
                 </a>
             </span>
         {% endfor %}
     {% if not request.user.is_anonymous %}
-        <input type="text" id="add-tag-value" placeholder="태그를 입력 해주세요."></input>
-        <span class="tag_add"><i class="fa fa-plus" aria-hidden="true"></i><a id="add-tag">추가</span>
+       <div class="add-tag-box">
+           <input type="text" id="add-tag-value" placeholder="태그를 추가해주세요."></input>
+           <a id="add-tag"><span class="upload-tag-btn">추가</span></a>
+           <span class="cancel-btn"><i class="fa fa-times" aria-hidden="true"></i></span>
+       </div>
+        <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span>
     {% endif %}
 </div>
 
@@ -136,7 +140,20 @@
   $(document).ready(function(){
         $(".box2").hide();
         $(".select-content").hide();
+        $('.add-tag-box').css('display','none');
   });
+    
+    //태그추가 버튼 클릭시 태그 추가 박스 보이도록
+    $('.add-tag-btn').click(function(){
+        $('.add-tag-box').css('display','block');
+        $(this).css('display','none');
+    });
+    //취소버튼 클릭시 태그 추가 박스 display:none
+    $('.cancel-btn').click(function(){
+        $('.add-tag-box').css('display','none');
+        $('.add-tag-btn').css('display','inline');
+    });
+    
     // 좋아요 버튼 처리
     // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
     $('.emobtn').click(function(){
@@ -221,7 +238,9 @@
 
             success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>")
+                $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
+                $('.add-tag-box').css('display','none');
+                $('.add-tag-btn').css('display','inline');
             },
             error:function(error){
                 // 요청이 실패했을 경우

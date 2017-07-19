@@ -208,7 +208,12 @@
 
 
 <script>
-
+    
+  //index페이지 mian background-color변경
+  $(document).ready(function(){
+        $('main').css('background-color','#fbfbf9');
+  });
+    
     var infinite = new Waypoint.Infinite({
       element: $('.infinite-container')[0],
       onBeforePageLoad: function () {

@@ -571,7 +571,7 @@ a {
     color:black;
 }
 
-.tag, .tag_add
+.tag, .add-tag-btn, .upload-tag-btn
 {
     display: inline-block;
     margin: 0;
@@ -584,10 +584,18 @@ a {
     font-weight: bold;
 }
 
-.tag_add
+.add-tag-btn, .upload-tag-btn
 {
     color: white;
     background: #FFD124;
+}
+
+.upload-tag-btn{
+    z-index: 1;
+    position: absolute;
+    top: 29%;
+    right: 10%;
+
 }
 
 .emotion_box
@@ -1067,6 +1075,29 @@ hr {
    margin-right: 5px; 
 }
 
-main {
-    background-color: #fbfbf9;
+
+
+.tag_box {
+    width: 92%;
+    margin: auto;
+}
+
+#add-tag-value {
+    width: 92%;
+    height: 30px;
+    border: 1px solid #efdc95;
+    margin-top: 5px;
+}
+
+
+
+.add-tag-box {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.cancel-btn {
+    margin-left: 10px;
+    margin-left: 4px;
+    color: #999;
 }
