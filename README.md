@@ -21,3 +21,4 @@
 2. pip install django-tagging
 3. pip install django
 4. pip install django-el-pagination
+5. pip install django-debug-toolbar
