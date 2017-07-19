@@ -183,6 +183,7 @@ a {
 .summary
 {
     margin-bottom: 20px;
+    background-color: white;
 }
 
 .summary a
@@ -218,10 +219,7 @@ a {
 
 .summary p
 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 0px 10px 10px 10px;
     font-size: 14px;
 }
 
@@ -475,34 +473,36 @@ a {
     -webkit-box-sizing: border-box;
 }
 
-.box3-1 .grid .grid-text h1
+.box3-1 .grid .grid-text .contents-title
 {
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.2em;
-    height: 1.2em;
+    height: 2.3em;
+    font-size: 13px;
 }
 
-.box3-1 .grid .grid-text p
+.box3-1 .grid .grid-text .contents-description
 {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 5; /* 라인수 */
     -webkit-box-orient: vertical;
-    line-height: 2em;
-    height: 10em;
+    line-height: 20px;
+    height: 40px;
+    font-size: 10px;
 }
 
-.box3-1 .grid .tag_box
+.box3-1 .grid .tag-box
 {
     overflow: hidden;
     line-height: 1.2em;
-    height: 1.4em;
-    margin-bottom: 20px;
+    height: 1.5em;
+    margin: 0px 10px 10px 10px;
 }
 
 .boxA:after
@@ -569,13 +569,6 @@ a {
 .mobile li:hover i, .mobile li:hover span
 {
     color:black;
-}
-
-.tag_box
-{
-    margin-left: 15px;
-    margin-right: 15px;
-    margin-bottom: 10px;
 }
 
 .tag, .tag_add
@@ -1030,4 +1023,50 @@ hr {
     z-index: 1;
     font-size: 18px;
     color: #ffd846;
+}
+
+.contents-title {
+    font-size: 13px;
+}
+
+.card-tail {
+    height: 28px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+    position: relative;
+    padding: 4px;
+    color: #999999;
+}
+
+.card-tail img {
+    width: 13px;
+    margin-bottom: 2px;
+}
+
+.emotion-icon-btn {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.emotion-count, .comment-count {
+    top: 20%;
+    position: absolute;
+    margin-left: 5px;
+}
+
+
+
+
+
+.card-tail .comment-box {
+    display: inline;
+    margin-left: 35%
+}
+
+.card-tail .like {
+   margin-right: 5px; 
+}
+
+main {
+    background-color: #fbfbf9;
 }
