@@ -871,6 +871,7 @@ a {
 .contents_title, .contents_description {
     width:92%;
     margin: auto;
+    margin-bottom: 5px;
 }
 
 hr {
@@ -1080,6 +1081,7 @@ hr {
 .tag_box {
     width: 92%;
     margin: auto;
+    margin-bottom: 16px;
 }
 
 #add-tag-value {

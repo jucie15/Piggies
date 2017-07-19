@@ -30,7 +30,7 @@
 </div>
 
 <br/>
-<div class="contents_title"><h4>{{ contents.title }}(글 제목)</h4> <br/></div>
+<div class="contents_title"><h4>{{ contents.title }}(글 제목)</h4></div>
 
 <div class="contents_description">{{ contents.description }}(글 내용) <br/><br/></div>
 
@@ -138,6 +138,7 @@
 
 
   $(document).ready(function(){
+        $(".box1").hide();
         $(".box2").hide();
         $(".select-content").hide();
         $('.add-tag-box').css('display','none');

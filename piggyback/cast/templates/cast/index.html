@@ -41,7 +41,7 @@
                                                </span>
                                                </div>
                                                <div class="comment-box">
-                                                 <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img"> <span class="comment-count">35</span>
+                                                 <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img"> <span class="comment-count">{{ contents.comment_set.all.count }}</span>
                                                </div>
                                                <div class="pull-right">
                                                   <span class="like"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
