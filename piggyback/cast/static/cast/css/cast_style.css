@@ -1103,3 +1103,8 @@ hr {
     margin-left: 4px;
     color: #999;
 }
+
+#box4 {
+    width:96%;
+    margin: auto;
+}

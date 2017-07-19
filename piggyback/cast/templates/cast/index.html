@@ -24,16 +24,11 @@
                                             
 
                                             {% tags_for_object contents as tags %}
-                                            
-                                            {% if tags %}
                                             <div class="tag-box">
                                             {% for tag in tags %}
                                             <span class="tag">#{{ tag.name }}</span>
-                                            {% empty %}
-                                            </br>
                                             {% endfor %}
                                             </div>
-                                            {% endif %}
                                             
                                             <div class="card-tail">
                                                <div class="pull-left"><span class="emotion-icon-btn">
@@ -68,120 +63,8 @@
         </div><!-- /.loading -->
     </div>
 
-    <div class="contents_box" id="box4">
-        <aside class="sidemenu">
-            <h2>관련 공약</h2>
-            <div id="pledge1">
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원1</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge2">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원2</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge3">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원3</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge4">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원4</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge5">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원5</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge6">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원6</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge7">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원7</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge8">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원8</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge9">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원9</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div id="pledge10">
-                <h1> </h1>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원10</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-    </div>
+   {% include "cast/pledge_list.html" %}
+   
     <div class="contents_box" id="box5">
         <aside class="sidemenu2">
             <h2>관련 의원</h2>
