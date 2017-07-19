@@ -1,4 +1,4 @@
-import urllib
+import urllib.request
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
@@ -43,6 +43,18 @@ class Contents(models.Model):
             # 각 감정들 별로 개수 카운트
             total_number[idx] = ContentsEmotion.objects.filter(contents_id=self.id, name=idx).count()
         return total_number
+
+    @classmethod
+    def delete_empty_contents(cls, queryset):
+        for content in queryset:
+            if(content.contents_type == 1): #동영상 컨텐츠만 삭제한다.
+                url_path = content.url_path
+                image_path = "https://img.youtube.com/vi/" + url_path[30:] + "/0.jpg"
+                try:
+                    urllib.request.urlopen(image_path)
+                except:
+                    print(image_path+"는 없는 동영상 주소. 삭제합니다.")
+                    Contents.objects.filter(url_path=url_path).delete()
 
 
 

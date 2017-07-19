@@ -11,6 +11,13 @@ class ContentsAdmin(admin.ModelAdmin):
     inlines = [
         CommentInline,
     ]
+    actions = ['delete_empty_contents']
+
+    def delete_empty_contents(self, request, queryset):
+        Contents.delete_empty_contents(queryset)
+        self.message_user(request, "짤린 동영상 컨텐츠 삭제 성공.")
+        pass
+    delete_empty_contents.short_description = "짤린 동영상 컨텐츠를 삭제합니다."
 
 class PledgeInline(admin.TabularInline):
     model = Pledge
