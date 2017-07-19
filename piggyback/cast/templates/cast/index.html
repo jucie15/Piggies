@@ -16,20 +16,37 @@
                                         <a href="{{ contents.get_absolute_url }}">
                                             <img width="100%" src="{{ contents.get_image_url }}" />
                                             <div class="grid-text">
-                                                <h1>{{ contents.title }}</h1>
-                                                <p>{{ contents.description }}</p>
+                                                <p class="contents-title">{{ contents.title }}</p>
+<!--                                                <p class="contents-description">{{ contents.description }}</p>-->
                                             </div>
 
                                             {% load tagging_tags %}
+                                            
 
-                                            <div class="tag_box">
                                             {% tags_for_object contents as tags %}
+                                            
+                                            {% if tags %}
+                                            <div class="tag-box">
                                             {% for tag in tags %}
                                             <span class="tag">#{{ tag.name }}</span>
                                             {% empty %}
                                             </br>
                                             {% endfor %}
                                             </div>
+                                            {% endif %}
+                                            
+                                            <div class="card-tail">
+                                               <div class="pull-left"><span class="emotion-icon-btn">
+                                                   <img src="{% static 'cast/img/happy.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
+                                               </span>
+                                               </div>
+                                               <div class="comment-box">
+                                                 <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img"> <span class="comment-count">{{ contents.comment_set.all.count }}</span>
+                                               </div>
+                                               <div class="pull-right">
+                                                  <span class="like"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                                               </div>
+                                            </div>    
 
                                         </a>
                                     </article>
@@ -191,7 +208,12 @@
 
 
 <script>
-
+    
+  //index페이지 mian background-color변경
+  $(document).ready(function(){
+        $('main').css('background-color','#fbfbf9');
+  });
+    
     var infinite = new Waypoint.Infinite({
       element: $('.infinite-container')[0],
       onBeforePageLoad: function () {
