@@ -89,7 +89,7 @@
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
-            <a href=""><img class="comment_user_img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+            <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
                 <p class="comment_message">{{ comment.message }}</p>
