@@ -911,9 +911,12 @@ hr {
     margin-top: 6px;
 }
 
+
+
 .congressman-img{
     width: 42px;
     height: 42px;
+    margin-top: 0px;
 }
 
 .comment_content {
@@ -1119,89 +1122,49 @@ hr {
     margin: auto;
 }
 
-.pledge-contents-box {
-    list-style: none;
-    height: 65px;
-    background-color: white;
-    border: 1px solid #eee;
-    border-left: 3px solid #01B1EC;
-    margin-bottom: 5px;
-    display: table;
-    width: 100%;
-}
 
 .pledge-box {
-    width: 100%;
-    float: left;
-    margin-top: 10px;
-    -webkit-margin-start: 4%;
-    padding-left: 0px;
+    width: 96%;
+    height: 65px;
+    border: 1px solid #eee;
+    background-color: white;
+    border-left: 3px solid blue;
+    margin-bottom: 10px;
+
+    position:absolute;
+    display:flex;
+    align-items:center;
+    
+    display:-webkit-flex;
+    -webkit-align-item:center;
+}
+
+.pledge-samll-txt {
+    font-size: 10px;
+    color: #bbb;
+    display: block
 }
 
 .congressman-name {
-    display: inline-block;
-    width: 16%;
+    padding-left: 15px;
     text-align: center;
-    position: relative;
-    top: 12px;
 }
 
-.pledge-title-box {
-    display: inline-block;
-    width: 70%;
-    text-align: left;
-    position: relative;
-    top: 14px;
-    margin-left: 4%;
-    overflow: hidden;
+.pledge-contents-box {
+    padding-left: 15px;
+    width: 60%;
 }
 
-
-.pledge-title-box .icon-box img {
-    width: 11px;
+.pledge-contents-box .emotion-img {
+ width: 10px;   
 }
 
-.congressman-img-box {
-    display: table-cell;
-    vertical-align: middle;
-    width: 60px;
-}
-
-.sidemenu .pledge-box .pledge-contents-box .congressman-img-box > a{
-    display:inline-block;
-    margin-left: 0px;
-    padding: 0px;
-}
-
-.congressman-title {
-    font-size: 10px;
-    display: block;
-}
-
-.pledge-title-box .icon-box {
-    font-size: 10px;
-    color: #999999;
-}
-
-.pledge-contents-box .right-box {
-    display: inline-block;
-    position: relative;
-    font-size: 24px;
-    float: right;
-    margin-right: 5px;
-    top: 13px;
-}
-
-.right-box i {
-    color: #ccc;
-}
-
-.icon-box .comment-img {
-    margin-left: 5px;
+.pledge-contents-box .comment-img {
+   width: 10px; 
+   margin-left: 4px;
 }
 
 .pledge-title {
-    display: inline-block;
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -1210,5 +1173,17 @@ hr {
     line-height: 1.2em;
     height: 1.2em;
     font-size: 13px;
-    margin: 0px;
+}
+
+.right-box {
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+.margin-top-3px {
+    margin-top: 3px;
+}
+
+.margin-top-4px {
+    margin-top: 4px;
 }
