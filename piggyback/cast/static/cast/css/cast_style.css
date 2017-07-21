@@ -1143,12 +1143,12 @@ hr {
     width: 16%;
     text-align: center;
     position: relative;
-    top: 10px;
+    top: 12px;
 }
 
-.pledge-title {
+.pledge-title-box {
     display: inline-block;
-    width: 55%;
+    width: 70%;
     text-align: left;
     position: relative;
     top: 14px;
@@ -1157,7 +1157,7 @@ hr {
 }
 
 
-.pledge-title .icon-box img {
+.pledge-title-box .icon-box img {
     width: 11px;
 }
 
@@ -1178,7 +1178,7 @@ hr {
     display: block;
 }
 
-.pledge-title .icon-box {
+.pledge-title-box .icon-box {
     font-size: 10px;
     color: #999999;
 }
@@ -1198,4 +1198,17 @@ hr {
 
 .icon-box .comment-img {
     margin-left: 5px;
+}
+
+.pledge-title {
+    display: inline-block;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    line-height: 1.2em;
+    height: 1.2em;
+    font-size: 13px;
+    margin: 0px;
 }
