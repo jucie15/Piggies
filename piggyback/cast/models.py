@@ -177,20 +177,21 @@ class Comment(models.Model):
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
 
-    def update_emotion_number(self, emotion):
-        if emotion == '1':
-            self.like_number = self.commentemotion_set.filter(name=emotion).count()
-        elif emotion == '2':
-            self.dislike_number = self.commentemotion_set.filter(name=emotion).count()
-        self.save(update_fields=['dislike_number', 'like_number'])
+    def update_emotion_number(self, emotions):
+        # 감정 개수 업데이트
+        for emotion in emotions:
+            if emotion == '1':
+                # 좋아요일 경우
+                self.like_number = self.commentemotion_set.filter(name=emotion).count()
+            elif emotion == '2':
+                # 싫어요일 경우
+                self.dislike_number = self.commentemotion_set.filter(name=emotion).count()
+        self.save(update_fields=['dislike_number', 'like_number']) # 두개의 필드만 업데이트하여 저장
 
     def get_count_emotion(self, emotion):
         # 해당 댓글의 각 감정들의 개수 카운트
         emotion_count = CommentEmotion.objects.filter(comment_id=self.id, name=emotion).count()
         return emotion_count
-
-
-
 
 class CommentEmotion(models.Model):
     # 댓글의 좋아요/싫어요
