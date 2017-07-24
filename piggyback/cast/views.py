@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Count, Max
 from tagging.models import Tag, TaggedItem
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
@@ -221,6 +221,22 @@ def congressman_emotion(request, congressman_pk):
     mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
     return HttpResponse(data, mimetype)
+
+def comment_list(request, pk):
+    # 각 컨텐츠별 댓글 리스트
+
+    req_type = request.GET.get('type','') # 요청한 컨텐츠 타입이 무엇인지
+
+    contents = get_object_or_404(Contents, pk=pk)
+    comment_list = Comment.objects.filter(contents=contents)
+    comment_form = CommentForm()
+
+    context = {}
+    context['comment_form'] = comment_form
+    context['comment_list'] = comment_list
+    context['pk'] = pk
+
+    return render(request, 'cast/comment_list.html', context)
 
 @login_required
 def comment_new(request, pk):

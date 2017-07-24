@@ -35,14 +35,10 @@ class Contents(models.Model):
     def __str__(self):
         return '{}번 {}'.format(self.id, self.title)
 
-    @property
-    def get_count_emotion(self):
-        # 해당 컨텐츠의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
-        total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for idx in range(1,7):
-            # 각 감정들 별로 개수 카운트
-            total_number[idx] = ContentsEmotion.objects.filter(contents_id=self.id, name=idx).count()
-        return total_number
+    def get_count_emotion(self, emotion):
+        # 해당 컨텐츠의 각 감정들의 개수 카운트
+        emotion_count = ContentsEmotion.objects.filter(contents_id=self.id, name=emotion).count()
+        return emotion_count
 
     @classmethod
     def delete_empty_contents(cls, queryset):
@@ -55,9 +51,6 @@ class Contents(models.Model):
                 except:
                     print(image_path+"는 없는 동영상 주소. 삭제합니다.")
                     Contents.objects.filter(url_path=url_path).delete()
-
-
-
 
 class Congressman(models.Model):
     # 국회의원 모델
@@ -79,7 +72,6 @@ class Congressman(models.Model):
 
     def get_absolute_url(self):
         return reverse('cast:congressman_detail', args=[self.pk])
-
 
     @property
     def get_count_emotion(self):

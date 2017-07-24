@@ -1,0 +1,82 @@
+{% extends "cast/layout.html" %}
+
+{% block content %}
+  <form action="{% url 'cast:comment_new' pk %}?next={{ request.path }}&type=contents" method="post">
+      {% csrf_token %}
+      {{ comment_form.message }}
+      <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
+  </form>
+
+  <hr>
+
+  {% load staticfiles %}
+    <a name="comment">
+    <ul class="comment_box">
+        {% for comment in comment_list %}
+        <li class="comment">
+            <a href=""><img class="comment_user_img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+            <div class="comment_content">
+                <strong class="comment_user"> {{ comment.user }}</strong>
+                <p class="comment_message">{{ comment.message }}</p>
+
+            {% if comment.user == user %}
+               <p class="comment_edit">
+                   <a href="{% url 'cast:comment_edit' comment.pk %}?next={{ request.path }}" >수정</a>
+                    <a href="{% url 'cast:comment_delete' comment.pk %}?next={{ request.path }}" class="text-danger">삭제</a>
+               </p>
+            {% endif %}
+
+                <p style="font-size:10px;">
+                <!--댓글 작성 시간 가져오기-->
+                <span style="color:#9c9c9c;">
+                {% if comment.created_at %}
+                    {{ comment.created_at|date:'Y-m-d H:i' }}
+                {% endif %}
+                </span>&nbsp;&nbsp;
+                <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                  <!--대댓 개수 가져오기-->
+                  <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+                   <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                   <!--좋아요 개수 가져오기-->
+                    <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                        {{ comment.get_count_emotion.1 }}
+                    </span>
+                    <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                    <!--싫어요 개수 가져오기-->
+                    <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                        {{ comment.get_count_emotion.2 }}
+                    </span>
+                </p>
+            </div>
+            {% for recomment in comment.recomment_set.all %}
+                {{ recomment.message }}
+                {% if recomment.user == user %}
+                    <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger comment_edit">삭제</a>
+                {% endif %}
+            {% endfor %}
+        </li>
+        {% endfor %}
+    </ul>
+<script>
+  $('.comment-emo-btn').click(function(){
+      var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
+      var comment_pk = $(this).attr('id');
+
+      $.ajax({
+          url: "/cast/comment-emotion/"+comment_pk+"/?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
+          data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
+          dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+
+          success: function(res){
+              // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+              $('#comment-like-count-' + comment_pk).text(res.like_count)
+              $('#comment-dislike-count-' + comment_pk).text(res.dislike_count)
+          },
+          error:function(error){
+              console.log(error)
+              // 요청이 실패했을 경우
+          }
+      });
+  });
+</script>
+{% endblock %}

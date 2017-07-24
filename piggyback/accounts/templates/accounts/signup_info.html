@@ -31,7 +31,6 @@
               { value: city, text: city }
             )) // select box에 option 값 추가
         });
-        $('#city').html(city_options.html()); // city select box에 표시
 
         district_options = $('#district');
         $.each(address['서울특별시'], function( idx, val){
@@ -39,12 +38,11 @@
             { value: val.name, text: val.name }
           ))
         });
-        $('#district').html(district_options.html()); // district select box에 표시
       });
   });
   $('#city').change(function(){
     // city select box가 변경 될 경우
-    city = $('#city').val();
+    city = this.val();
     district_options = $('#district');
     district_options.empty() // 기본값 설정이 되어있어 append 시 중복되므로 값을 비운다.
     $.each(address[city], function( idx, val){
@@ -52,7 +50,6 @@
           { value: val.name, text: val.name }
         ))
     });
-    $('#district').html(district_options.html());
   });
 
 </script>
