@@ -1,14 +1,28 @@
-    <div class="contents_box" id="box4">
-        <aside class="sidemenu">
-            <div>
-                <ul>
-                    <li><a href="#"><i class="fa fa-caret-right"></i>투명하고 민주적인 운영을 위한 정당 개혁</a></li>
-                    <li>
-                        <a href="#">
-                            <div class="name">ㅇㅇㅇ의원1</div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-    </div>
+{% load staticfiles %}
+   <div class="contents_box" id="box4">
+    <aside class="sidemenu">
+        <ul class="pledge-box">
+            <li class="pledge-contents-box">
+               <div class="congressman-img-box">
+                   <a href="" class="congressman-btn"><img class="congressman-img" src="http://kmanifesto.or.kr/photos/p3851.jpg" alt=""></a>
+               </div>
+                <div class="congressman-name">
+                    <strong>이종구</strong>
+                    <span class="congressman-title">의원</span>
+                </div>
+                <div class="pledge-title-box">
+                    <p class="pledge-title">부동산 규제 강화 하지 맙시다 ㅇㄹㄴㅇㄹㄴㅇㄹ</p>
+                    <div class="icon-box">
+                        <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img">
+                        <span class="count">35</span>
+                        <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img">
+                        <span class="count">35</span>
+                    </div>
+                </div>
+                <div class="right-box">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </div>
+            </li> 
+        </ul>
+    </aside>
+</div>
