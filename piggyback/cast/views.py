@@ -132,8 +132,10 @@ def contents_emotion(request, contents_pk):
                 contents=contents,
                 name=emotion_name,
             )
+
         emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
         before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
+
         context = {}
         context['status'] = 'success'
         context['emotion_count'] = emotion_count
@@ -319,6 +321,9 @@ def comment_emotion(request, comment_pk):
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
         comment = get_object_or_404(Comment, pk=comment_pk) # 현재 댓글 인스턴스 생성
+        print("시작")
+        print(comment.like_number)
+        print(comment.dislike_number)
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 즇아요/싫어요 정보를 받아온다.
 
         if user.comment_emotion_set.filter(comment=comment).exists():
@@ -327,10 +332,13 @@ def comment_emotion(request, comment_pk):
             if user_emotion.name == emotion_name:
                 # 같은 감정을 한번 더누르면 삭제.
                 CommentEmotion.objects.filter(comment=comment, user=user).delete() # 인스턴스 삭제
+                comment.update_emotion_number(emotion_name)
             else:
                 # 다른 감정을 누를 경우
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
+                comment.update_emotion_number('1')
+                comment.update_emotion_number('2')
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             CommentEmotion.objects.create(
@@ -338,14 +346,17 @@ def comment_emotion(request, comment_pk):
                 comment=comment,
                 name=emotion_name,
             )
+            comment.update_emotion_number(emotion_name)
 
-        like_count = CommentEmotion.objects.filter(comment=comment, name=1).count()
-        dislike_count = CommentEmotion.objects.filter(comment=comment, name=2).count()
-
+        like_number = comment.like_number
+        dislike_number = comment.dislike_number
+        print("끝")
+        print(like_number)
+        print(dislike_number)
         context = {}
         context['status'] = 'success'
-        context['like_count'] = like_count
-        context['dislike_count'] = dislike_count
+        context['like_number'] = like_number
+        context['dislike_number'] = dislike_number
         data = json.dumps(context)
     else:
         context = {}
