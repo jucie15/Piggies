@@ -1,5 +1,6 @@
 import urllib.request
 from django.db import models
+from django.db.models.signals import m2m_changed
 from django.conf import settings
 from django.shortcuts import reverse
 from tagging.fields import TagField
@@ -35,14 +36,10 @@ class Contents(models.Model):
     def __str__(self):
         return '{}번 {}'.format(self.id, self.title)
 
-    @property
-    def get_count_emotion(self):
-        # 해당 컨텐츠의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
-        total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for idx in range(1,7):
-            # 각 감정들 별로 개수 카운트
-            total_number[idx] = ContentsEmotion.objects.filter(contents_id=self.id, name=idx).count()
-        return total_number
+    def get_count_emotion(self, emotion):
+        # 해당 컨텐츠의 각 감정들의 개수 카운트
+        emotion_count = ContentsEmotion.objects.filter(contents_id=self.id, name=emotion).count()
+        return emotion_count
 
     @classmethod
     def delete_empty_contents(cls, queryset):
@@ -55,9 +52,6 @@ class Contents(models.Model):
                 except:
                     print(image_path+"는 없는 동영상 주소. 삭제합니다.")
                     Contents.objects.filter(url_path=url_path).delete()
-
-
-
 
 class Congressman(models.Model):
     # 국회의원 모델
@@ -80,15 +74,10 @@ class Congressman(models.Model):
     def get_absolute_url(self):
         return reverse('cast:congressman_detail', args=[self.pk])
 
-
-    @property
-    def get_count_emotion(self):
-        # 해당 국회의원의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
-        total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for idx in range(1,3):
-            # 각 감정들 별로 개수 카운트
-            total_number[idx] = CongressmanEmotion.objects.filter(congressman_id=self.id, name=idx).count()
-        return total_number
+    def get_count_emotion(self, emotion):
+        # 해당 국회의원의 각 감정들의 개수 카운트
+        emotion_count = CongrssmanEmotion.objects.filter(congressman_id=self.id, name=emotion).count()
+        return emotion_count
 
 class Pledge(models.Model):
     # 공약 모델
@@ -113,14 +102,10 @@ class Pledge(models.Model):
     def get_absolute_url(self):
         return reverse('cast:pledge_detail', args = [self.pk])
 
-    @property
-    def get_count_emotion(self):
-        # 해당 공약의 좋아요/싫어요 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
-        total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for idx in range(1,3):
-            # 각 감정들 별로 개수 카운트
-            total_number[idx] = PledgeEmotion.objects.filter(pledge_id=self.id, name=idx).count()
-        return total_number
+    def get_count_emotion(self, emotion):
+        # 해당 공약의 각 감정들의 개수 카운트
+        emotion_count = PledgeEmotion.objects.filter(pledge_id=self.id, name=emotion).count()
+        return emotion_count
 
 class ContentsEmotion(models.Model):
     # 컨텐츠내 감정 표현 관계 모델
@@ -183,6 +168,8 @@ class Comment(models.Model):
     pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약에 댓글이 달릴 경우 관계 설정
     message = models.TextField() # 댓글 내용
     created_at = models.DateTimeField(auto_now_add=True) # 댓글 작성 시간
+    like_number = models.IntegerField(default=0) # 좋아요 개수
+    dislike_number = models.IntegerField(default=0) # 싫어요 개수
 
     class Meta:
         ordering = ['-id']
@@ -190,14 +177,21 @@ class Comment(models.Model):
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
 
-    @property
-    def get_count_emotion(self):
-        # 해당 댓글의 각 감정들의 개수 카운트 @property 장식자를 통해 템플릿에서 쉽게 접근하게 한다.
-        total_number = {} # 각 감정들의 개수를 담을 dic 변수
-        for idx in range(1,3):
-            # 각 감정들 별로 개수 카운트
-            total_number[idx] = CommentEmotion.objects.filter(comment_id=self.id, name=idx).count()
-        return total_number
+    def update_emotion_number(self, emotions):
+        # 감정 개수 업데이트
+        for emotion in emotions:
+            if emotion == '1':
+                # 좋아요일 경우
+                self.like_number = self.commentemotion_set.filter(name=emotion).count()
+            elif emotion == '2':
+                # 싫어요일 경우
+                self.dislike_number = self.commentemotion_set.filter(name=emotion).count()
+        self.save(update_fields=['dislike_number', 'like_number']) # 두개의 필드만 업데이트하여 저장
+
+    def get_count_emotion(self, emotion):
+        # 해당 댓글의 각 감정들의 개수 카운트
+        emotion_count = CommentEmotion.objects.filter(comment_id=self.id, name=emotion).count()
+        return emotion_count
 
 class CommentEmotion(models.Model):
     # 댓글의 좋아요/싫어요

@@ -59,6 +59,9 @@ class FavoriteAdmin(admin.ModelAdmin):
 class ContentsEmotionAdmin(admin.ModelAdmin):
     model = ContentsEmotion
 
+@admin.register(CommentEmotion)
+class CommentEmotionAdmin(admin.ModelAdmin):
+    model = CommentEmotion
 
 # admin.site.register(Contents)
 # admin.site.register(Congressman)
