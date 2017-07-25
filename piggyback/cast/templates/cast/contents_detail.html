@@ -3,23 +3,8 @@
 {% block content %}
 
 {% load staticfiles %}
-<nav class="mobile navbar-inverse">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="{% url 'cast:index' %}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        {% if user_is_favorite == True %}
-          <li><a id="favorite" style='color:red'>
-        {% else %}
-          <li><a id="favorite" style='color:gray'>
-        {% endif %}
-        <i class="fa fa-heart-o fa-lg fa-fw"  aria-hidden="true" ></i></a></li>
-        <li><a href="#comment"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
-        <li><a href="#"><i class="fa fa-ellipsis-v fa-lg fa-fw fa-flip-horizontal" aria-hidden="true"></i></a></li>
-    </ul>
-  </div>
-</nav>
+
+{% include 'cast/navbar.html' %}
 
 <article class="content_detail">
 
@@ -90,6 +75,7 @@
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
+<!--img클릭시 해당 user의 profile로 이동해야함-->
             <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
@@ -143,6 +129,16 @@
         $(".box2").hide();
         $(".select-content").hide();
         $('.add-tag-box').css('display','none');
+      
+      //user profile src 가 unknown이면 기본이미지 반영
+      var user_img = $('.comment-user-img');
+      window.z = user_img
+      for(i=0; i<user_img.length; i++){
+          console.log(user_img[i].currentSrc);
+          if(user_img[i].currentSrc == ""){
+              user_img[i].src = "{% static 'cast/img/angry.png' %}";
+          }
+      }
   });
 
     //태그추가 버튼 클릭시 태그 추가 박스 보이도록

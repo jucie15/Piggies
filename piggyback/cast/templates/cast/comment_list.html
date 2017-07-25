@@ -1,15 +1,8 @@
 {% extends "cast/layout.html" %}
 
 {% block content %}
-  <form action="{% url 'cast:comment_new' pk %}?next={{ request.path }}&type=contents" method="post">
-      {% csrf_token %}
-      {{ comment_form.message }}
-      <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
-  </form>
+{% load staticfiles %} 
 
-  <hr>
-
-  {% load staticfiles %}
     <a name="comment">
     <ul class="comment_box">
         {% for comment in best_comment_list %}
@@ -103,6 +96,15 @@
         </li>
         {% endfor %}
     </ul>
+  <hr>
+  <form action="{% url 'cast:comment_new' pk %}?next={{ request.path }}&type=contents" method="post">
+      {% csrf_token %}
+      {{ comment_form.message }}
+      <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
+  </form>
+	
+<script src="{% static 'cast/js/comment.js' %}"></script>
+<!--
 <script>
     $('.comment-emo-btn').click(function(){
         var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
@@ -125,4 +127,5 @@
         });
     });
 </script>
+-->
 {% endblock %}
