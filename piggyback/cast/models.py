@@ -172,7 +172,7 @@ class Comment(models.Model):
     dislike_number = models.IntegerField(default=0) # 싫어요 개수
 
     class Meta:
-        ordering = ['-like_number']
+        ordering = ['-id']
 
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)

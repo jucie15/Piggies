@@ -230,12 +230,14 @@ def comment_list(request, pk):
     req_type = request.GET.get('type','') # 요청한 컨텐츠 타입이 무엇인지
 
     contents = get_object_or_404(Contents, pk=pk)
-    comment_list = Comment.objects.filter(contents=contents)
+    best_comment_list = Comment.objects.filter(contents=contents).order_by('-like_number')[:5]
+    comment_list = Comment.objects.filter(contents=contents).exclude(id__in=best_comment_list)
     comment_form = CommentForm()
 
     context = {}
     context['comment_form'] = comment_form
     context['comment_list'] = comment_list
+    context['best_comment_list'] = best_comment_list
     context['pk'] = pk
 
     return render(request, 'cast/comment_list.html', context)
