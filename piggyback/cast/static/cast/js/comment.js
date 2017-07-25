@@ -5,7 +5,7 @@
       for(i=0; i<user_img.length; i++){
           console.log(user_img[i].currentSrc);
           if(user_img[i].currentSrc == ""){
-              user_img[i].src = "{% static 'cast/img/angry.png' %}";
+              user_img[i].src = "/static/cast/img/angry.png";
           }
       }
   });
