@@ -115,12 +115,12 @@
                    <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
                    <!--좋아요 개수 가져오기-->
                     <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
-                        {{ comment|emotion_count:"1" }}
+                        {{ comment.like_number }}
                     </span>
                     <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
                     <!--싫어요 개수 가져오기-->
                     <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
-                        {{ comment|emotion_count:"2" }}
+                        {{ comment.dislike_number }}
                     </span>
                 </p>
             </div>

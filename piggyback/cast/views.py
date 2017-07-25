@@ -333,7 +333,7 @@ def comment_emotion(request, comment_pk):
                 # 다른 감정을 누를 경우
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
-                emotion_name = ['1','2']
+                emotion_name = ('1','2')
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             CommentEmotion.objects.create(
