@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Count, Max
 from tagging.models import Tag, TaggedItem
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
@@ -132,8 +132,10 @@ def contents_emotion(request, contents_pk):
                 contents=contents,
                 name=emotion_name,
             )
+
         emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
         before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
+
         context = {}
         context['status'] = 'success'
         context['emotion_count'] = emotion_count
@@ -221,6 +223,24 @@ def congressman_emotion(request, congressman_pk):
     mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
     return HttpResponse(data, mimetype)
+
+def comment_list(request, pk):
+    # 각 컨텐츠별 댓글 리스트
+
+    req_type = request.GET.get('type','') # 요청한 컨텐츠 타입이 무엇인지
+
+    contents = get_object_or_404(Contents, pk=pk)
+    best_comment_list = Comment.objects.filter(contents=contents).order_by('-like_number')[:5]
+    comment_list = Comment.objects.filter(contents=contents).exclude(id__in=best_comment_list)
+    comment_form = CommentForm()
+
+    context = {}
+    context['comment_form'] = comment_form
+    context['comment_list'] = comment_list
+    context['best_comment_list'] = best_comment_list
+    context['pk'] = pk
+
+    return render(request, 'cast/comment_list.html', context)
 
 @login_required
 def comment_new(request, pk):
@@ -315,6 +335,7 @@ def comment_emotion(request, comment_pk):
                 # 다른 감정을 누를 경우
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
+                emotion_name = ('1','2')
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
             CommentEmotion.objects.create(
@@ -323,13 +344,14 @@ def comment_emotion(request, comment_pk):
                 name=emotion_name,
             )
 
-        like_count = CommentEmotion.objects.filter(comment=comment, name=1).count()
-        dislike_count = CommentEmotion.objects.filter(comment=comment, name=2).count()
+        comment.update_emotion_number(emotion_name) # 감정 개수 업데이트
+        like_number = comment.like_number
+        dislike_number = comment.dislike_number
 
         context = {}
         context['status'] = 'success'
-        context['like_count'] = like_count
-        context['dislike_count'] = dislike_count
+        context['like_number'] = like_number
+        context['dislike_number'] = dislike_number
         data = json.dumps(context)
     else:
         context = {}
