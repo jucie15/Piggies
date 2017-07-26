@@ -782,13 +782,13 @@ a {
     .select-content ul li a:hover, .select-content ul .active a:hover
     {
         color: #E7BC1A;
-        background-color: #ffffff;
+        background-color: #FFFFFF;
     }
 
-    .select-content ul .active a
+    .select-content ul .active a, .select-content ul .active a:focus
     {
+        color: #E7BC1A;
         background-color: #FFFFFF;
-        color: #FFD124;
     }
 
 }
