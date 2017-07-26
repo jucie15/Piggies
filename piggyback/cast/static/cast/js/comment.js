@@ -1,4 +1,3 @@
-
 $('.comment-emo-btn').click(function(){
     var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
     var comment_pk = $(this).attr('id');

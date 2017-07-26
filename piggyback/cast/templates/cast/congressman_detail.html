@@ -105,7 +105,7 @@ BODY RIGHT PART
 
 <hr/>
 
-    <form action="{% url "cast:comment_new" congressman.pk %}?next={{ request.path }}&type=congressman" method="post">
+    <form action="{% url "cast:comment_new" congressman.pk %}?type=congressman" method="post">
         {% csrf_token %}
         {{ comment_form.message }}
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
@@ -116,8 +116,8 @@ BODY RIGHT PART
             {{ comment.message }}
             <small>by {{ comment.user }}</small>
             {% if comment.user == user %}
-                <a href="{% url "cast:comment_edit" comment.pk %}?next={{ request.path }}">Edit</a>
-                <a href="{% url "cast:comment_delete" comment.pk %}?next={{ request.path }}" class="text-danger">Delete</a>
+                <a href="{% url "cast:comment_edit" comment.pk %}">Edit</a>
+                <a href="{% url "cast:comment_delete" comment.pk %}" class="text-danger">Delete</a>
             {% endif %}
             <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="좋아요" value="1" style="color:white;">좋아요</button>
             <button type="button" class="comment-emo-btn btn btn-primary" id={{ comment.pk }} name="싫어요" value="2" style="color:white;">싫어요</button>

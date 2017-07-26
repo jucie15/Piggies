@@ -11,7 +11,7 @@
 
         <div class="box3-1">
             <div class="infinite-container"><!-- 페이지네이션된 항목들이 표시될 컨테이너 /.infinite-more-link가 화면에 뜰 때마다 로딩된다.-->
-            <div class="infinite-item"> <!-- 표시될 항목 -->
+              <div class="infinite-item"> <!-- 표시될 항목 -->
                     <div class="container">
                         <div class="row">
                             {% for contents in contents_list %}
@@ -26,7 +26,7 @@
                                             </div>
 
                                             {% load tagging_tags %}
-                                            
+
 
                                             {% tags_for_object contents as tags %}
                                             <div class="tag-box">
@@ -34,7 +34,7 @@
                                             <span class="tag">#{{ tag.name }}</span>
                                             {% endfor %}
                                             </div>
-                                            
+
                                             <div class="card-tail">
                                                <div class="pull-left"><span class="emotion-icon-btn">
                                                    <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
@@ -46,7 +46,7 @@
                                                <div class="pull-right">
                                                   <span class="like"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
                                                </div>
-                                            </div>    
+                                            </div>
 
                                         </a>
                                     </article>
@@ -69,7 +69,7 @@
     </div>
 
    {% include "cast/pledge_list.html" %}
-   
+
     <div class="contents_box" id="box5">
         <aside class="sidemenu2">
             <h2>관련 의원</h2>
@@ -96,12 +96,12 @@
 
 
 <script>
-    
+
   //index페이지 mian background-color변경
   $(document).ready(function(){
         $('main').css('background-color','#fbfbf9');
   });
-    
+
     var infinite = new Waypoint.Infinite({
       element: $('.infinite-container')[0],
       onBeforePageLoad: function () {

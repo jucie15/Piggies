@@ -1,0 +1,4 @@
+django<1.11
+django-allauth
+django-tagging
+django-el-pagination
