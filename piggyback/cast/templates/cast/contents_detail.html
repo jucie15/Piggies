@@ -3,23 +3,8 @@
 {% block content %}
 
 {% load staticfiles %}
-<nav class="mobile navbar-inverse">
-  <div class="container-fluid">
-    <ul class="nav navbar-nav navbar-left">
-      <li><a href="{% url 'cast:index' %}"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-        {% if user_is_favorite == True %}
-          <li><a id="favorite" style='color:red'>
-        {% else %}
-          <li><a id="favorite" style='color:gray'>
-        {% endif %}
-        <i class="fa fa-heart-o fa-lg fa-fw"  aria-hidden="true" ></i></a></li>
-        <li><a href="#comment"><i class="fa fa-comment-o fa-fw" aria-hidden="true" style="font-size: 19px"></i></a></li>
-        <li><a href="#"><i class="fa fa-ellipsis-v fa-lg fa-fw fa-flip-horizontal" aria-hidden="true"></i></a></li>
-    </ul>
-  </div>
-</nav>
+
+{% include 'cast/navbar.html' %}
 
 <article class="content_detail">
 
@@ -90,6 +75,7 @@
     <ul class="comment_box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
+<!--img클릭시 해당 user의 profile로 이동해야함-->
             <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
@@ -112,6 +98,7 @@
                 <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                   <!--대댓 개수 가져오기-->
                   <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+                  &nbsp;
                    <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
                    <!--좋아요 개수 가져오기-->
                     <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
@@ -135,13 +122,12 @@
         <li class="more"><a href="{% url 'cast:comment_list' contents.pk %}?type=contents">+더보기</a></li>
     </ul>
 
+
+<script src="{% static 'cast/js/comment.js' %}"></script>
 <script type="text/javascript">
 
 
   $(document).ready(function(){
-        $(".box1").hide();
-        $(".box2").hide();
-        $(".select-content").hide();
         $('.add-tag-box').css('display','none');
   });
 
