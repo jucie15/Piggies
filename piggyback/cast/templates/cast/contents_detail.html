@@ -156,9 +156,8 @@
         $('.add-tag-btn').css('display','inline');
     });
 
-    // 좋아요 버튼 처리
-    // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
     $('.emobtn').click(function(){
+        // 컨텐츠 감정표현 버튼 클릭시
         var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
 
         $.ajax({
@@ -178,6 +177,7 @@
     });
 
     $('.comment-emo-btn').click(function(){
+        // 댓글 감정표현 버튼 클릭시
         var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
         var comment_pk = $(this).attr('id');
 
@@ -198,8 +198,8 @@
         });
     });
 
-    // 즐겨찾기 추가(ajax 처리)
     $('#favorite').click(function(){
+        // 즐겨찾기 추가(ajax 처리)
         $.ajax({
             type: "POST", // POST 요청으로 한다.
             url: "{% url 'cast:ajax_favorites' contents.pk %}", // 통신할 url을 지정한다.

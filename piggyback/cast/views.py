@@ -230,8 +230,8 @@ def comment_list(request, pk):
     req_type = request.GET.get('type','') # 요청한 컨텐츠 타입이 무엇인지
 
     contents = get_object_or_404(Contents, pk=pk)
-    best_comment_list = Comment.objects.filter(contents=contents).order_by('-like_number')[:5]
-    comment_list = Comment.objects.filter(contents=contents).exclude(id__in=best_comment_list)
+    best_comment_list = Comment.objects.filter(contents=contents).order_by('-like_number')[:5] # 좋아요 순 정렬
+    comment_list = Comment.objects.filter(contents=contents).exclude(id__in=best_comment_list) # 베댓 제외한 나머지 댓글
     comment_form = CommentForm()
 
     context = {}
