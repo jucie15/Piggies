@@ -48,7 +48,6 @@ def tagged_list(request):
 
 def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
-
     contents = get_object_or_404(Contents, pk=contents_pk)
 
     if request.user.is_anonymous():
@@ -247,7 +246,7 @@ def comment_new(request, pk):
     # 각 컨텐츠내 댓글 쓰기
 
     req_type = request.GET.get('type','') # 요청한 컨텐츠 타입이 무엇인지
-    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if request.method == 'POST':
         # 포스트 요청일 경우
@@ -286,7 +285,7 @@ def comment_new(request, pk):
 def comment_edit(request, comment_pk):
     # 해당 댓글 수정
     comment = get_object_or_404(Comment, pk=comment_pk) # 해당 댓글 인스턴스
-    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if comment.user != request.user:
         messages.warning(request, '댓글 작성자만 수정할 수 있습니다.')
@@ -308,7 +307,7 @@ def comment_edit(request, comment_pk):
 def comment_delete(request, comment_pk):
     # 해당 댓글 삭제
     comment = get_object_or_404(Comment, pk=comment_pk)
-    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if comment.user != request.user:
         messages.warning(request, '댓글 작성자만 삭제할 수 있습니다.')
@@ -324,7 +323,6 @@ def comment_emotion(request, comment_pk):
         user = request.user # 현재 유저의 정보를 받아온다.
         comment = get_object_or_404(Comment, pk=comment_pk) # 현재 댓글 인스턴스 생성
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 즇아요/싫어요 정보를 받아온다.
-
         if user.comment_emotion_set.filter(comment=comment).exists():
             # 해당 댓글에 감정 표현을 이미 해놓은 경우
             user_emotion = user.comment_emotion_set.get(comment=comment) # 해당유저가 댓글에 해놓은 감정표현을 정보를 받아와
@@ -343,7 +341,6 @@ def comment_emotion(request, comment_pk):
                 comment=comment,
                 name=emotion_name,
             )
-
         comment.update_emotion_number(emotion_name) # 감정 개수 업데이트
         like_number = comment.like_number
         dislike_number = comment.dislike_number
@@ -368,7 +365,7 @@ def recomment_new(request, comment_pk):
     # 대댓글 달기
 
     comment = get_object_or_404(Comment, pk=comment_pk)
-    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if request.method == 'POST':
         # 포스트 요청일 경우
@@ -396,7 +393,7 @@ def recomment_delete(request, recomment_pk):
     # 공약 디테일 내 댓글 지우기
 
     recomment = get_object_or_404(ReComment, pk=recomment_pk)
-    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if recomment.user != request.user:
         # 댓글 작성자와 현재 유저가 다를 경우
