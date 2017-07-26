@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body
 {
 
@@ -572,7 +579,7 @@ a {
     color:black;
 }
 
-.tag, .add-tag-btn, .upload-tag-btn
+.tag, .add-tag-btn, .upload-btn
 {
     display: inline-block;
     margin: 0;
@@ -585,13 +592,13 @@ a {
     font-weight: bold;
 }
 
-.add-tag-btn, .upload-tag-btn
+.add-tag-btn, .upload-btn
 {
     color: white;
     background: #FFD124;
 }
 
-.upload-tag-btn{
+.upload-btn{
     z-index: 1;
     position: absolute;
     top: 29%;
@@ -1186,4 +1193,23 @@ hr {
 
 .margin-top-4px {
     margin-top: 4px;
+}
+
+.wrap {
+    min-height: 100%;
+    margin-bottom: -50px;
+}
+
+.footer {
+    height: 50px;
+}
+
+.add-comment {
+    width: 100%;
+    border: 1px solid #efdc95;
+}
+
+.comment-upload-btn {
+    right: 3% !important;
+    top:36% !important;
 }

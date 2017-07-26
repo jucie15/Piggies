@@ -2,8 +2,8 @@
 
 {% block content %}
 {% load staticfiles %} 
-
-<nav class="mobile navbar-inverse">
+<div class="wrap">
+    <nav class="mobile navbar-inverse">
   <div class="container-fluid">
     <ul class="nav navbar-nav navbar-left">
       <li><a href="{% url 'cast:index' %}"><i class="fa fa-times" aria-hidden="true"></i></a></li>
@@ -104,12 +104,20 @@
         </li>
         {% endfor %}
     </ul>
-  <hr>
-  <form action="{% url 'cast:comment_new' pk %}?next={{ request.path }}&type=contents" method="post">
+</div>
+<footer class="footer">
+  <form name="comment-form" action="{% url 'cast:comment_new' pk %}?next={{ request.path }}&type=contents" method="post">
       {% csrf_token %}
-      {{ comment_form.message }}
-      <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
+       <div class="add-tag-box">
+          {{ comment_form.message }}
+           <a onclick="document.forms['comment-form'].submit();" ><span class="upload-btn comment-upload-btn">댓글추가</span></a>
+       </div>
   </form>
-	
+</footer>
 <script src="{% static 'cast/js/comment.js' %}"></script>
+<script>
+     $(document).ready(function(){
+         $('.box6').hide();
+  });
+</script>
 {% endblock %}

@@ -1,7 +1,6 @@
   $(document).ready(function(){
       //user profile src 가 unknown이면 기본이미지 반영
       var user_img = $('.comment-user-img');
-      window.z = user_img
       for(i=0; i<user_img.length; i++){
           console.log(user_img[i].currentSrc);
           if(user_img[i].currentSrc == ""){
