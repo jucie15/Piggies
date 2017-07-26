@@ -1196,12 +1196,14 @@ hr {
 }
 
 .wrap {
-    min-height: 100%;
-    margin-bottom: -50px;
+    min-height: calc(100vh - 50px);
 }
 
 .footer {
     height: 50px;
+    background-color: white;
+    position: fixed;
+    width:100%;
 }
 
 .add-comment {
