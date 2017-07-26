@@ -60,12 +60,15 @@
   <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="2">
     <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_2">{{ contents|emotion_count:"2" }}</span></a></li>
 </ul>
+<hr>
 
-    <form action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
-        {% csrf_token %}
-        {{ comment_form.message }}
-        <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
-    </form>
+<div class="add-comment-box cd-comment-box">
+<form name="comment-form" action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
+    {% csrf_token %}
+    {{ comment_form.message }}
+    <a onclick="document.forms['comment-form'].submit();" ><span class="upload-btn comment-upload-btn" id="cd-upload-btn">댓글추가</span></a>
+</form>
+</div>
 
   <p class="strapline">댓글
       <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_set.all.count }}</span>
@@ -119,9 +122,81 @@
             {% endfor %}
         </li>
         {% endfor %}
-        <li class="more"><a href="{% url 'cast:comment_list' contents.pk %}?type=contents">+더보기</a></li>
+        <li class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></li>
+<!--        <li class="more"><a href="{% url 'cast:comment_list' contents.pk %}?type=contents">+더보기</a></li>-->
     </ul>
     
+<!--모달 시작-->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+<!--           <a data-dismiss="modal" ><i class="fa fa-times" aria-hidden="true"></i></a>-->
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h5 class="modal-title" id="exampleModalLongTitle">댓글&nbsp;<span style="color:#E8BC15;padding-left:2px;">{{ contents.comment_set.all.count }}</span></h5>
+            <div class="add-comment-box">
+            <form name="comment-form" action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
+                {% csrf_token %}
+                {{ comment_form.message }}
+                <a onclick="document.forms['comment-form'].submit();" ><span class="upload-btn comment-upload-btn">댓글추가</span></a>
+            </form>
+          </div>
+          </div>
+        <div class="modal-body">
+         <a name="comment">
+            <ul class="comment_box">
+                {% for comment in contents.comment_set.all %}
+                <li class="comment">
+                    <!--img클릭시 해당 user의 profile로 이동해야함-->
+                    <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+                    <div class="comment_content">
+                        <strong class="comment_user"> {{ comment.user }}</strong>
+                        <p class="comment_message">{{ comment.message }}</p>
+
+                    {% if comment.user == user %}
+                       <p class="comment_edit">
+                           <a href="{% url 'cast:comment_edit' comment.pk %}?next={{ request.path }}" >수정</a>
+                            <a href="{% url 'cast:comment_delete' comment.pk %}?next={{ request.path }}" class="text-danger">삭제</a>
+                       </p>
+                    {% endif %}
+
+                        <p style="font-size:10px;">
+                        <!--댓글 작성 시간 가져오기-->
+                        <span style="color:#9c9c9c;">
+                        {% if comment.created_at %}
+                            {{ comment.created_at|date:'Y-m-d H:i' }}
+                        {% endif %}
+                        </span>&nbsp;&nbsp;
+                        <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                          <!--대댓 개수 가져오기-->
+                          <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+                          &nbsp;
+                           <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                           <!--좋아요 개수 가져오기-->
+                            <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                                {{ comment.like_number }}
+                            </span>
+                            <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                            <!--싫어요 개수 가져오기-->
+                            <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                                {{ comment.dislike_number }}
+                            </span>
+                        </p>
+                    </div>
+                    {% for recomment in comment.recomment_set.all %}
+                        {{ recomment.message }}
+                        {% if recomment.user == user %}
+                            <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger comment_edit">삭제</a>
+                        {% endif %}
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+      </div>
+    </div>
     
 <script src="{% static 'cast/js/comment.js' %}"></script>
 <script type="text/javascript">
@@ -135,11 +210,15 @@
     $('.add-tag-btn').click(function(){
         $('.add-tag-box').css('display','block');
         $(this).css('display','none');
+        //댓글 추가 버튼 위치도 변경
+        $('#cd-upload-btn').css('top','105%');
     });
     //취소버튼 클릭시 태그 추가 박스 display:none
     $('.cancel-btn').click(function(){
         $('.add-tag-box').css('display','none');
         $('.add-tag-btn').css('display','inline');
+        //댓글 추가 버튼 위치도 변경
+        $('#cd-upload-btn').css('top','99%');
     });
 
     // 좋아요 버튼 처리
@@ -207,6 +286,8 @@
                 $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
                 $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
+                //댓글 추가 버튼 위치도 변경
+                $('#cd-upload-btn').css('top','99%');
             },
             error:function(error){
                 // 요청이 실패했을 경우
