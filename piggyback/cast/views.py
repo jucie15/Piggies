@@ -13,6 +13,8 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     contents_list = Contents.objects.all()
+    congressman_list = Congressman.objects.all()
+    pledge_list = Pledge.objects.all()
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
     paginator = Paginator(contents_list, 4) # 페이지 당 4개씩 표현
 
@@ -28,6 +30,8 @@ def index(request):
 
     context = {}
     context['contents_list'] = contents_list
+    context['congressman_list'] = congressman_list
+    context['pledge_list'] = pledge_list
 
     return render(request, 'cast/index.html', context)
 

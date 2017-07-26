@@ -1,26 +1,30 @@
 {% load staticfiles %}
 <div class="contents_box" id="box4">
-    <aside class="sidemenu">
-        <div class="pledge-box">
-            <img src="http://kmanifesto.or.kr/photos/p3851.jpg" alt=""class="congressman-img">
-            <div class="congressman-name">
-                <span>이종구</span>
-                <span class="pledge-samll-txt">의원</span>
-            </div>
-            <div class="pledge-contents-box">
-                <span class="pledge-title margin-top-4px ">부동산 규제 강화 하지 맙시다 닐리리 망고</span>
-                <span class="pledge-samll-txt margin-top-4px">
-                    <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img">
-                    <span class="count">35</span>
-                    <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img">
-                    <span class="count">35</span>
-                </span>
-            </div>
-            <div class="right-box">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </div>
-        </div>
+    <ul>
+        {% for pledge in pledge_list|slice:":3" %}
+        <li>
+            <div class="pledge-box">
 
-    </aside>
+                <img src="http://kmanifesto.or.kr/photos/p3851.jpg" alt="" class="congressman-img">
+                <div class="congressman-name">
+                    <span>{{ pledge.congressman.name }}</span>
+                    <span class="pledge-samll-txt">의원</span>
+                </div>
+                <div class="pledge-contents-box">
+                    <span class="pledge-title margin-top-4px ">{{ pledge.title }}</span>
+                    <span class="pledge-samll-txt margin-top-4px">
+                        <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img">
+                        <span class="count">35</span>
+                        <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img">
+                        <span class="count">35</span>
+                    </span>
+                </div>
+                <div class="right-box">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 <!-- .pledge-box여러개 만드려면 position:absolute 때문에 top값 하나하나 줘야함ㅠㅠ -->
