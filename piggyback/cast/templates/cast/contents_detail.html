@@ -76,7 +76,14 @@
         {% for comment in contents.comment_set.all %}
         <li class="comment">
 <!--img클릭시 해당 user의 profile로 이동해야함-->
-            <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+            <a href="">
+                {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                    <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                    <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                {% else %}
+                    <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                {% endif %}
+            </a>
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
                 <p class="comment_message">{{ comment.message }}</p>

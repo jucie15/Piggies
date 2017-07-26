@@ -1,15 +1,3 @@
-  $(document).ready(function(){
-      //user profile src 가 unknown이면 기본이미지 반영
-      var user_img = $('.comment-user-img');
-      for(i=0; i<user_img.length; i++){
-          console.log(user_img[i].currentSrc);
-          if(user_img[i].currentSrc == ""){
-              user_img[i].src = "/static/cast/img/angry.png";
-          }
-      }
-  });
-
-
 
 $('.comment-emo-btn').click(function(){
     var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
