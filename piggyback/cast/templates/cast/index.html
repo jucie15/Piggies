@@ -1,116 +1,29 @@
 {% extends "cast/layout.html" %}
 {% block content %}
-{% load staticfiles %}
 
-{% include 'cast/top_panel.html' %}
-{% include 'cast/tag_container.html' %}
-{% include 'cast/select_box.html' %}
-
-<div class="boxA">
-    <div class="contents_box" id="box3">
-
-        <div class="box3-1">
-            <div class="infinite-container"><!-- 페이지네이션된 항목들이 표시될 컨테이너 /.infinite-more-link가 화면에 뜰 때마다 로딩된다.-->
-            <div class="infinite-item"> <!-- 표시될 항목 -->
-                    <div class="container">
-                        <div class="row">
-                            {% for contents in contents_list %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 col-xl-3 grid">
-                                    <article class="summary">
-                                        <!--<a href="https://www.youtube.com/watch?v=NQ6gup07wRI">-->
-                                        <a href="{{ contents.get_absolute_url }}">
-                                            <img width="100%" src="{{ contents.get_image_url }}" />
-                                            <div class="grid-text">
-                                                <p class="contents-title">{{ contents.title }}</p>
-<!--                                                <p class="contents-description">{{ contents.description }}</p>-->
-                                            </div>
-
-                                            {% load tagging_tags %}
-                                            
-
-                                            {% tags_for_object contents as tags %}
-                                            <div class="tag-box">
-                                            {% for tag in tags %}
-                                            <span class="tag">#{{ tag.name }}</span>
-                                            {% endfor %}
-                                            </div>
-                                            
-                                            <div class="card-tail">
-                                               <div class="pull-left"><span class="emotion-icon-btn">
-                                                   <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
-                                               </span>
-                                               </div>
-                                               <div class="comment-box">
-                                                 <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img"> <span class="comment-count">{{ contents.comment_set.all.count }}</span>
-                                               </div>
-                                               <div class="pull-right">
-                                                  <span class="like"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                               </div>
-                                            </div>    
-
-                                        </a>
-                                    </article>
-                                </div>
-                            {% endfor %}
-                            </div>
-                        </div>
-                </div><!-- /.infinite-item -->
-            </div><!-- /.infinite-container -->
-        </div>
-
-        {% if contents_list.has_next %}
-            <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
-            <a class="infinite-more-link" href="?page={{ contents_list.next_page_number }}">More</a>
-        {% endif %}
-
-        <div class="loading" style="display: none;">
-            Loading...
-        </div><!-- /.loading -->
-    </div>
-
-   {% include "cast/pledge_list.html" %}
-   
-    <div class="contents_box" id="box5">
-        <aside class="sidemenu2">
-            <h2>관련 의원</h2>
-            <ul>
-                <li>
-                    <a href="#"><img src="{% static 'cast/img/congressman/9770084.png' %}" alt="">
-                        <div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"><img src="{% static 'cast/img/congressman/9770090.png' %}" alt="">
-                        <div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"><img src="{% static 'cast/img/congressman/9770138.png' %}" alt="">
-                        <div class="text">ㅇㅇㅇ의원<br>ㅇㅇㅇ정당</div>
-                    </a>
-                </li>
-            </ul>
-        </aside>
-    </div>
-</div>
-
+{% include 'cast/top_panel.html' %}         <!-- Logo, 검색버튼, 로그인 -->
+{% include 'cast/tag_container.html' %}     <!-- Tag -->
+{% include 'cast/select_box.html' %}        <!-- 공약, 이슈, 국회의원 -->
+{% include 'cast/contents_box.html' %}      <!-- Contents -->
+{% include "cast/pledge_list.html" %}       <!-- 공약 리스트 -->
+{% include "cast/congressman_list.html" %}  <!-- 국회의원 리스트 -->
 
 <script>
-    
+
   //index페이지 mian background-color변경
   $(document).ready(function(){
-        $('main').css('background-color','#fbfbf9');
+    $('main').css('background-color','#fbfbf9');
   });
-    
-    var infinite = new Waypoint.Infinite({
-      element: $('.infinite-container')[0],
-      onBeforePageLoad: function () {
-        $('.loading').show();
-      },
-      onAfterPageLoad: function ($items) {
-        $('.loading').hide();
-      }
-    });
+
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    onBeforePageLoad: function () {
+      $('.loading').show();
+    },
+    onAfterPageLoad: function ($items) {
+      $('.loading').hide();
+    }
+  });
 
 </script>
 

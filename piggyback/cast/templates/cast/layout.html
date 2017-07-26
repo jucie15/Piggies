@@ -3,7 +3,7 @@
 <html lang="ko">
 
 <head>
-    <meata charset="UTF-8">
+  <meata charset="UTF-8">
     <title>타이틀</title>
     <meta name="viewport" content="width=device-width">
 
@@ -28,38 +28,38 @@
 
     {% block extra_style %}
     {% endblock %}
-</head>
+  </head>
 
-<body class="top">
+  <body class="top">
 
-{% include 'cast/sidebar.html' %}
+    {% include 'cast/sidebar.html' %}
 
-<div class="overlay" data-sidebar-overlay></div>
+    <div class="overlay" data-sidebar-overlay></div>
 
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 
-<div class="box6">
-<div class="copyright">
-<p>Copyright &copy; 국민회관</p>
-</div>
-</div>
+    <div class="box6">
+      <div class="copyright">
+        <p>Copyright &copy; 국민회관</p>
+      </div>
+    </div>
 
 
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    slidesPerView: 5,
-    spaceBetween: 0,
-    grabCursor: true,
-    freeMode: true,
-  });
+    <script>
+      var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 5,
+        spaceBetween: 0,
+        grabCursor: true,
+        freeMode: true,
+      });
 
-  $(document).ready(function(){
-    for (var i = 5; i < 11; i++){
-      $("#pledge"+i).hide();
-    }
+      $(document).ready(function(){
+        for (var i = 5; i < 11; i++){
+          $("#pledge"+i).hide();
+        }
 
-      $(".idx_btn").click(function() {
+        $(".idx_btn").click(function() {
           $(".idx_btn").removeClass('active');
 
           $(this).addClass('active');
@@ -67,22 +67,22 @@
           var idVal = this.id.split("li")[1];
           window.z = idVal;
           $('.contents_box').css("display", "none");
-            if(idVal == 1) {
-                $('#box4').css("display", "block");
-            }
-            else if(idVal == 2){
-                $('#box3').css("display", "block");
-            }
-            else if(idVal == 3){
-                $('#box5').css("display", "block");
-            }
+          if(idVal == 1) {
+            $('#box4').css("display", "block");
+          }
+          else if(idVal == 2){
+            $('#box3').css("display", "block");
+          }
+          else if(idVal == 3){
+            $('#box5').css("display", "block");
+          }
+        });
+
       });
 
-  });
 
+    </script>
 
-</script>
+  </body>
 
-</body>
-
-</html>
+  </html>
