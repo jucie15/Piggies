@@ -75,7 +75,7 @@
   </p>
    <hr>
     <a name="comment">
-    <ul class="comment_box">
+    <ul class="comment-box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
 <!--img클릭시 해당 user의 profile로 이동해야함-->
@@ -122,17 +122,31 @@
                 </p>
             </div>
             {% for recomment in comment.recomment_set.all %}
-                {{ recomment.message }}
-                {% if recomment.user == user %}
-                    <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
-                {% endif %}
+                <li class="comment recomment">
+                    <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
+                    <a href="">
+                        {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                            <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                        {% else %}
+                            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                        {% endif %}
+                    </a>
+                    <div class="comment_content recomment_content">
+                        <strong class="comment_user"> {{ recomment.user }}</strong>
+                        <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+
+                    {% if recomment.user == user %}
+                       <span class="comment_edit">
+                        <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
+                       </span>
+                    {% endif %}
+                </li>
             {% endfor %}
         </li>
         {% endfor %}
-        <li class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></li>
-<!--        <li class="more"><a href="{% url 'cast:comment_list' contents.pk %}?type=contents">+더보기</a></li>-->
     </ul>
-    
+    <div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
 <!--모달 시작-->
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -157,7 +171,14 @@
                 {% for comment in contents.comment_set.all %}
                 <li class="comment">
                     <!--img클릭시 해당 user의 profile로 이동해야함-->
-                    <a href=""><img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt=""></a>
+                    <a href="">
+                        {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                            <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                        {% else %}
+                            <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                        {% endif %}
+                    </a>
                     <div class="comment_content">
                         <strong class="comment_user"> {{ comment.user }}</strong>
                         <p class="comment_message">{{ comment.message }}</p>
@@ -193,10 +214,26 @@
                         </p>
                     </div>
                     {% for recomment in comment.recomment_set.all %}
-                        {{ recomment.message }}
-                        {% if recomment.user == user %}
-                            <a href="{% url 'cast:recomment_delete' recomment.pk %}?next={{ request.path }}" class="text-danger comment_edit">삭제</a>
-                        {% endif %}
+                        <li class="comment recomment">
+                            <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
+                            <a href="">
+                                {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                                    <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                                    <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                                {% else %}
+                                    <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                                {% endif %}
+                            </a>
+                            <div class="comment_content recomment_content">
+                                <strong class="comment_user"> {{ recomment.user }}</strong>
+                                <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+
+                            {% if recomment.user == user %}
+                               <span class="comment_edit">
+                                <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
+                               </span>
+                            {% endif %}
+                        </li>
                     {% endfor %}
                 </li>
                 {% endfor %}
@@ -210,7 +247,11 @@
 
 
   $(document).ready(function(){
-        $('.add-tag-box').css('display','none');
+    $('.add-tag-box').css('display','none');
+    window.z = $('.comment-box');
+//      
+//    var len = $('.comment-box').height();
+//    $('.more').css('top',len+'px');
   });
 
     //태그추가 버튼 클릭시 태그 추가 박스 보이도록
