@@ -890,13 +890,13 @@ a {
 }
 
 hr {
-    width:96%;
+    width:92%;
     margin: auto;
 }
 
 
 
-.comment_box {
+.comment-box {
     width: 92%;
     float: left;
     margin-top: 10px;
@@ -907,7 +907,6 @@ hr {
 .comment {
    list-style:none;
    height: auto;
-   border-bottom: 1px solid #eee;
    margin-bottom: 10px;
    overflow:hidden;
 }
@@ -966,11 +965,14 @@ hr {
 }
 
 .more {
-    list-style: none;
+    position: relative;
     text-align: center;
     color: #e8bc15;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    width: 92%;
+    margin: auto;
+    
 }
 
 .profile_user_img {
@@ -1094,7 +1096,7 @@ hr {
 
 
 
-.card-tail .comment-box {
+.card-tail .contents-comment-box {
     display: inline;
     margin-left: 24%;
 }
@@ -1286,4 +1288,60 @@ hr {
     margin: auto;
     margin-bottom: 20px;
     margin-top: 20px;
+}
+
+.reply-img {
+    width: 20px;
+    position: relative;
+    right: 8%;
+    margin-top: 2%;
+}
+
+.recomment-user-img {
+    position: relative;
+    left: 15%;
+    width: 30px;
+    height: 30px;
+}
+
+.recomment_content {
+    width: 70%;
+    float: right;
+    margin-bottom: 10px;
+    margin-left: 0%;
+    border: 0px !important;
+}
+
+.rcomment-message {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+
+li.comment {
+    position: relative;
+}
+
+li.comment:after {
+    content:""; 
+    background: #eee; 
+    position: absolute; 
+    bottom: 0;
+    right: 0;
+    height: 1px; 
+    width: 82%;
+}
+
+.comment-box li:last-child:after {
+    content:""; 
+    background: #eee; 
+    position: absolute; 
+    bottom: 0;
+    right: 0;
+    height: 1px; 
+    width: 100% !important; 
+}
+
+.comment-box li:last-child {
+    margin-bottom: 0px;
 }
