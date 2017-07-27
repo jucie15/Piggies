@@ -867,6 +867,12 @@ a {
     width: 16.5%;
 }
 
+.emotion a
+{
+    color: #e8bc15;
+    text-decoration: none;
+}
+
 .emotion_name, .emotion_score {
     display: block;
     font-size: 12px;
@@ -1113,6 +1119,11 @@ hr {
     margin-bottom: 16px;
 }
 
+.tag_box .tag a
+{
+    color: #e8bc15;
+    text-decoration: none;
+}
 #add-tag-value {
     width: 92%;
     height: 30px;
