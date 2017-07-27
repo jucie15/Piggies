@@ -2,9 +2,9 @@
 <div class="contents_box" id="box5">
   <aside class="sidemenu2">
     <ul>
-      {% for congressman in congressman_list %}
+      {% for congressman in congressman_list|slice:":3" %}
       <li>
-        <a href="#"><img src={% static congressman.profile_image_path %} alt=""> <!-- ex) /static/cast/img/congressman/9770084.png -->
+        <a href="#"><img src={% static congressman.profile_image_path %}  alt="">
           <div class="text">{{ congressman.name }}의원<br>{{ congressman.party }}정당</div>
         </a>
       </li>
