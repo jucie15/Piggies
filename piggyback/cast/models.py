@@ -44,7 +44,7 @@ class Contents(models.Model):
     @classmethod
     def delete_empty_contents(cls, queryset):
         for content in queryset:
-            if(content.contents_type == 1): #동영상 컨텐츠만 삭제한다.
+            if(content.contents_type == '1'): #동영상 컨텐츠만 삭제한다.
                 url_path = content.url_path
                 image_path = "https://img.youtube.com/vi/" + url_path[30:] + "/0.jpg"
                 try:

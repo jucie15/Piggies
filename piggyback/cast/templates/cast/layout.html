@@ -3,61 +3,63 @@
 <html lang="ko">
 
 <head>
-    <meata charset="UTF-8">
+  <meata charset="UTF-8">
     <title>타이틀</title>
     <meta name="viewport" content="width=device-width">
-    <link href="http://fonts.googleapis.com/css?family=Paytone+One" rel="stylesheet" type="text/css">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
-    <link rel="stylesheet" href="{% static 'cast/css/cast_style.css' %}">
-    <!-- JS -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/paytone_one.css' %}">          <!-- font/ google font paytone_one -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/font-awesome-4.7.0/css/font-awesome.min.css' %}">   <!-- font/ font-awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/bootstrap-3.3.7/css/bootstrap.min.css' %}">  <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/swiper-3.4.2.min.css' %}">     <!-- tag container css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/cast_style.css' %}">           <!-- main css -->
+
+    <!-- css -->
 
 
-    <script type="text/javascript" src="{% static 'cast/js/jquery.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'cast/js/jquery-ui.min.js' %}"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
-    <script type="text/javascript" src="{% static 'cast/js/jquery.waypoints.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'cast/js/infinite.min.js' %}"></script>
-    <script src="{% static 'cast/js/app.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cast/js/jquery-3.2.1.js' %}"></script>         <!-- jquery -->
+    <script type="text/javascript" src="{% static 'cast/js/jquery-ui.min.js' %}"></script>        <!-- jquery -->
+    <script type="text/javascript" src="{% static 'cast/js/jquery.waypoints.min.js' %}"></script> <!-- 무한 스크롤 -->
+    <script type="text/javascript" src="{% static 'cast/js/infinite.min.js' %}"></script>         <!-- 무한 스크롤 -->
+    <script type="text/javascript" src="{% static 'cast/js/bootstrap.js' %}"></script>            <!-- bootstrap 3.3.7 -->
+    <script type="text/javascript" src="{% static 'cast/js/swiper-3.4.2.min.js' %}"></script>     <!-- tag container -->
+    <script type="text/javascript" src="{% static 'cast/js/sidebar.js' %}"></script>              <!-- sidebar -->
 
-    <!-- jQuery -->
+    <!-- javascript -->
 
     {% block extra_style %}
     {% endblock %}
-</head>
+  </head>
 
-<body class="top">
+  <body class="top">
 
-{% include 'cast/sidebar.html' %}
+    {% include 'cast/sidebar.html' %}
 
-<div class="overlay" data-sidebar-overlay></div>
+    <div class="overlay" data-sidebar-overlay></div>
 
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 
-<div class="box6">
-<div class="copyright">
-<p>Copyright &copy; 국민회관</p>
-</div>
-</div>
+    <div class="box6">
+      <div class="copyright">
+        <p>Copyright &copy; 국민회관</p>
+      </div>
+    </div>
 
 
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    slidesPerView: 5,
-    spaceBetween: 0,
-    grabCursor: true,
-    freeMode: true,
-  });
+    <script>
+      var swiper = new Swiper('.swiper-container', {
+        slidesPerView: 5,
+        spaceBetween: 0,
+        grabCursor: true,
+        freeMode: true,
+      });
 
-  $(document).ready(function(){
-    for (var i = 5; i < 11; i++){
-      $("#pledge"+i).hide();
-    }
+      $(document).ready(function(){
+        for (var i = 5; i < 11; i++){
+          $("#pledge"+i).hide();
+        }
 
-      $(".idx_btn").click(function() {
+        $(".idx_btn").click(function() {
           $(".idx_btn").removeClass('active');
 
           $(this).addClass('active');
@@ -65,22 +67,22 @@
           var idVal = this.id.split("li")[1];
           window.z = idVal;
           $('.contents_box').css("display", "none");
-            if(idVal == 1) {
-                $('#box4').css("display", "block");
-            }
-            else if(idVal == 2){
-                $('#box3').css("display", "block");
-            }
-            else if(idVal == 3){
-                $('#box5').css("display", "block");
-            }
+          if(idVal == 1) {
+            $('#box4').css("display", "block");
+          }
+          else if(idVal == 2){
+            $('#box3').css("display", "block");
+          }
+          else if(idVal == 3){
+            $('#box5').css("display", "block");
+          }
+        });
+
       });
 
-  });
 
+    </script>
 
-</script>
+  </body>
 
-</body>
-
-</html>
+  </html>

@@ -1,36 +1,36 @@
 <div class="box2">
   <!-- Slider main container -->
   <div class="swiper-container">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-          <!-- Slides -->
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+      <!-- Slides -->
 
-        {% load socialaccount %}
-        {% load tagging_tags %}
+      {% load socialaccount %}
+      {% load tagging_tags %}
 
-        {% if not user.is_authenticated %} <!-- 비로그인일 때-->
+      {% if not user.is_authenticated %} <!-- 비로그인일 때-->
 
-          {% for contents in contents_list %} <!-- contents에서 불러옴-->
+      {% for contents in contents_list %} <!-- contents에서 불러옴-->
 
-            {% tags_for_object contents as tags %}
-              {% for tag in tags %}
-                <div class="swiper-slide">#{{ tag.name }}</div>
-              {% endfor %}
+      {% tags_for_object contents as tags %}
+      {% for tag in tags %}
+      <div class="swiper-slide">#{{ tag.name }}</div>
+      {% endfor %}
 
-          {% endfor %}
+      {% endfor %}
 
-        {% else %} <!-- 로그인일 때-->
+      {% else %} <!-- 로그인일 때-->
 
-        {% for contents in contents_list %}
-          {% tags_for_object contents as tags %}
-            {% for tag in tags %}
-              <div class="swiper-slide">#{{ tag.name }}</div>
-            {% endfor %}
-        {% endfor %}
+      {% for contents in contents_list %}
+      {% tags_for_object contents as tags %}
+      {% for tag in tags %}
+      <div class="swiper-slide">#{{ tag.name }}</div>
+      {% endfor %}
+      {% endfor %}
 
 
-        {% endif %}
+      {% endif %}
 
-      </div>
+    </div>
   </div>
 </div>
