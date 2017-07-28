@@ -910,6 +910,14 @@ hr {
     padding-left: 0px;
 }
 
+.comment-box-div
+{
+    width: 100%;
+    display: block;
+    overflow:hidden;
+    height:auto;
+}
+
 .comment {
    list-style:none;
    height: auto;
@@ -978,7 +986,7 @@ hr {
     padding-bottom: 10px;
     width: 92%;
     margin: auto;
-    
+
 }
 
 .profile_user_img {
@@ -1284,7 +1292,7 @@ hr {
 .close-navbar .close-btn {
     float: left;
     width: 14px;
-    
+
 }
 
 .modal open .modal {
@@ -1319,7 +1327,7 @@ hr {
     left: 15%;
     width: 30px;
     height: 30px;
-    margin-top: 4px;    
+    margin-top: 4px;
 }
 
 .recomment_content {
@@ -1341,23 +1349,23 @@ li.comment {
 }
 
 li.comment:after {
-    content:""; 
-    background: #eee; 
-    position: absolute; 
+    content:"";
+    background: #eee;
+    position: absolute;
     bottom: 0;
     right: 0;
-    height: 1px; 
+    height: 1px;
     width: 82%;
 }
 
 .comment-box li:last-child:after {
-    content:""; 
-    background: #eee; 
-    position: absolute; 
+    content:"";
+    background: #eee;
+    position: absolute;
     bottom: 0;
     right: 0;
-    height: 1px; 
-    width: 100% !important; 
+    height: 1px;
+    width: 100% !important;
 }
 
 .comment-box li:last-child {
@@ -1377,5 +1385,5 @@ li.comment:after {
     top: 0;
     width: 100%;
     padding: 14px;
-    height: 40px; 
+    height: 40px;
 }
