@@ -1,4 +1,5 @@
 $('.comment-emo-btn').click(function(){
+
     var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
     var comment_pk = $(this).attr('id');
 
@@ -12,7 +13,7 @@ $('.comment-emo-btn').click(function(){
             $('#comment-like-count-' + comment_pk).text(res.like_number)
             $('#comment-dislike-count-' + comment_pk).text(res.dislike_number)
         },
-        error:function(error){
+        error: function(error){
             console.log(error)
             // 요청이 실패했을 경우
         }
