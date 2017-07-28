@@ -241,7 +241,7 @@
         </div>
       </div>
     </div>
-    
+
 <script src="{% static 'cast/js/comment.js' %}"></script>
 <script type="text/javascript">
 
@@ -249,7 +249,7 @@
   $(document).ready(function(){
     $('.add-tag-box').css('display','none');
     window.z = $('.comment-box');
-//      
+//
 //    var len = $('.comment-box').height();
 //    $('.more').css('top',len+'px');
   });
@@ -330,7 +330,7 @@
 
             success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
+                $(".add-tag-box").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
                 $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
