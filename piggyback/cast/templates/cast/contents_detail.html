@@ -264,15 +264,11 @@
     $('.add-tag-btn').click(function(){
         $('.add-tag-box').css('display','block');
         $(this).css('display','none');
-        //댓글 추가 버튼 위치도 변경
-        $('#cd-upload-btn').css('top','105%');
     });
     //취소버튼 클릭시 태그 추가 박스 display:none
     $('.cancel-btn').click(function(){
         $('.add-tag-box').css('display','none');
         $('.add-tag-btn').css('display','inline');
-        //댓글 추가 버튼 위치도 변경
-        $('#cd-upload-btn').css('top','99%');
     });
 
     $('.emobtn').click(function(){
@@ -338,8 +334,6 @@
                 $(".add-tag-box").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
                 $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
-                //댓글 추가 버튼 위치도 변경
-                $('#cd-upload-btn').css('top','99%');
             },
             error:function(error){
                 // 요청이 실패했을 경우
