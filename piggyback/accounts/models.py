@@ -2,8 +2,8 @@ import re
 from django.db import models
 from django.conf import settings
 from django.forms import ValidationError
-from tagging.fields import TagField
 from cast.models import Favorite
+from tagging.registry import register
 
 def birth_validator(value):
     if not re.match(r'^\d{8}$', value):
@@ -22,8 +22,8 @@ class Profile(models.Model):
     birth = models.CharField(max_length=16, null=True, verbose_name='생년월일', validators=[birth_validator]) # 생년월일
     city = models.CharField(max_length=16, null=True, verbose_name='시/도') # 시/도
     district = models.CharField(max_length=8, null=True, verbose_name='구') # 구
-    tag = TagField() # 관심사 태그
 
     def __str__(self):
         return '{}-{}'.format(self.user.username, self.nickname)
 
+register(Profile)

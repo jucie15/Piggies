@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import m2m_changed
 from django.conf import settings
 from django.shortcuts import reverse
-from tagging.fields import TagField
+from tagging.registry import register
 
 class Contents(models.Model):
     # 컨텐츠(뉴스/영상) 모델
@@ -18,7 +18,6 @@ class Contents(models.Model):
     title = models.CharField(max_length=64, null=True, verbose_name='제목') # 컨텐츠 제목
     description = models.TextField(max_length=1024) # 컨텐츠 내용
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ContentsEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
-    tag = TagField() # 컨텐츠 태그
 
     class Meta:
         verbose_name_plural = 'contents' # 모델 복수개 명칭(admin표시)
@@ -53,6 +52,8 @@ class Contents(models.Model):
                     print(image_path+"는 없는 동영상 주소. 삭제합니다.")
                     Contents.objects.filter(url_path=url_path).delete()
 
+register(Contents)
+
 class Congressman(models.Model):
     # 국회의원 모델
     name = models.CharField(max_length=32) #국회의원 이름
@@ -63,7 +64,6 @@ class Congressman(models.Model):
     email = models.CharField(max_length=64, null=True, blank=True) # 이메일 주소
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True) # 업데이트 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CongressmanEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
-    tag = TagField() # 국회의원 태그
 
     class Meta():
         ordering =['id']
@@ -78,6 +78,8 @@ class Congressman(models.Model):
         # 해당 국회의원의 각 감정들의 개수 카운트
         emotion_count = CongrssmanEmotion.objects.filter(congressman_id=self.id, name=emotion).count()
         return emotion_count
+
+register(Congressman)
 
 class Pledge(models.Model):
     # 공약 모델
@@ -94,7 +96,6 @@ class Pledge(models.Model):
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
     created_at = models.DateTimeField(auto_now_add=True) # 공약 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='PledgeEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
-    tag = TagField() # 공약 태그
 
     def __str__(self):
         return self.title
@@ -106,6 +107,8 @@ class Pledge(models.Model):
         # 해당 공약의 각 감정들의 개수 카운트
         emotion_count = PledgeEmotion.objects.filter(pledge_id=self.id, name=emotion).count()
         return emotion_count
+
+register(Pledge)
 
 class ContentsEmotion(models.Model):
     # 컨텐츠내 감정 표현 관계 모델

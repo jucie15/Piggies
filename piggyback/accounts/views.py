@@ -2,8 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from accounts.forms import ProfileForm, TagForm
+from accounts.forms import ProfileForm
 from accounts.models import Profile
+from tagging.models import Tag, TaggedItem
+import json
 
 @login_required
 def signup_info(request):
@@ -32,22 +34,29 @@ def signup_info(request):
 def set_tag(request):
     # 태그 추가/수정 페이지
 
-    user = request.user.profile # 현재 유저의 프로필 정보
-    if request.method == 'POST':
-        user.tag = request.POST.get('tag','') # 요청 유저의 태그 정보를 받아온 태그 정보로 저장
-        user.save() # 디비에 프로필 정보 저장
-        return redirect('accounts:profile')
+    return render(request, 'accounts/tag_form.html')
+
+def ajax_add_tag(request):
+    # 태그 추가 버튼 클릭시
+    if request.is_ajax():
+        # ajax 요청시
+        tag = request.GET.get('tag','')
+        profile = request.user.profile
+
+        Tag.objects.add_tag(profile, tag) # 해당 인스턴스에 태그 추가
+
+        data = json.dumps({
+            'status': 'success',
+            }) # json 형식으로 파싱
+
     else:
-        form = TagForm(instance = user) # 유저 정보를 받아와 폼 인스턴스 생성
-    return render(request, 'accounts/tag_form.html', {
-        'form': form,
-        })
+        data = json.dumps({
+            'status': 'fail',
+            }) # json 형식으로 파싱
+
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
 
 @login_required
 def profile(request):
-    profile = get_object_or_404(Profile, user=request.user)
-
-    context = {}
-    context['profile'] = profile
-
-    return render(request, 'accounts/profile.html', context )
+    return render(request, 'accounts/profile.html' )

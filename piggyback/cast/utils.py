@@ -43,7 +43,7 @@ def contents_db_create():
             if not Contents.objects.filter(title=contents_title).exists():
                 # DB에 해당 글이 없을 경우 저장
                 contents = Contents()
-                contents.contents_type = 1
+                contents.contents_type = '1'
                 contents.title = contents_title
                 contents.description = contents_desc
                 contents.url_path = contents_embed_url

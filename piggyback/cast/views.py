@@ -27,11 +27,18 @@ def index(request):
     except EmptyPage:
         # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
         contents_list = paginator.page(paginator.num_pages)
+    if request.user.is_authenticated():
+        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
+    else:
+        tag_list = Tag.objects.usage_for_model(Contents, counts=True) # 태그아이템 개수 포함한 리스트
+
+    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
 
     context = {}
     context['contents_list'] = contents_list
     context['congressman_list'] = congressman_list
     context['pledge_list'] = pledge_list
+    context['tag_list'] = tag_list
 
     return render(request, 'cast/index.html', context)
 
@@ -64,6 +71,7 @@ def contents_detail(request, contents_pk):
             user_is_favorite = False
 
     comment_form = CommentForm()
+
 
     context = {}
     context['contents'] = contents

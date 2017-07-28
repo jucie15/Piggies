@@ -3,6 +3,9 @@ from cast.models import *
 
 class CommentInline(admin.StackedInline):
     model = Comment
+    extra = 0
+    max_num = 1
+    min_num = 1
 
 @admin.register(Contents)
 class ContentsAdmin(admin.ModelAdmin):
