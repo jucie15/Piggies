@@ -986,7 +986,6 @@ hr {
     padding-bottom: 10px;
     width: 92%;
     margin: auto;
-
 }
 
 .profile_user_img {
@@ -1257,9 +1256,19 @@ hr {
     border: 1px solid #efdc95;
 }
 
-.comment-upload-btn {
-    right: 3%;
-    top:10%;
+.comment-upload-btn
+{
+    width: 100%;
+    padding: 5px;
+    margin: 0;
+    position: relative;
+    background-color: #FFD124;
+    color: black;
+    border-bottom: 1px solid #eee;
+    border-radius: 1px;
+    text-align: center;
+    left: 0%;
+    right: 0%;
 }
 
 .modal-dialog {
