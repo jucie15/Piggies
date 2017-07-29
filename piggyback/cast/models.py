@@ -228,7 +228,7 @@ class ReComment(models.Model):
 class Favorite(models.Model):
     # 즐겨찾기
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 유저와 1:N 관계 생성
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='favorite_set') # 유저와 1:N 관계 생성
     contents = models.ForeignKey(Contents, default=None, null=True) # 컨텐츠와 1:N 관계 생성
     pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약과 1:N 관계 생성
     congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원 1:N 관계 생성
@@ -238,7 +238,7 @@ class Favorite(models.Model):
             return self.contents.title
         elif self.pledge != None:
             return self.pledge.title
-        else:
+        elif self.congressman != None:
             return self.congressman.name
 
 

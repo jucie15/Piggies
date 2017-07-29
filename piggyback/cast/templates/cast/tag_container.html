@@ -8,9 +8,10 @@
       {% load socialaccount %}
       {% load tagging_tags %}
         {% for tag in tag_list %}
-          <div class="swiper-slide">#{{ tag.name }}</div>
+          <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+            <div class="swiper-slide">#{{ tag.name }}</div>
+          </a>
         {% endfor %}
-
     </div>
   </div>
 </div>

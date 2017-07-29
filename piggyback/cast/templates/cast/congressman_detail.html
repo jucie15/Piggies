@@ -12,18 +12,17 @@
 </div>
 <div class="profile-section">
     <div class="information">
-        <h3>이종구</h3>
-        <p>서울특별시 강남구 갑</p>
-        <p>바른정당</p>
-        <p>1950. 09. 22, 부산출생</p>
-        <p>서울대학교 상과대학 경제학과 졸업</p>
+        <h3>{{ congressman.name }}</h3>
+        <p>{{ congressman.constituency }}</p>
+        <p>{{ congressman.party }}</p>
+        <p>{{ congressman.description }}</p>
     </div>
     <div class="social-link">
       <div class="social-img-wrapper">
-       <a href=""><img src="{% static 'cast/img/facebook.png' %}" alt=""></a> 
-       <a href=""><img src="{% static 'cast/img/twitter.png' %}" alt=""></a> 
-       <a href=""><img src="{% static 'cast/img/linkedin.png' %}" alt=""></a> 
-       <a href=""><img src="{% static 'cast/img/instagram.png' %}" alt=""></a> 
+       <a href=""><img src="{% static 'cast/img/facebook.png' %}" alt=""></a>
+       <a href=""><img src="{% static 'cast/img/twitter.png' %}" alt=""></a>
+       <a href=""><img src="{% static 'cast/img/linkedin.png' %}" alt=""></a>
+       <a href=""><img src="{% static 'cast/img/instagram.png' %}" alt=""></a>
       </div>
     </div>
     <div class="follow-btn-box">
@@ -34,7 +33,7 @@
     <div class="tag-box">
         <span class="tag">
             <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
-                바른정당
+                {{ congressman.party }}
             </a>
         </span>
         <span class="tag">
@@ -59,10 +58,10 @@
     <div class="more">+더보기</div>
 </div>
 <div class="photo-wrapper">
-    <img src="{% static 'cast/img/congressman1.jpg' %}" alt="" class="congressman-img">
+    <img src="{% static congressman.profile_image_path %}" alt="" class="congressman-img">
 </div>
 
-<div class="pledge-section">    
+<div class="pledge-section">
 <!--공약 5개까지 보여주기-->
     <table>
        <colgroup>
