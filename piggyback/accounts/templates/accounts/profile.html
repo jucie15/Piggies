@@ -22,6 +22,12 @@
         </div>
         <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span>
     {% endif %}
+    <p>
+    {% for favorite in request.user.favorite_set.all %}
+        <a href='{{ favorite.get_absolute_url }}'>
+            {{ favorite|linebreaks }}
+        </a>
+    {% endfor %}
 
 <script>
     $('#add-tag').click(function(){
