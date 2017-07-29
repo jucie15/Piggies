@@ -946,6 +946,15 @@ hr {
     margin-top: 0px;
 }
 
+.photo-wrapper .congressman-img {
+    height: 120px;
+    width: 120px;
+    border: 5px solid white;
+    position: absolute;
+    right: 50%;
+    margin-right: -60px;
+}
+
 .comment_content {
     position: relative;
     float: left;
@@ -1120,13 +1129,13 @@ hr {
 
 
 
-.tag_box {
+.tag-box {
     width: 92%;
     margin: auto;
     margin-bottom: 16px;
 }
 
-.tag_box .tag a
+.tag-box .tag a
 {
     color: #e8bc15;
     text-decoration: none;
@@ -1387,6 +1396,7 @@ li.comment:after {
     width: 100%;
     height: 150px;
     z-index: -1;
+    opacity: 0.8;
 }
 
 .close-navbar {
@@ -1395,4 +1405,141 @@ li.comment:after {
     width: 100%;
     padding: 14px;
     height: 40px;
+}
+
+.photo-wrapper {
+    position: absolute;
+    height: 120px;
+    top: 60px;
+    width: 100%;
+}
+
+.profile-section, .pledge-section {
+    background-color: white;
+    width: 92%;
+    margin: auto;
+    box-shadow: 0px 2px 4px 2px rgba(0,0,0,0.1);
+    position: relative;
+    top: -20px;
+    color: #555;
+}
+
+.information {
+    padding-top: 60px;
+    text-align: center;
+}
+
+.information h3 {
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.information p {
+    margin: 0 0 5px;
+}
+
+.social-link {
+    margin: 10px 0px 20px 0px;
+    width: 100%;
+    position: relative;
+    height: 20px;
+}
+
+.social-img-wrapper {
+    position: absolute;
+    left: 50%;
+    margin-left: -45px;  
+}
+
+.social-link .social-img-wrapper img {
+    width: 20px;
+}
+
+.follow-btn-box {
+    position: relative;
+    height: 36px;
+    margin: 10px 0px 25px 0px;
+}
+
+.follow-btn-box .follow-btn {
+    height: 36px;
+    position: absolute;
+    right: 50%;
+    margin-right: -50px;
+    width: 100px;
+    background-color: white;
+    border: 1px solid #ffd124;
+    color: #e8bc15;
+}
+
+.like-select-box {
+    width: 100%;
+    position: relative;
+    border-top: 1px solid #eee;
+    height: 40px;
+    margin-top: 10px;
+    padding: 10px 0px 10px 0px;
+}
+
+.like-select-box img {
+    width: 17px;
+    margin-right: 5px;
+}
+.like-select-box > div {
+    position: absolute;
+    width: 50%;
+    height: 30px;  
+}
+
+.like-select-box .like {
+    left: 0;
+}
+
+.like-select-box .dislike {
+    right: 0;
+}
+
+.like-select-box .btn-wrapper {
+    position: absolute;
+    right: 50%;
+    margin-right: -25px;
+}
+
+.profile-section .more {
+    width: 100%;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    border-bottom: 0px;
+}
+
+.pledge-section{
+    margin-top: 20px;
+}
+
+.pledge-section table{
+   width: 100%; 
+   table-layout: fixed;
+}
+
+.pledge-section table th{
+    text-align: center;
+}
+
+.pledge-section table th,td {
+    border-bottom: 1px solid #eee;
+    padding: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pledge-section .show-box{
+    width: 100px;
+    text-align: right;
+    font-size: 12px;
+    color: #848484;
+}
+
+.pledge-section td img {
+    width: 15px;
 }

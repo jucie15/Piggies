@@ -10,5 +10,199 @@
 <div class="close-navbar">
     <a href="{% url 'cast:index' %}"><img src="{% static 'cast/img/close.png' %}" alt="" class="close-btn"></a>
 </div>
+<div class="profile-section">
+    <div class="information">
+        <h3>이종구</h3>
+        <p>서울특별시 강남구 갑</p>
+        <p>바른정당</p>
+        <p>1950. 09. 22, 부산출생</p>
+        <p>서울대학교 상과대학 경제학과 졸업</p>
+    </div>
+    <div class="social-link">
+      <div class="social-img-wrapper">
+       <a href=""><img src="{% static 'cast/img/facebook.png' %}" alt=""></a> 
+       <a href=""><img src="{% static 'cast/img/twitter.png' %}" alt=""></a> 
+       <a href=""><img src="{% static 'cast/img/linkedin.png' %}" alt=""></a> 
+       <a href=""><img src="{% static 'cast/img/instagram.png' %}" alt=""></a> 
+      </div>
+    </div>
+    <div class="follow-btn-box">
+        <button class="follow-btn">팔로우</button>
+<!--    팔로우상태면 언팔로우-->
+<!--    <button class="follow-btn">언팔로우</button>-->
+    </div>
+    <div class="tag-box">
+        <span class="tag">
+            <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+                바른정당
+            </a>
+        </span>
+        <span class="tag">
+            <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
+                20대 국회의원
+            </a>
+        </span>
+       <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span>
+    </div>
+    <div class="like-select-box">
+        <div class="like">
+           <div class="btn-wrapper">
+               <img src="{% static 'cast/img/like.png' %}" alt=""><span>1223</span>
+           </div>
+        </div>
+        <div class="dislike">
+           <div class="btn-wrapper">
+                <img src="{% static 'cast/img/dislike.png' %}" alt="">    <span>344</span>
+            </div>
+        </div>
+    </div>
+    <div class="more">+더보기</div>
+</div>
+<div class="photo-wrapper">
+    <img src="{% static 'cast/img/congressman1.jpg' %}" alt="" class="congressman-img">
+</div>
+
+<div class="pledge-section">    
+<!--공약 5개까지 보여주기-->
+    <table>
+       <colgroup>
+          <col />
+          <col class="show-box">
+       </colgroup>
+        <tr>
+            <th colspan="2">공약</th>
+        </tr>
+        <tr>
+            <td>부동산 규제 강화</td>
+            <td class="show-box">
+                <img src="{% static 'cast/img/glad.png' %}" alt="">
+                <span>233</span>
+                &nbsp;
+                <img src="{% static 'cast/img/comment.png' %}" alt="">
+                <span>17</span>
+            </td>
+        </tr>
+        <tr>
+            <td>상속.증여세제 합리화</td>
+            <td class="show-box">
+                <img src="{% static 'cast/img/glad.png' %}" alt="">
+                <span>233</span>
+                &nbsp;
+                <img src="{% static 'cast/img/comment.png' %}" alt="">
+                <span>17</span>
+            </td>
+        </tr>
+        <tr>
+            <td>혁신산업분야 규제개혁</td>
+            <td class="show-box">
+                <img src="{% static 'cast/img/glad.png' %}" alt="">
+                <span>233</span>
+                &nbsp;
+                <img src="{% static 'cast/img/comment.png' %}" alt="">
+                <span>17</span>
+            </td>
+        </tr>
+        <tr>
+            <td>영동대로 지하에 GTX 등 6개 광역․도시 어쩌고 저쩌고 저쩌고</td>
+            <td class="show-box">
+                <img src="{% static 'cast/img/glad.png' %}" alt="">
+                <span>233</span>
+                &nbsp;
+                <img src="{% static 'cast/img/comment.png' %}" alt="">
+                <span>17</span>
+            </td>
+        </tr>
+        <tr>
+            <td>핀테크 등 혁신산업 유치</td>
+            <td class="show-box">
+                <img src="{% static 'cast/img/glad.png' %}" alt="">
+                <span>233</span>
+                &nbsp;
+                <img src="{% static 'cast/img/comment.png' %}" alt="">
+                <span>17</span>
+            </td>
+        </tr>
+        <tr><td colspan="2" class="more">+더보기</td></tr>
+    </table>
+</div>
+
+<p class="strapline">댓글
+  <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_set.all.count }}</span>
+</p>
+<hr>
+<div class="comment-box-div">
+<ul class="comment-box">
+    {% for comment in contents.comment_set.all %}
+    <li class="comment">
+        <!--img클릭시 해당 user의 profile로 이동해야함-->
+        <a href="">
+            {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+            <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+            {% else %}
+            <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+            {% endif %}
+        </a>
+        <div class="comment_content">
+            <strong class="comment_user"> {{ comment.user }}</strong>
+            <p class="comment_message">{{ comment.message }}</p>
+
+            {% if comment.user == user %}
+            <p class="comment_edit">
+               <a href="{% url 'cast:comment_edit' comment.pk %}" >수정</a>
+               <a href="{% url 'cast:comment_delete' comment.pk %}" class="text-danger">삭제</a>
+           </p>
+           {% endif %}
+
+           <p style="font-size:10px;">
+            <!--댓글 작성 시간 가져오기-->
+            <span style="color:#9c9c9c;">
+                {% if comment.created_at %}
+                {{ comment.created_at|date:'Y-m-d H:i' }}
+                {% endif %}
+            </span>&nbsp;&nbsp;
+            <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+              <!--대댓 개수 가져오기-->
+              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+              &nbsp;
+              <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+              <!--좋아요 개수 가져오기-->
+              <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                {{ comment.like_number }}
+            </span>
+            <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+            <!--싫어요 개수 가져오기-->
+            <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                {{ comment.dislike_number }}
+            </span>
+        </p>
+    </div>
+    {% for recomment in comment.recomment_set.all %}
+    <li class="comment recomment">
+        <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
+        <a href="">
+            {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+            <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+            {% else %}
+            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+            {% endif %}
+        </a>
+        <div class="comment_content recomment_content">
+            <strong class="comment_user"> {{ recomment.user }}</strong>
+            <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+
+            {% if recomment.user == user %}
+            <span class="comment_edit">
+                <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
+            </span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>
+</div>
+<div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
 
 {% endblock %}
