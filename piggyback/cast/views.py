@@ -27,6 +27,7 @@ def index(request):
     except EmptyPage:
         # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
         contents_list = paginator.page(paginator.num_pages)
+
     if request.user.is_authenticated():
         tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
     else:
