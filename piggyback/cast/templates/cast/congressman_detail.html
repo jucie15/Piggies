@@ -5,10 +5,10 @@
 {% load staticfiles %}
 
 <div class="profile-background">
-   <img src="{% static 'cast/img/right.png' %}" alt="">
+    <img src="{% static 'cast/img/right.png' %}" alt="">
 </div>
 <div class="close-navbar">
-    <img src="{% static 'cast/img/close.png' %}" alt="" class="close-btn">
+    <a href="{% url 'cast:index' %}"><img src="{% static 'cast/img/close.png' %}" alt="" class="close-btn"></a>
 </div>
 
 {% endblock %}

@@ -154,12 +154,12 @@
 </ul>
 </div>
 <div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
+
 <!--모달 시작-->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <!--           <a data-dismiss="modal" ><i class="fa fa-times" aria-hidden="true"></i></a>-->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -173,7 +173,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <ul class="comment_box">
+                <ul class="comment-box">
                     {% for comment in contents.comment_set.all %}
                     <li class="comment">
                         <!--img클릭시 해당 user의 profile로 이동해야함-->
