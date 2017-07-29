@@ -23,7 +23,7 @@
 
 {% load tagging_tags %}
 
-<div class="tag_box">
+<div class="tag-box">
 
     {% tags_for_object contents as tags %}
     {% for tag in tags %}
@@ -154,12 +154,12 @@
 </ul>
 </div>
 <div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
+
 <!--모달 시작-->
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <!--           <a data-dismiss="modal" ><i class="fa fa-times" aria-hidden="true"></i></a>-->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -173,7 +173,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <ul class="comment_box">
+                <ul class="comment-box">
                     {% for comment in contents.comment_set.all %}
                     <li class="comment">
                         <!--img클릭시 해당 user의 profile로 이동해야함-->
@@ -264,15 +264,11 @@
     $('.add-tag-btn').click(function(){
         $('.add-tag-box').css('display','block');
         $(this).css('display','none');
-        //댓글 추가 버튼 위치도 변경
-        $('#cd-upload-btn').css('top','105%');
     });
     //취소버튼 클릭시 태그 추가 박스 display:none
     $('.cancel-btn').click(function(){
         $('.add-tag-box').css('display','none');
         $('.add-tag-btn').css('display','inline');
-        //댓글 추가 버튼 위치도 변경
-        $('#cd-upload-btn').css('top','99%');
     });
 
     $('.emobtn').click(function(){
@@ -338,8 +334,6 @@
                 $(".add-tag-box").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>#"+tag+"</a></span>");
                 $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
-                //댓글 추가 버튼 위치도 변경
-                $('#cd-upload-btn').css('top','99%');
             },
             error:function(error){
                 // 요청이 실패했을 경우
