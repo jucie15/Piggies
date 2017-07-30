@@ -48,17 +48,19 @@ def ajax_add_tag(request):
 
         Tag.objects.add_tag(profile, tag) # 해당 인스턴스에 태그 추가
 
-        data = json.dumps({
-            'status': 'success',
-            }) # json 형식으로 파싱
-
+        status = 200
+        context = {}
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
-        data = json.dumps({
-            'status': 'fail',
-            }) # json 형식으로 파싱
+        status = 403
+        context = {}
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 @login_required
 def profile(request):
