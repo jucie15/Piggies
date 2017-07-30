@@ -7,6 +7,10 @@ from accounts.models import Profile
 from tagging.models import Tag, TaggedItem
 import json
 
+
+def login(request):
+    return render(request, 'accounts/login.html')
+
 @login_required
 def signup_info(request):
     # 회원 가입 정보 입력 페이지
@@ -33,7 +37,6 @@ def signup_info(request):
 @login_required
 def set_tag(request):
     # 태그 추가/수정 페이지
-
     return render(request, 'accounts/tag_form.html')
 
 def ajax_add_tag(request):

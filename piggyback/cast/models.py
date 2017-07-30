@@ -115,12 +115,12 @@ class ContentsEmotion(models.Model):
 
     CONTENTS_EMOTION_CHOICE = (
         ('0', '선택안함'),
-        ('1', '역겨워요'),
-        ('2', '놀라워요'),
-        ('3', '기뻐요'),
-        ('4', '슬퍼요'),
-        ('5', '화나요'),
-        ('6', '멋져요'),
+        ('1', '좋아요'),
+        ('2', '싫어요'),
+        ('3', '놀라워요'),
+        ('4', '화나요'),
+        ('5', '웃겨요'),
+        ('6', '슬퍼요'),
     ) # 감정 표현 종류
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contents_emotion_set') # 유저와 1:N 관계 설정
