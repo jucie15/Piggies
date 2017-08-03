@@ -10,8 +10,11 @@
 
         {% if not request.user.is_anonymous %}
            <div class="add-tag-box">
-               <input type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
-               <a id="add-tag"><span class="upload-btn">추가</span></a>
+               <input class="add-tag-ipt" type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
+               <a id="add-tag">
+               <div class="upload-btn-wrapper right-zero">
+                   <span class="upload-btn">추가</span>    
+               </div></a>
            </div>
             <!-- <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span> -->
         {% endif %}
