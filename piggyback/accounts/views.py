@@ -47,9 +47,13 @@ def ajax_add_tag(request):
         profile = request.user.profile
 
         Tag.objects.add_tag(profile, tag) # 해당 인스턴스에 태그 추가
+        this_tag = Tag.objects.get(name=tag)
+        tag_id = this_tag.id
+
 
         status = 200
         context = {}
+        context['tag_id'] = tag_id
         context['status'] = 'true'
         context['message'] = 'success'
     else:
