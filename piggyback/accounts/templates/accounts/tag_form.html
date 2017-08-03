@@ -41,7 +41,7 @@
 
 <script>
 
-    $('.tag').click(function(){
+    $('body').on('click','.tag', function(){
         tag_id = this.id;
         var allData = {'csrfmiddlewaretoken': '{{ csrf_token }}', "tag_id":tag_id};
         $.ajax({
@@ -70,9 +70,9 @@
             url: "{% url 'accounts:ajax_add_tag' %}?tag=" + tag, // 통신할 url을 지정한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
-            success: function(data){
+            success: function(response){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $("#add-tag-value").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+"</span>");
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+"</span>");
                 // $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
@@ -92,9 +92,9 @@
             url: "{% url 'accounts:ajax_add_tag' %}?tag=" + tag, // 통신할 url을 지정한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
-            success: function(data){
+            success: function(response){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $("#add-tag-value").after("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+"#"+tag+"</a></span>");
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+"</span>");
                 // $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
