@@ -940,7 +940,7 @@ hr {
 
 
 
-.congressman-img{
+.pledge-box .congressman-img{
     width: 42px;
     height: 42px;
     margin-top: 0px;
@@ -1551,7 +1551,7 @@ li.comment:after {
     width: 15px;
 }
 
-.congressman-img {
+.summary .congressman-img {
     width: 80px;
     height: 80px;
     position: absolute;
@@ -1562,7 +1562,7 @@ li.comment:after {
 .congressman-img-wrapper{
     position: relative;
     height: 110px;
-    padding: 15px 0px 15px 0px;
+    padding: 15px 0px 20px 0px;
 /*
     background: url(/static/cast/img/right.png);
     background-size: 100%;
