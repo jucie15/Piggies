@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': 'cast:index'}),
+    url(r'^tag_delete/$', views.tag_delete, name='tag_delete'),
 ]

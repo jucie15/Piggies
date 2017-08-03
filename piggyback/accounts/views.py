@@ -65,3 +65,16 @@ def ajax_add_tag(request):
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html' )
+
+def tag_delete(request):
+    if request.is_ajax():
+        print("sdfsdf")
+        tag_id = request.POST.get('tag_id',None)
+        tag = Tag.objects.get(id=tag_id)
+        tag.delete()
+        context={}
+    else:
+        context={
+
+        }
+    return HttpResponse(json.dumps(context), content_type='application/json')
