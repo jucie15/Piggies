@@ -72,7 +72,7 @@
 
             success: function(response){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+"</span>");
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+" x"+"</span>");
                 // $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
@@ -94,7 +94,7 @@
 
             success: function(response){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+"</span>");
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+" x"+"</span>");
                 // $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
