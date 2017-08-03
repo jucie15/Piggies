@@ -601,7 +601,8 @@ a {
 .upload-btn{
     z-index: 1;
     position: absolute;
-    top: 29%;
+    top: 50%;
+    margin-top: -10px;
     right: 10%;
 
 }
@@ -1154,6 +1155,10 @@ hr {
     margin-top: 5px;
 }
 
+.add-tag-box .add-tag-ipt {
+    width: 100% !important;
+}
+
 
 
 .add-tag-box {
@@ -1632,4 +1637,17 @@ li.comment:after {
     color: gray;
     font-size: 0.9em;
     font-weight: bold;
+}
+
+.add-tag-box .upload-btn-wrapper {
+    position: relative;
+    top: -30px;
+    height: 30px;
+    width: 50px;
+    right: 8%;
+    float: right;
+}
+
+.add-tag-box .right-zero {
+    right: 0% !important;
 }

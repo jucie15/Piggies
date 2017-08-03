@@ -35,7 +35,11 @@
     {% if not request.user.is_anonymous %}
     <div class="add-tag-box">
        <input type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
-       <a id="add-tag"><span class="upload-btn">추가</span></a>
+       <a id="add-tag">
+          <div class="upload-btn-wrapper">
+           <span class="upload-btn">추가</span>
+          </div>
+        </a>
        <span class="cancel-btn"><i class="fa fa-times" aria-hidden="true"></i></span>
    </div>
    <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span>
