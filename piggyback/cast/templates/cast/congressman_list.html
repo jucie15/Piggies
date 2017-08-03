@@ -10,9 +10,12 @@
                 <article class="summary">
                   <!--<a href="https://www.youtube.com/watch?v=NQ6gup07wRI">-->
                   <a href="{{ congressman.get_absolute_url }}">
-                    <img width="100%" src="{{ congressman.get_image_url }}" />
+                   <div class="congressman-img-wrapper" >
+                       <img class="congressman-img" src="{% static congressman.profile_image_path %}" />    
+                   </div>
                     <div class="grid-text">
-                      <p class="contents-title">{{ congressman.title }}</p>
+                      <p class="contents-title congressman-title"><strong>{{ congressman.name }}</strong></p>
+                      <p class="congressman-description">{{ congressman.constituency }}</p>
                     </div>
 
                     {% load tagging_tags %}
@@ -28,14 +31,14 @@
                     <div class="card-tail">
                       <div class="pull-left">
                         <span class="emotion-icon-btn">
-                          <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
+                          <img src="{% static 'cast/img/like.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
                         </span>
                       </div>
                       <div class="contents-comment-box">
-                        <img src="{% static 'cast/img/comment.png' %}" alt="" class="comment-img"><span class="comment-count">{{ congressman.comment_set.all.count }}</span>
+                        <img src="{% static 'cast/img/dislike.png' %}" alt="" class="comment-img"><span class="comment-count">{{ congressman.comment_set.all.count }}</span>
                       </div>
                       <div class="pull-right">
-                        <span class="like"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
+                        <span class="like"><i class="fa fa-star-o" aria-hidden="true"></i></span>
                       </div>
                     </div>
                   </a>

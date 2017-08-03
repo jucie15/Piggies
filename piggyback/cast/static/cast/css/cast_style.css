@@ -1086,6 +1086,13 @@ hr {
     font-size: 13px;
 }
 
+.grid-text .congressman-title {
+    height: 1.3em !important;
+    text-align: center;
+    margin-bottom: 5px !important;
+    -webkit-line-clamp: 1 !important;
+}
+
 .card-tail {
     height: 28px;
     border-top: 1px solid #eee;
@@ -1542,4 +1549,42 @@ li.comment:after {
 
 .pledge-section td img {
     width: 15px;
+}
+
+.congressman-img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 50%;
+    margin-right: -40px;
+}
+
+.congressman-img-wrapper{
+    position: relative;
+    height: 110px;
+    padding: 15px 0px 15px 0px;
+/*
+    background: url(/static/cast/img/right.png);
+    background-size: 100%;
+*/
+    
+/*
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+*/
+
+}
+
+.summary p.congressman-description {
+    font-size: 11px;
+    color:#555;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
