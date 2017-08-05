@@ -316,6 +316,21 @@ def comment_new(request, pk):
         }) # 포스트 요청이 아닐 경우 빈 폼으로 페이지 렌더링
 
 @login_required
+def comment_editform(request, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+
+    if comment.user != request.user:
+        messages.warning(request, '댓글 작성자만 수정할 수 있습니다.')
+        return redirect(redirect_path)
+
+    context = {
+        'comment':comment,
+    }
+    return render(request, 'cast/comment_editform.html', context)
+
+
+@login_required
 def comment_edit(request, comment_pk):
     # 해당 댓글 수정
     comment = get_object_or_404(Comment, pk=comment_pk) # 해당 댓글 인스턴스
@@ -325,12 +340,13 @@ def comment_edit(request, comment_pk):
         messages.warning(request, '댓글 작성자만 수정할 수 있습니다.')
         return redirect(redirect_path)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST, request.FILES, instance=comment)
-        if form.is_valid():
-            comment = form.save()
-            messages.success(request, '기존 댓글을 수정했습니다.')
-            return redirect(redirect_path)
+    form = CommentForm(request.POST, request.FILES, instance=comment)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.save()
+
+        messages.success(request, '기존 댓글을 수정했습니다.')
+        return redirect(redirect_path)
     else:
         form = CommentForm(instance=comment)
     return render(request, 'cast/comment_form.html', {

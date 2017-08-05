@@ -102,7 +102,10 @@
 
             {% if comment.user == user %}
             <p class="comment_edit">
-               <a href="{% url 'cast:comment_edit' comment.pk %}" >수정</a>
+
+               <form method="GET" action="">
+                <a class="mycomment" name="edit" id="{{comment.pk}}" >수정</a>
+               </form>
                <a href="{% url 'cast:comment_delete' comment.pk %}" class="text-danger">삭제</a>
            </p>
            {% endif %}
@@ -354,6 +357,22 @@
                 }
             }
         });
+    });
+
+    $(".mycomment").click(function(){
+        var comment = $(this);
+        var comment_url = '/comment/edit/' + comment.attr('id');
+        $.ajax({
+            type: 'GET',
+            url: comment_url,
+
+            success: function(data){
+                comment.parent().parent().html(data);
+            },
+            error:function(error){
+                alert("실패")
+            }
+        })
     });
 </script>
 

@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^board/', include('board.urls', namespace='board')),
     url(r'^accounts/', include('accounts.urls', namespace='accounts')),
     url(r'^accounts/', include('allauth.urls')),
+    #comment edit ajax
+    url(r'^comment/edit/(?P<comment_pk>\d+)/$', views.comment_editform),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
