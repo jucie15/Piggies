@@ -126,7 +126,7 @@
 </div>
 
 <p class="strapline">댓글
-  <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_set.all.count }}</span>
+  <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_number }}</span>
 </p>
 <hr>
 <div class="comment-box-div">
@@ -162,7 +162,7 @@
             </span>&nbsp;&nbsp;
             <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
               <!--대댓 개수 가져오기-->
-              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+              <span style="color:#9c9c9c;">{{ comment.recomment_number}}</span></a>
               &nbsp;
               <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
               <!--좋아요 개수 가져오기-->

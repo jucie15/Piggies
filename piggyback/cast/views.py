@@ -60,7 +60,7 @@ def tagged_list(request):
 
 def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
-    contents = get_object_or_404(Contents, pk=contents_pk)
+    contents = get_object_or_404(Contents.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user'), pk=contents_pk)
 
     if request.user.is_anonymous():
         # 로그인을 안했을 경우
@@ -150,6 +150,8 @@ def contents_emotion(request, contents_pk):
 
         emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
         before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
+
+        contents.update_emotion_number()
 
         status = 200
         context = {}

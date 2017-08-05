@@ -1,9 +1,11 @@
 import urllib.request
 from django.db import models
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import post_save, post_delete
 from django.conf import settings
 from django.shortcuts import reverse
+from django.utils.functional import cached_property
 from tagging.registry import register
+from collections import Counter
 
 class Contents(models.Model):
     # 컨텐츠(뉴스/영상) 모델
@@ -18,6 +20,13 @@ class Contents(models.Model):
     title = models.CharField(max_length=64, null=True, verbose_name='제목') # 컨텐츠 제목
     description = models.TextField(max_length=1024) # 컨텐츠 내용
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='ContentsEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
+    comment_number = models.IntegerField(default=0) # 댓글의 개수
+    like_number = models.IntegerField(default=0) # 좋아요 개수
+    dislike_number = models.IntegerField(default=0) # 싫어요 개수
+    surprise_number = models.IntegerField(default=0) # 놀라워요 개수
+    angry_number = models.IntegerField(default=0) # 화나요 개수
+    laugh_number = models.IntegerField(default=0) # 웃겨요 개수
+    sad_number = models.IntegerField(default=0) # 슬퍼요 개수
 
     class Meta:
         verbose_name_plural = 'contents' # 모델 복수개 명칭(admin표시)
@@ -52,6 +61,23 @@ class Contents(models.Model):
                     print(image_path+"는 없는 동영상 주소. 삭제합니다.")
                     Contents.objects.filter(url_path=url_path).delete()
 
+    def update_comment_number(self):
+        # 댓글 개수 업데이트
+        self.comment_number = self.comment_set.all().count()
+        self.save(update_fields=['comment_number'])
+
+    def update_emotion_number(self):
+        # 감정 개수 업데이트
+        emotion_list = ContentsEmotion.objects.filter(contents_id=self.id).values_list('name', flat=True) #
+        emotion_number_list = Counter(emotion_list)
+        self.like_number = emotion_number_list['1']
+        self.dislike_number = emotion_number_list['2']
+        self.surprise_number = emotion_number_list['3']
+        self.angry_number = emotion_number_list['4']
+        self.laugh_number = emotion_number_list['5']
+        self.sad_number = emotion_number_list['6']
+        self.save()
+
 register(Contents)
 
 class Congressman(models.Model):
@@ -64,6 +90,7 @@ class Congressman(models.Model):
     email = models.CharField(max_length=64, null=True, blank=True) # 이메일 주소
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True) # 업데이트 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CongressmanEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
+    comment_number = models.IntegerField(default=0) # 댓글의 개수
 
     class Meta():
         ordering =['id']
@@ -78,6 +105,11 @@ class Congressman(models.Model):
         # 해당 국회의원의 각 감정들의 개수 카운트
         emotion_count = CongrssmanEmotion.objects.filter(congressman_id=self.id, name=emotion).count()
         return emotion_count
+
+    def update_comment_number(self):
+        # 댓글 개수 업데이트 함수
+        self.comment_number = self.comment_set.all().count()
+        self.save(update_fields=['comment_number'])
 
 register(Congressman)
 
@@ -96,6 +128,7 @@ class Pledge(models.Model):
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
     created_at = models.DateTimeField(auto_now_add=True) # 공약 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='PledgeEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
+    comment_number = models.IntegerField(default=0) # 댓글의 개수
 
     def __str__(self):
         return self.title
@@ -107,6 +140,11 @@ class Pledge(models.Model):
         # 해당 공약의 각 감정들의 개수 카운트
         emotion_count = PledgeEmotion.objects.filter(pledge_id=self.id, name=emotion).count()
         return emotion_count
+
+    def update_comment_number(self):
+        # 댓글 개수 업데이트 함수
+        self.comment_number = self.comment_set.all().count()
+        self.save(update_fields=['comment_number'])
 
 register(Pledge)
 
@@ -173,12 +211,20 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True) # 댓글 작성 시간
     like_number = models.IntegerField(default=0) # 좋아요 개수
     dislike_number = models.IntegerField(default=0) # 싫어요 개수
+    recomment_number = models.IntegerField(default=0) # 대댓글 개수
 
     class Meta:
         ordering = ['-id']
 
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
+
+    @cached_property
+    def user_avatar_url(self):
+        socialaccount = self.user.socialaccount_set.all().first()
+        if socialaccount:
+            return socialaccount.get_avatar_url()
+        return None
 
     def update_emotion_number(self, emotions):
         # 감정 개수 업데이트
@@ -191,10 +237,36 @@ class Comment(models.Model):
                 self.dislike_number = self.commentemotion_set.filter(name=emotion).count()
         self.save(update_fields=['dislike_number', 'like_number']) # 두개의 필드만 업데이트하여 저장
 
-    def get_count_emotion(self, emotion):
-        # 해당 댓글의 각 감정들의 개수 카운트
-        emotion_count = CommentEmotion.objects.filter(comment_id=self.id, name=emotion).count()
-        return emotion_count
+    def update_recomment_number(self):
+        self.recomment_number = self.recomment_set.all().count()
+        self.save(update_fields=['recomment_number'])
+
+    @staticmethod
+    def on_post_save(sender, **kwargs):
+        # 댓글 생성시 실행되는 함수
+        comment = kwargs['instance'] # 생성된 인스턴스를 받아온다.
+        if kwargs['created']:
+            # 지금 생성된게 맞다면
+            if comment.contents != None:
+                comment.contents.update_comment_number()
+            elif comment.pledge != None:
+                comment.pledge.update_comment_number()
+            elif comment.congressman != None:
+                comment.congressman.update_comment_number()
+
+    @staticmethod
+    def on_post_delete(sender, **kwargs):
+        # 댓글 삭제시 실행되는 함수
+        comment = kwargs['instance'] # 실제로는 삭제된 데이터로 사용에 주의해야함.
+        if comment.contents != None:
+            comment.contents.update_comment_number()
+        elif comment.pledge != None:
+            comment.pledge.update_comment_number()
+        elif comment.congressman != None:
+            comment.congressman.update_comment_number()
+
+post_save.connect(Comment.on_post_save, sender=Comment)
+post_delete.connect(Comment.on_post_delete, sender=Comment)
 
 class CommentEmotion(models.Model):
     # 댓글의 좋아요/싫어요
@@ -224,6 +296,21 @@ class ReComment(models.Model):
 
     def __str__(self):
         return "{}의 댓글 {}".format(self.user, self.message)
+
+    def on_post_save(sender, **kwargs):
+        # 대댓글 생성시 실행되는 함수
+        recomment = kwargs['instance'] # 생성된 인스턴스를 받아온다,
+        if kwargs['created']:
+            # 지금 생성된게 맞다면
+            recomment.comment.update_recomment_number()
+
+    def on_post_delete(sender, **kwargs):
+        # 대댓글 삭제시 실행되는 함수
+        recomment = kwargs['instance'] # 실제로는 삭제된 데이터로 사용에 주의해야함.
+        recomment.comment.update_recomment_number()
+
+post_save.connect(ReComment.on_post_save, sender=ReComment)
+post_delete.connect(ReComment.on_post_delete, sender=ReComment)
 
 class Favorite(models.Model):
     # 즐겨찾기

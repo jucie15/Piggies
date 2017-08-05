@@ -50,23 +50,23 @@
 
 {% load cast_extras %}
 <ul class="emotion_box">
-    <li class="emotion"><a class="emobtn" role="button" id="glad" name="기뻐요" value="3">
-        <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score" id="emo_3">{{ contents|emotion_count:"3" }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="glad" name="기뻐요" value="1">
+        <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score" id="emo_1">{{ contents.like_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="역겨워요" value="1">
-        <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score" id="emo_1">{{ contents|emotion_count:"1" }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="역겨워요" value="2">
+        <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score" id="emo_2">{{ contents.dislike_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn" role="button" id="angry" name="화나요" value="5">
-        <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score" id="emo_5">{{ contents|emotion_count:"5" }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="angry" name="화나요" value="3">
+        <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score" id="emo_3">{{ contents.surprise_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn" role="button" id="nice" name="멋져요" value="6">
-        <img src="{% static 'cast/img/nice.png' %}" alt="" style="width:23px;"><span class="emotion_name">멋져요</span><span class="emotion_score" id="emo_6">{{ contents|emotion_count:"6" }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="nice" name="멋져요" value="4">
+        <img src="{% static 'cast/img/nice.png' %}" alt="" style="width:23px;"><span class="emotion_name">멋져요</span><span class="emotion_score" id="emo_4">{{ contents.angry_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn" role="button" id="sad" name="슬퍼요" value="4">
-        <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score" id="emo_4">{{ contents|emotion_count:"4" }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="sad" name="슬퍼요" value="5">
+        <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score" id="emo_5">{{ contents.laugh_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="2">
-        <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_2">{{ contents|emotion_count:"2" }}</span></a>
+    <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="6">
+        <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_6">{{ contents.sad_number }}</span></a>
     </li>
 </ul>
 <hr>
@@ -80,7 +80,7 @@
 </div>
 
 <p class="strapline">댓글
-  <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_set.all.count }}</span>
+  <span style="color:#E8BC15;padding-right:2px;">{{ contents.comment_number }}</span>
 </p>
 <hr>
 <div class="comment-box-div">
@@ -89,11 +89,11 @@
     <li class="comment">
         <!--img클릭시 해당 user의 profile로 이동해야함-->
         <a href="">
-            {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+            {% if comment.user.profile.image is None %}
             <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
             <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
             {% else %}
-            <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+            <img class="comment-user-img" src="{{ comment.user.profile.image }}" alt="">
             {% endif %}
         </a>
         <div class="comment_content">
@@ -116,7 +116,7 @@
             </span>&nbsp;&nbsp;
             <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
               <!--대댓 개수 가져오기-->
-              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+              <span style="color:#9c9c9c;">{{ comment.recomment_number }}</span></a>
               &nbsp;
               <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
               <!--좋아요 개수 가져오기-->
@@ -134,11 +134,11 @@
     <li class="comment recomment">
         <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
         <a href="">
-            {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+            {% if recomment.user.profile.image is None %}
             <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
             <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
             {% else %}
-            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image }}" alt="">
             {% endif %}
         </a>
         <div class="comment_content recomment_content">
@@ -166,7 +166,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h5 class="modal-title" id="exampleModalLongTitle">댓글&nbsp;<span style="color:#E8BC15;padding-left:2px;">{{ contents.comment_set.all.count }}</span></h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">댓글&nbsp;<span style="color:#E8BC15;padding-left:2px;">{{ contents.comment_number }}</span></h5>
                 <div class="add-comment-box">
                     <form name="comment-form" action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
                         {% csrf_token %}
@@ -181,11 +181,11 @@
                     <li class="comment">
                         <!--img클릭시 해당 user의 profile로 이동해야함-->
                         <a href="">
-                            {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                            {% if comment.user.profile.image is None %}
                             <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
                             <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
                             {% else %}
-                            <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                            <img class="comment-user-img" src="{{ comment.user.profile.image }}" alt="">
                             {% endif %}
                         </a>
                         <div class="comment_content">
@@ -208,7 +208,7 @@
                             </span>&nbsp;&nbsp;
                             <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                               <!--대댓 개수 가져오기-->
-                              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+                              <span style="color:#9c9c9c;">{{ comment.recomment_number }}</span></a>
                               &nbsp;
                               <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
                               <!--좋아요 개수 가져오기-->
@@ -226,11 +226,11 @@
                     <li class="comment recomment">
                         <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
                         <a href="">
-                            {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                            {% if recomment.user.profile.image is None %}
                             <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
                             <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
                             {% else %}
-                            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image }}" alt="">
                             {% endif %}
                         </a>
                         <div class="comment_content recomment_content">
@@ -250,7 +250,7 @@
             </div>
         </div>
     </div>
-</div>   
+</div>
 
 
 <script src="{% static 'cast/js/comment.js' %}"></script>
@@ -262,7 +262,7 @@
         }
     };
   $(document).ready(function(){
-      1$('.add-tag-box').css('display','none');
+      $('.add-tag-box').css('display','none');
   });
 
     //태그추가 버튼 클릭시 태그 추가 박스 보이도록
