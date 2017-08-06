@@ -108,13 +108,25 @@ def congressman_detail(request, congressman_pk):
     return render(request, 'cast/congressman_detail.html', context)
 
 def pledge_detail(request, pledge_pk):
+
     # 공약 세부 페이지
     pledge = get_object_or_404(Pledge, pk=pledge_pk)
+
+    if request.user.is_anonymous():
+        # 로그인을 안했을 경우
+        user_is_favorite = False
+    else:
+        if request.user.favorite_set.filter(pledge=pledge).exists():
+            user_is_favorite = True
+        else:
+            user_is_favorite = False
+
     comment_form = CommentForm()
 
     context = {}
     context['pledge'] = pledge
     context['comment_form'] = comment_form
+    context['user_is_favorite'] = user_is_favorite
 
     return render(request, 'cast/pledge_detail.html', context)
 

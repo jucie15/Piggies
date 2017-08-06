@@ -2,10 +2,11 @@
 <div class="contents_box" id="box4">
     <ul>
         {% for pledge in pledge_list|slice:":3" %}
+        <a href="{{ pledge.get_absolute_url }}">
         <li>
             <div class="pledge-box">
 
-                <img src="http://kmanifesto.or.kr/photos/p3851.jpg" alt="" class="congressman-img">
+                <img src="{% static pledge.congressman.profile_image_path %}" alt="" class="congressman-img">
                 <div class="congressman-name">
                     <span>{{ pledge.congressman.name }}</span>
                     <span class="pledge-samll-txt">의원</span>
