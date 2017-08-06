@@ -117,9 +117,10 @@
                 {{ comment.created_at|date:'Y-m-d H:i' }}
                 {% endif %}
             </span>&nbsp;&nbsp;
-            <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+<!--            <a href="{% url 'cast:recomment_new' comment.pk %}" class="display-btn">-->
+            <span class="display-btn"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
               <!--대댓 개수 가져오기-->
-              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></span>
               &nbsp;
               <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
               <!--좋아요 개수 가져오기-->
@@ -133,8 +134,10 @@
             </span>
         </p>
     </div>
-    {% for recomment in comment.recomment_set.all %}
-    <li class="comment recomment">
+    
+    <ul class="recomment-box">
+       {% for recomment in comment.recomment_set.all %}
+        <li class="comment recomment">
         <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
         <a href="">
             {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
@@ -155,6 +158,11 @@
             {% endif %}
         </li>
         {% endfor %}
+        <!--대댓 달 수 있는 폼 추가-->
+        <li>
+            
+        </li>
+    </ul>
     </li>
     {% endfor %}
 </ul>
@@ -374,6 +382,16 @@
             }
         })
     });
+    
+    //대댓 보이도록 적용
+    $(".display-btn").click(function(){
+        var recomment_list = $('ul.recomment-box');
+        if(recomment_list.is(":visible")){
+            recomment_list.slideUp();
+        }else{
+            recomment_list.slideDown();
+        }
+    })
 </script>
 
 {% endblock %}

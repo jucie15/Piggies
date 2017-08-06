@@ -1388,6 +1388,7 @@ li.comment:after {
     width: 82%;
 }
 
+
 .comment-box li:last-child:after {
     content:"";
     background: #eee;
@@ -1396,6 +1397,30 @@ li.comment:after {
     right: 0;
     height: 1px;
     width: 100% !important;
+}
+
+.recomment-box li:last-child:after {
+    content:"";
+    background: #eee;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    width: 82% !important;
+}
+
+.recomment-box li:first-child:before {
+    content:"";
+    background: #eee;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    height: 1px;
+    width: 82% !important;
+}
+
+.recomment-box li:first-child {
+    padding-top: 10px;
 }
 
 .comment-box li:last-child {
@@ -1650,4 +1675,14 @@ li.comment:after {
 
 .add-tag-box .right-zero {
     right: 0% !important;
+}
+
+.recomment-box {
+    display: none;
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+    -webkit-margin-start: 4%;
+    padding-left: 0px;
+    margin-left: 0px;
 }
