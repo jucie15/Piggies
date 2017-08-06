@@ -1,19 +1,46 @@
 {% extends 'cast/layout.html' %}
-
 {% load staticfiles %}
 {% load socialaccount %}
 {% block content %}
-  <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <select id="city" name="city">
-    </select>
-    <p>
-    <select id="district" name="district">
-    </select>
-    <input type="submit" value="다음">
-  </form>
+<div class="hi">
 
+<div class="container layer text-center">
+
+
+    <form action="" method="post">
+      {% csrf_token %}
+      <table class="table text-center">
+      <tr>
+        <th colspan="2" class="warning text-center">추가 정보를 입력하세요.</th>
+      </tr>
+      <tr>
+        <th>닉네임</th>
+        <td><input type="text" name="nickname" class="textinput form-control"></td>
+      </tr>
+      <tr>
+        <th>성별</th>
+        <td><select name="sex" class="select form-control">
+            <option value='1'>남자</option>
+            <option value='2'>여자</option>
+            </select></td>
+      </tr>
+      <tr>
+          <th>생년월일</th>
+          <td><input type="text" name="birth" class="textinput form-control" placeholder="예: 19801230"></td>
+      </tr>
+      <tr>
+      <th rowspan="2">관심 지역</th>
+      <td><select id="city" name="city" class="form-control"></select></td>
+      </tr>
+      <tr>
+      <td><select id="district" name="district" class="form-control"></select></td>
+      </tr>
+      </table>
+      <input type="submit" class="btn btn-warning" value="다음" style="float:right;">
+    </form>
+
+</div>
+</div>
 <script>
   var address; // json 데이터를 불러와 담아놓을 변수
   $(document).ready(function(){
@@ -42,7 +69,7 @@
   });
   $('#city').change(function(){
     // city select box가 변경 될 경우
-    city = this.val();
+    city = this.value;
     district_options = $('#district');
     district_options.empty() // 기본값 설정이 되어있어 append 시 중복되므로 값을 비운다.
     $.each(address[city], function( idx, val){

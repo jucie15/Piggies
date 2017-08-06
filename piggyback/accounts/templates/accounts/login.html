@@ -1,0 +1,11 @@
+{% extends 'cast/layout.html' %}
+
+{% load staticfiles %}
+{% load socialaccount %}
+{% block content %}
+  <div class="login-box">
+    <a href="{% provider_login_url 'kakao' %}" >
+      <img src="{% static 'cast/img/kakao_account_login_btn.png' %}" alt="">
+    </a>
+  </div>
+{% endblock %}

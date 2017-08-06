@@ -125,7 +125,6 @@ LOGIN_REDIRECT_URL = 'accounts:signup_info' # 로그인 후 리디렉션할 페�
 ACCOUNT_LOGOUT_REDIRECT_URL = "cast:index"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
 
-
 # django-tagging setting
 FORCE_LOWERCASE_TAGS = True # 모든 태그 이름을 소문자로
 MAX_TAG_LENGTH = 16 # 최대 글자 개수 제한
@@ -153,3 +152,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "cast", "static"),
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR , 'media')

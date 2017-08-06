@@ -601,7 +601,8 @@ a {
 .upload-btn{
     z-index: 1;
     position: absolute;
-    top: 29%;
+    top: 50%;
+    margin-top: -10px;
     right: 10%;
 
 }
@@ -940,7 +941,7 @@ hr {
 
 
 
-.congressman-img{
+.pledge-box .congressman-img{
     width: 42px;
     height: 42px;
     margin-top: 0px;
@@ -1086,6 +1087,13 @@ hr {
     font-size: 13px;
 }
 
+.grid-text .congressman-title {
+    height: 1.3em !important;
+    text-align: center;
+    margin-bottom: 5px !important;
+    -webkit-line-clamp: 1 !important;
+}
+
 .card-tail {
     height: 28px;
     border-top: 1px solid #eee;
@@ -1145,6 +1153,10 @@ hr {
     height: 30px;
     border: 1px solid #efdc95;
     margin-top: 5px;
+}
+
+.add-tag-box .add-tag-ipt {
+    width: 100% !important;
 }
 
 
@@ -1591,4 +1603,100 @@ li.comment:after {
 .pledge_congressman_info img
 {
     height: 85%;
+}
+
+.summary .congressman-img {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 50%;
+    margin-right: -40px;
+}
+
+.congressman-img-wrapper{
+    position: relative;
+    height: 110px;
+    padding: 15px 0px 20px 0px;
+/*
+    background: url(/static/cast/img/right.png);
+    background-size: 100%;
+*/
+
+/*
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+*/
+
+}
+
+.summary p.congressman-description {
+    font-size: 11px;
+    color:#555;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    }
+
+.hi{
+    width: 100%;
+    height: 90%;
+    overflow: hidden;
+    display: block;
+}
+
+.layer{
+    position:absolute;
+    top:0;right:0;bottom:0;left:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    display:-webkit-flex;
+    -webkit-align-item:center;
+    -webkit-justify-content:center;
+}
+
+.my-control{
+    display: inline-block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+
+.gray-tag{
+    display: inline-block;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 1px 7px;
+    border: 1px solid gray;
+    border-radius: 28px;
+    color: gray;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.add-tag-box .upload-btn-wrapper {
+    position: relative;
+    top: -30px;
+    height: 30px;
+    width: 50px;
+    right: 8%;
+    float: right;
+}
+
+.add-tag-box .right-zero {
+    right: 0% !important;
 }

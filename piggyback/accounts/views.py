@@ -1,11 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.core.files.base import ContentFile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from accounts.forms import ProfileForm
 from accounts.models import Profile
 from tagging.models import Tag, TaggedItem
 import json
+import requests
+
+def login(request):
+    return render(request, 'accounts/login.html')
 
 @login_required
 def signup_info(request):
@@ -21,11 +26,15 @@ def signup_info(request):
             profile.user = request.user # 프로필 유저에 유저 정보 저장
             profile.user.username = profile.user.socialaccount_set.first().extra_data['properties']['nickname'] # 유저의 이름은 카카오톡 닉네임으로 저장
             profile.user.email = profile.user.socialaccount_set.first().extra_data['kaccount_email'] # 유저의 이메일은 카카오톡 아이디로 저장
+            img = request.user.socialaccount_set.first().get_avatar_url() # 카카오 프로필의 이미지 경로를 받아온다.
+            image = ContentFile(requests.get(img).content) # 불러온 이미지 데이터를 ContentFile객체로 랩핑한다.
+            profile.image.save(profile.user.username, image) # 랩핑된 이미지 데이터를 profile에 저장
             profile.user.save() # 유저 모델에 저장
             profile.save() # 프로필 모델에 저장
             return redirect('accounts:set_tag')
     else :
         form = ProfileForm()
+
     return render(request, 'accounts/signup_info.html', {
         'form': form,
     })
@@ -33,7 +42,6 @@ def signup_info(request):
 @login_required
 def set_tag(request):
     # 태그 추가/수정 페이지
-
     return render(request, 'accounts/tag_form.html')
 
 def ajax_add_tag(request):
@@ -44,19 +52,37 @@ def ajax_add_tag(request):
         profile = request.user.profile
 
         Tag.objects.add_tag(profile, tag) # 해당 인스턴스에 태그 추가
+        this_tag = Tag.objects.get(name=tag)
+        tag_id = this_tag.id
 
-        data = json.dumps({
-            'status': 'success',
-            }) # json 형식으로 파싱
 
+        status = 200
+        context = {}
+        context['tag_id'] = tag_id
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
-        data = json.dumps({
-            'status': 'fail',
-            }) # json 형식으로 파싱
+        status = 403
+        context = {}
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html' )
+
+def tag_delete(request):
+    if request.is_ajax():
+        tag_id = request.POST.get('tag_id',None)
+        tag = Tag.objects.get(id=tag_id)
+        tag.delete()
+        context={}
+    else:
+        context={
+
+        }
+    return HttpResponse(json.dumps(context), content_type='application/json')

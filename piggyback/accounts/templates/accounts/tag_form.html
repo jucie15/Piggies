@@ -1,27 +1,66 @@
 {% extends 'cast/layout.html' %}
 
 {% block content %}
-<div class="tag_box">
-    {% load tagging_tags %}
-    {% tags_for_object request.user.profile as tags %}
-        {% for tag in tags %}
-            <span class="tag">
-                <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
-                    #{{ tag.name }}
-                </a>
-            </span>
-        {% endfor %}
-    {% if not request.user.is_anonymous %}
-       <div class="add-tag-box">
-           <input type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
-           <a id="add-tag"><span class="upload-btn">추가</span></a>
-           <span class="cancel-btn"><i class="fa fa-times" aria-hidden="true"></i></span>
-       </div>
-        <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span>
-    {% endif %}
+<div class="container">
+    <h5 class="text-center">관심이슈를 설정합니다.</h5>
+    <p></p>
+    <div class="tag_box">
+
+        {% load tagging_tags %}
+
+        {% if not request.user.is_anonymous %}
+           <div class="add-tag-box">
+               <input class="add-tag-ipt" type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
+               <a id="add-tag">
+               <div class="upload-btn-wrapper right-zero">
+                   <span class="upload-btn">추가</span>
+               </div></a>
+           </div>
+            <!-- <span class="add-tag-btn"><i class="fa fa-plus" aria-hidden="true"></i>태그추가</span> -->
+        {% endif %}
+
+        {% tags_for_object request.user.profile as tags %}
+            {% for tag in tags %}
+                <span class="tag" id="{{ tag.id }}">
+                    #{{ tag.name }}  x
+                </span>
+            {% endfor %}
+
+        <p></p>
+        <div>
+        <span class="gray-tag" id="결혼">#결혼</span>
+        <span class="gray-tag" id="세월호">#세월호</span>
+        <span class="gray-tag" id="문재인">#문재인</span>
+        <span class="gray-tag" id="청년실업">#청년실업</span>
+        <span class="gray-tag" id="청년">#청년</span>
+        <span class="gray-tag" id="대학교">#대학교</span>
+        <span class="gray-tag" id="국회의원">#국회의원</span>
+        </div>
+    </div>
 </div>
 
 <script>
+
+    $('body').on('click','.tag', function(){
+        tag_id = this.id;
+        var allData = {'csrfmiddlewaretoken': '{{ csrf_token }}', "tag_id":tag_id};
+        $.ajax({
+            type: "POST",
+            data: allData,
+            url: "{% url 'accounts:tag_delete' %}",
+            dataType: "json",
+
+            success: function(data){
+                tag_id_2 = "#"+tag_id
+                $(tag_id_2).hide()
+            },
+            error: function(error){
+                alert(error)
+            }
+        })
+
+
+    })
     $('#add-tag').click(function(){
         // 태그 추가 버튼 클릭시
         tag = $('#add-tag-value').val()
@@ -31,10 +70,10 @@
             url: "{% url 'accounts:ajax_add_tag' %}?tag=" + tag, // 통신할 url을 지정한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
-            success: function(data){
+            success: function(response){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $("#add-tag-value").before("<span class='tag'><a href='{% url 'cast:tagged_list' %}?tag="+tag+"'>"+tag+"</a></span>");
-                $('.add-tag-box').css('display','none');
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+" x"+"</span>");
+                // $('.add-tag-box').css('display','none');
                 $('.add-tag-btn').css('display','inline');
                 //댓글 추가 버튼 위치도 변경
                 $('#cd-upload-btn').css('top','99%');
@@ -45,5 +84,27 @@
             }
         });
     });
+
+    $('.gray-tag').click(function(){
+        tag = this.id;
+        $.ajax({
+            type: "GET", // GET 요청으로 한다.
+            url: "{% url 'accounts:ajax_add_tag' %}?tag=" + tag, // 통신할 url을 지정한다.
+            dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+
+            success: function(response){
+                // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+                $(".add-tag-box").after("<span class='tag' id="+response.tag_id+">"+"#"+tag+" x"+"</span>");
+                // $('.add-tag-box').css('display','none');
+                $('.add-tag-btn').css('display','inline');
+                //댓글 추가 버튼 위치도 변경
+                $('#cd-upload-btn').css('top','99%');
+            },
+            error:function(error){
+                // 요청이 실패했을 경우
+                console.log(error)
+            }
+        });
+    })
 </script>
 {% endblock %}

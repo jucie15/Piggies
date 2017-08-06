@@ -60,7 +60,7 @@ def tagged_list(request):
 
 def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
-    contents = get_object_or_404(Contents, pk=contents_pk)
+    contents = get_object_or_404(Contents.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user'), pk=contents_pk)
 
     if request.user.is_anonymous():
         # 로그인을 안했을 경우
@@ -132,6 +132,9 @@ def pledge_detail(request, pledge_pk):
 
 def contents_emotion(request, contents_pk):
     # 컨텐츠의 감정표현 처리
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
@@ -160,21 +163,31 @@ def contents_emotion(request, contents_pk):
         emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
         before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
 
+        contents.update_emotion_number()
+
+        status = 200
         context = {}
-        context['status'] = 'success'
+        context['status'] = 'true'
+        context['message'] = 'success'
         context['emotion_count'] = emotion_count
         context['before_emotion_name'] = before_emotion_name
         context['before_emotion_count'] = before_emotion_count
     else:
+        status = 403
         context = {}
-        context['message'] = '잘못된 접근입니다.'
-        context['status'] = 'fail'
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
+    mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(json.dumps(context), content_type='application/json')
+    return HttpResponse(data, mimetype, status=status)
 
 def pledge_emotion(request, pledge_pk):
     # 컨텐츠의 감정표현 처리
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
@@ -198,21 +211,27 @@ def pledge_emotion(request, pledge_pk):
                 name=emotion_name,
             )
 
+        status = 200
         context = {}
-        context['status'] = 'success'
-        data = json.dumps(context)
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
+        status = 403
         context = {}
-        context['message'] = '잘못된 접근입니다.'
-        context['status'] = 'fail'
-        data = json.dumps(context)
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 def congressman_emotion(request, congressman_pk):
     # 컨텐츠의 감정표현 처리
+
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
@@ -235,18 +254,20 @@ def congressman_emotion(request, congressman_pk):
                 congressman=congressman,
                 name=emotion_name,
             )
+        status = 200
         context = {}
-        context['status'] = 'success'
-        data = json.dumps(context)
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
+        status = 403
         context = {}
-        context['message'] = '잘못된 접근입니다.'
-        context['status'] = 'fail'
-        data = json.dumps(context)
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 def comment_list(request, pk):
     # 각 컨텐츠별 댓글 리스트
@@ -307,6 +328,21 @@ def comment_new(request, pk):
         }) # 포스트 요청이 아닐 경우 빈 폼으로 페이지 렌더링
 
 @login_required
+def comment_editform(request, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+
+    if comment.user != request.user:
+        messages.warning(request, '댓글 작성자만 수정할 수 있습니다.')
+        return redirect(redirect_path)
+
+    context = {
+        'comment':comment,
+    }
+    return render(request, 'cast/comment_editform.html', context)
+
+
+@login_required
 def comment_edit(request, comment_pk):
     # 해당 댓글 수정
     comment = get_object_or_404(Comment, pk=comment_pk) # 해당 댓글 인스턴스
@@ -316,12 +352,13 @@ def comment_edit(request, comment_pk):
         messages.warning(request, '댓글 작성자만 수정할 수 있습니다.')
         return redirect(redirect_path)
 
-    if request.method == 'POST':
-        form = CommentForm(request.POST, request.FILES, instance=comment)
-        if form.is_valid():
-            comment = form.save()
-            messages.success(request, '기존 댓글을 수정했습니다.')
-            return redirect(redirect_path)
+    form = CommentForm(request.POST, request.FILES, instance=comment)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.save()
+
+        messages.success(request, '기존 댓글을 수정했습니다.')
+        return redirect(redirect_path)
     else:
         form = CommentForm(instance=comment)
     return render(request, 'cast/comment_form.html', {
@@ -343,6 +380,9 @@ def comment_delete(request, comment_pk):
 
 def comment_emotion(request, comment_pk):
     # 해당 댓글의 좋아요/싫어요
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
@@ -370,20 +410,22 @@ def comment_emotion(request, comment_pk):
         like_number = comment.like_number
         dislike_number = comment.dislike_number
 
+        status = 200
         context = {}
-        context['status'] = 'success'
+        context['status'] = 'true'
+        context['message'] = 'success'
         context['like_number'] = like_number
         context['dislike_number'] = dislike_number
-        data = json.dumps(context)
     else:
+        status = 403
         context = {}
-        context['message'] = '잘못된 접근입니다.'
-        context['status'] = 'fail'
-        data = json.dumps(context)
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
     # dic 형식을 json 형식으로 바꾸어 전달한다.
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 @login_required
 def recomment_new(request, comment_pk):
@@ -436,20 +478,31 @@ def ajax_tag_autocomplete(request):
         # ajax 요청일 경우 실행
         term = request.GET.get('term','') # jquery autocomplete은 GET 방식으로 term이라는 키에 값을 넣어서 요청을 보내온다.
         tags = Tag.objects.filter(name__icontains=term)[:5] # tag_name에 key값이 포함되어 있는 리스트를 받아온다.
-        results = []
+        context = []
         for tag in tags:
             # 검색된 태그 목록들을 json형식으로 넘겨주기 위해 사전형으로 구성된 자료로 바꾼 후 리스트에 담아놓는다.
             tag_json = {}
             tag_json['id'] = tag.id
             tag_json['label'] = tag.name
             tag_json['value'] = tag.name
-            results.append(tag_json)
-        data = json.dumps(results) # json형식으로 변환
-        mimetype = 'application/json'
-        return HttpResponse(data, mimetype)
+            context.append(tag_json)
+        status = 200
+    else:
+        status = 403
+        context = {}
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
+
+    data = json.dumps(context) # json형식으로 변환
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype, status=status)
 
 def ajax_favorites(request, pk):
     # 즐겨찾기 버튼 클릭 시
+
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user
@@ -502,19 +555,26 @@ def ajax_favorites(request, pk):
                     )
                 isFavorite = True
 
+        status = 200
         context = {}
         context['isFavorite'] = isFavorite
-        context['status'] = 'success'
-        data = json.dumps(context) # json 형식으로 파싱
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
-        data = json.dumps({
-            'status': 'fail',
-            }) # json 형식으로 파싱
+        status = 403
+        context = {}
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
+
+    data = json.dumps(context) # json 형식으로 파싱
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
 
 def ajax_add_tag(request, pk):
     # 태그 추가 버튼 클릭시
+    if request.user.is_anonymous():
+        return HttpResponse(status=401)
+
     if request.is_ajax():
         # ajax 요청시
         tag = request.GET.get('tag','')
@@ -529,14 +589,16 @@ def ajax_add_tag(request, pk):
 
         Tag.objects.add_tag(objects, tag) # 해당 인스턴스에 태그 추가
 
-        data = json.dumps({
-            'status': 'success',
-            }) # json 형식으로 파싱
-
+        status = 200
+        context = {}
+        context['status'] = 'true'
+        context['message'] = 'success'
     else:
-        data = json.dumps({
-            'status': 'fail',
-            }) # json 형식으로 파싱
+        status = 403
+        context = {}
+        context['status'] = 'false'
+        context['message'] = 'bad request to not ajax'
 
+    data = json.dumps(context)
     mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+    return HttpResponse(data, mimetype, status=status)
