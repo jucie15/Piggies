@@ -87,11 +87,11 @@
     <ul class="comment-box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
-            {% if comment.user.profile.image is None %}
+            {% if comment.user.profile.image %}
             <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-                <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-            {% else %}
                 <img class="comment-user-img" src="{{ comment.user.profile.image.url }}" alt="">
+            {% else %}
+                <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
             {% endif %}
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
@@ -132,11 +132,11 @@
             {% for recomment in comment.recomment_set.all %}
                 <li class="comment recomment">
                     <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
-                    {% if recomment.user.profile.image is None %}
+                    {% if recomment.user.profile.image %}
                     <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-                        <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-                    {% else %}
                         <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image.url }}" alt="">
+                    {% else %}
+                        <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
                     {% endif %}
                     <div class="comment_content recomment_content">
                         <strong class="comment_user"> {{ recomment.user }}</strong>
@@ -177,14 +177,12 @@
                         {% for comment in contents.comment_set.all %}
                         <li class="comment">
                             <!--img클릭시 해당 user의 profile로 이동해야함-->
-                            <a href="">
-                                {% if comment.user.profile.image is None %}
-                                <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                            {% if comment.user.profile.image %}
+                            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                                <img class="comment-user-img" src="{{ comment.user.profile.image.url }}" alt="">
+                            {% else %}
                                 <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-                                {% else %}
-                                <img class="comment-user-img" src="{{ comment.user.profile.image }}" alt="">
-                                {% endif %}
-                            </a>
+                            {% endif %}
                             <div class="comment_content">
                                 <strong class="comment_user"> {{ comment.user }}</strong>
                                 <p class="comment_message">{{ comment.message }}</p>
@@ -222,14 +220,12 @@
                             {% for recomment in comment.recomment_set.all %}
                             <li class="comment recomment">
                                 <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
-                                <a href="">
-                                    {% if recomment.user.profile.image is None %}
-                                    <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                                {% if recomment.user.profile.image %}
+                                <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                                    <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image.url }}" alt="">
+                                {% else %}
                                     <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-                                    {% else %}
-                                    <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image }}" alt="">
-                                    {% endif %}
-                                </a>
+                                {% endif %}
                                 <div class="comment_content recomment_content">
                                     <strong class="comment_user"> {{ recomment.user }}</strong>
                                     <p class="comment_message rcomment-message">{{ recomment.message }}</p>
