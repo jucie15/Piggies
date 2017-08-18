@@ -87,15 +87,12 @@
     <ul class="comment-box">
         {% for comment in contents.comment_set.all %}
         <li class="comment">
-            <!--img클릭시 해당 user의 profile로 이동해야함-->
-            <a href="">
-                {% if comment.user.profile.image is None %}
-                <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+            {% if comment.user.profile.image is None %}
+            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
                 <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-                {% else %}
-                <img class="comment-user-img" src="{{ comment.user.profile.image }}" alt="">
-                {% endif %}
-            </a>
+            {% else %}
+                <img class="comment-user-img" src="{{ comment.user.profile.image.url }}" alt="">
+            {% endif %}
             <div class="comment_content">
                 <strong class="comment_user"> {{ comment.user }}</strong>
                 <p class="comment_message">{{ comment.message }}</p>
@@ -113,7 +110,7 @@
                     <!--댓글 작성 시간 가져오기-->
                     <span style="color:#9c9c9c;">
                         {% if comment.created_at %}
-                        {{ comment.created_at|date:'Y-m-d H:i' }}
+                            {{ comment.created_at|date:'Y-m-d H:i' }}
                         {% endif %}
                     </span>&nbsp;&nbsp;
                     <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
@@ -133,31 +130,29 @@
                 </p>
             </div>
             {% for recomment in comment.recomment_set.all %}
-            <li class="comment recomment">
-                <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
-                <a href="">
+                <li class="comment recomment">
+                    <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
                     {% if recomment.user.profile.image is None %}
                     <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-                    <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                        <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
                     {% else %}
-                    <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image }}" alt="">
+                        <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image.url }}" alt="">
                     {% endif %}
-                </a>
-                <div class="comment_content recomment_content">
-                    <strong class="comment_user"> {{ recomment.user }}</strong>
-                    <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+                    <div class="comment_content recomment_content">
+                        <strong class="comment_user"> {{ recomment.user }}</strong>
+                        <p class="comment_message rcomment-message">{{ recomment.message }}</p>
 
-                    {% if recomment.user == user %}
-                    <span class="comment_edit">
-                        <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
-                    </span>
-                    {% endif %}
-                </div>
-            </li>
+                        {% if recomment.user == user %}
+                        <span class="comment_edit">
+                            <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
+                        </span>
+                        {% endif %}
+                    </div>
+                </li>
             {% endfor %}
-            {% endfor %}
-        </ul>
-    </div>
+        {% endfor %}
+    </ul>
+</div>
     <div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
 
     <!--모달 시작-->

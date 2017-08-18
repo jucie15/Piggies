@@ -108,3 +108,29 @@ def congressman_db_update():
                 mem_dic = {} # 다음 의원을 위해 변수 초기화
                 congressman.save() # 디비에 저장
 
+def pledge_db_create():
+    # 크롤링 해놓은 공약 리스트로 공약 DB 생성
+    with open(ROOT("pledge_list.txt"), "rt") as f:
+        mem_detail_list = f.read().split('\n')
+
+    mem_dic = {}
+
+    for member in mem_detail_list:
+        index = member.split(':')[0]
+        value = member.split(':')[1]
+        mem_dic[index] = value
+
+        if mem_dic['이름'] != '김종태':
+            # 김종대 그는 누구인기!?!?
+            if index == '선거구':
+                congressman = get_object_or_404(Congressman, name=mem_dic['이름'], constituency__icontains=mem_dic['선거구'])
+
+            if index == '상태':
+                if not Pledge.objects.filter(congressman=congressman, title=mem_dic['공약']).exists():
+                    # 해당 공약이 존재하지 않으면
+                    pledge = Pledge()
+                    pledge.congressman = congressman
+                    pledge.title = mem_dic['공약']
+                    pledge.description = mem_dic['공약']
+                    pledge.status = '0'
+                    pledge.save()

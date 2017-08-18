@@ -10,7 +10,6 @@ class CommentInline(admin.StackedInline):
 @admin.register(Contents)
 class ContentsAdmin(admin.ModelAdmin):
     model = Contents
-    search_fields = ('tag', )
     inlines = [
         CommentInline,
     ]
@@ -27,7 +26,7 @@ class PledgeInline(admin.TabularInline):
 @admin.register(Congressman)
 class CongressmanAdmin(admin.ModelAdmin):
     model = Congressman
-    search_fields = ('name', 'party', 'tag', )
+    search_fields = ('name', 'party', 'constituency')
     list_display = ['id', 'name', 'party', 'constituency', 'updated_at']
     inlines = [
         PledgeInline,
@@ -38,7 +37,7 @@ class CongressmanAdmin(admin.ModelAdmin):
 @admin.register(Pledge)
 class PledgeAdmin(admin.ModelAdmin):
     model = Pledge
-    search_fields = ('tag', )
+    search_fields = ('title',)
     inlines = [
         CommentInline,
     ]
