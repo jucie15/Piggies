@@ -53,8 +53,8 @@
     <li class="emotion"><a class="emobtn" role="button" id="glad" name="기뻐요" value="1">
         <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score" id="emo_1">{{ contents.like_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="역겨워요" value="2">
-        <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score" id="emo_2">{{ contents.dislike_number }}</span></a>
+    <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="싫어요" value="2">
+        <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">싫어요</span><span class="emotion_score" id="emo_2">{{ contents.dislike_number }}</span></a>
     </li>
     <li class="emotion"><a class="emobtn" role="button" id="angry" name="화나요" value="3">
         <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score" id="emo_3">{{ contents.surprise_number }}</span></a>
@@ -325,8 +325,17 @@
 
             success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $('#emo_' + emotion_name).text(data.emotion_count)
-                $('#emo_' + data.before_emotion_name).text(data.before_emotion_count)
+
+                if( data.emotion_status == 'create' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) + 1)
+                }
+                else if( data.emotion_status == 'update' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) + 1)
+                    $('#emo_' + data.before_emotion_name).text(Number($('#emo_' + data.before_emotion_name).text()) - 1)
+                }
+                else if ( data.emotion_status == 'delete' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) - 1)
+                }
             },
             error:function(error){
                 // 요청이 실패했을 경우

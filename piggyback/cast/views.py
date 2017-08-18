@@ -147,31 +147,28 @@ def contents_emotion(request, contents_pk):
             before_emotion_name = user_emotion.name
             if user_emotion.name == emotion_name:
                 # 같은 감정을 한번 더누르면 삭제.
+                emotion_status = 'delete'
                 ContentsEmotion.objects.filter(contents=contents, user=user).delete() # 인스턴스 삭제
             else:
                 # 다른 감정을 누를 경우
+                emotion_status = 'update'
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
+            emotion_status = 'create'
             ContentsEmotion.objects.create(
                 user=user,
                 contents=contents,
                 name=emotion_name,
             )
 
-        emotion_count = ContentsEmotion.objects.filter(contents=contents, name=emotion_name).count()
-        before_emotion_count = ContentsEmotion.objects.filter(contents=contents, name=before_emotion_name).count()
-
-        contents.update_emotion_number()
-
         status = 200
         context = {}
         context['status'] = 'true'
         context['message'] = 'success'
-        context['emotion_count'] = emotion_count
         context['before_emotion_name'] = before_emotion_name
-        context['before_emotion_count'] = before_emotion_count
+        context['emotion_status'] = emotion_status
     else:
         status = 403
         context = {}

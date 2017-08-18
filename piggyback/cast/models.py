@@ -169,21 +169,13 @@ class ContentsEmotion(models.Model):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
 
     @staticmethod
-    def on_post_save(sender, **kwargs):
-        # 댓글 생성시 실행되는 함수
+    def on_post_update(sender, **kwargs):
+        # 컨텐츠 감정표현 클릭 시(생성, 삭제, 변경)
         contents_emotion = kwargs['instance'] # 생성된 인스턴스를 받아온다.
-        if kwargs['created']:
-            # 지금 생성된게 맞다면
-            contents_emotion.contents.update_emotion_number()
-
-    @staticmethod
-    def on_post_delete(sender, **kwargs):
-        # 댓글 삭제시 실행되는 함수
-        contents_emotion = kwargs['instance'] # 실제로는 삭제된 데이터로 사용에 주의해야함.
         contents_emotion.contents.update_emotion_number()
 
-post_save.connect(ContentsEmotion.on_post_save, sender=ContentsEmotion)
-post_delete.connect(ContentsEmotion.on_post_delete, sender=ContentsEmotion)
+post_delete.connect(ContentsEmotion.on_post_update, sender=ContentsEmotion)
+post_save.connect(ContentsEmotion.on_post_update, sender=ContentsEmotion)
 
 class PledgeEmotion(models.Model):
     # 공약내 감정 표현 관계 모델
