@@ -159,9 +159,17 @@
         </li>
         {% endfor %}
         <!--대댓 달 수 있는 폼 추가-->
+<!--
         <li>
-            
+           <div class="add-comment-box cd-comment-box add-recomment-box">
+                <form name="comment-form" action="{% url 'cast:comment_new' contents.pk %}?next={{ request.path }}&type=contents" method="post">
+                    {% csrf_token %}
+                    {{ comment_form.message }}
+                    <a onclick="document.forms['comment-form'].submit();" ><span class="upload-btn comment-upload-btn" id="cd-upload-btn">댓글추가</span></a>
+                </form>
+            </div> 
         </li>
+-->
     </ul>
     </li>
     {% endfor %}

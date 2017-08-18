@@ -1686,3 +1686,9 @@ li.comment:after {
     padding-left: 0px;
     margin-left: 0px;
 }
+
+.add-recomment-box {
+    margin-top: 0px !important;
+    margin-left: 60px !important;
+    width: 80% !important;
+}
