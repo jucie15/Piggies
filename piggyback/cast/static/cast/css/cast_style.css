@@ -1700,3 +1700,44 @@ li.comment:after {
 .add-tag-box .right-zero {
     right: 0% !important;
 }
+
+.pledge_info {
+    width: 50%;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.pledge_info img{
+    height: 100px;
+    width: 100px;
+}
+
+.pledge_info table, .pledge_info td, .pledge_info tr {
+    border-width: 0px;
+}
+
+.pledge_description {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.pledge_status_title {
+    height: 40px;
+    width: 100%;
+    background-color: #eeeeee;
+    padding-top: 7.2px;
+}
+
+.pledge_status_title div{
+    width: 15%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.pledge_status_content{
+    width: 100%;
+    height: 150px;
+}

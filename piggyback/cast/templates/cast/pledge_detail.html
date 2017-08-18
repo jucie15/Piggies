@@ -11,29 +11,41 @@
 </div>
 
 
-<div class="pledge_congressman_info">
-<table>
-    <tr>
-    <td rowspan="2">
-    <img src="{% static pledge.congressman.profile_image_path %}" alt="">
-    </td>
-    <td>
-    <div style="font-size: 15px;">{{ pledge.congressman.name }}</div></br>
-    </td>
-    </tr>
-
-    <tr>
-    <td>
-    <div style="font-size: 11px;">의원</div>
-    </td>
-    </tr>
-
-</table>
-
-
+<div class="pledge_info">
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <img src="{% static pledge.congressman.profile_image_path %}" alt="">
+                </td>
+                <td>
+                    <div style="font-size: 20px;">{{ pledge.congressman.name }}</div></br>
+                    <div style="font-size: 15px;">의원</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
-<div class="pledge_description">
+
+<div class="pledge_description" style="font-size: 30px;">
     {{ pledge.description}}</br>
+</div>
+
+
+<div class="pledge_status_title">
+    <div>이행률</div>
+</div>
+
+<div class="pledge_status_content">
+<div style="width: 100px; margin: auto;">
+        <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #eeeeee; margin-top: 20px; display: inline-block;">
+            <div style="width: 80px; height: 80px; border-radius: 50%; background-color: white; margin-left: 10px; margin-top: 10px; display: inline-block;">
+                <div style="display: inline-block; text-align: center; width: 100%; height: 20px; margin-top: 30px;">
+                    {{ pledge.get_status_display }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% load tagging_tags %}
@@ -83,11 +95,6 @@
 </ul>
 <hr>
 
-<div class="pledge_status">
-
-</div>
-
-
 <div class="add-comment-box cd-comment-box">
     <form name="comment-form" action="{% url 'cast:comment_new' pledge.pk %}?next={{ request.path }}&type=pledge" method="post">
         {% csrf_token %}
@@ -102,77 +109,77 @@
 </p>
 <hr>
 <div class="comment-box-div">
-<ul class="comment-box">
-    {% for comment in pledge.comment_set.all %}
-    <li class="comment">
-        <!--img클릭시 해당 user의 profile로 이동해야함-->
-        <a href="">
-            {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
-            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-            <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-            {% else %}
-            <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
-            {% endif %}
-        </a>
-        <div class="comment_content">
-            <strong class="comment_user"> {{ comment.user }}</strong>
-            <p class="comment_message">{{ comment.message }}</p>
-
-            {% if comment.user == user %}
-            <p class="comment_edit">
-               <a href="{% url 'cast:comment_edit' comment.pk %}" >수정</a>
-               <a href="{% url 'cast:comment_delete' comment.pk %}" class="text-danger">삭제</a>
-           </p>
-           {% endif %}
-
-           <p style="font-size:10px;">
-            <!--댓글 작성 시간 가져오기-->
-            <span style="color:#9c9c9c;">
-                {% if comment.created_at %}
-                {{ comment.created_at|date:'Y-m-d H:i' }}
+    <ul class="comment-box">
+        {% for comment in pledge.comment_set.all %}
+        <li class="comment">
+            <!--img클릭시 해당 user의 profile로 이동해야함-->
+            <a href="">
+                {% if comment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                <img class="comment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                {% else %}
+                <img class="comment-user-img" src="{{ comment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
                 {% endif %}
-            </span>&nbsp;&nbsp;
-            <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
-              <!--대댓 개수 가져오기-->
-              <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
-              &nbsp;
-              <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
-              <!--좋아요 개수 가져오기-->
-              <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
-                {{ comment.like_number }}
-            </span>
-            <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
-            <!--싫어요 개수 가져오기-->
-            <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
-                {{ comment.dislike_number }}
-            </span>
-        </p>
-    </div>
-    {% for recomment in comment.recomment_set.all %}
-    <li class="comment recomment">
-        <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
-        <a href="">
-            {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
-            <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-            <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
-            {% else %}
-            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
-            {% endif %}
-        </a>
-        <div class="comment_content recomment_content">
-            <strong class="comment_user"> {{ recomment.user }}</strong>
-            <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+            </a>
+            <div class="comment_content">
+                <strong class="comment_user"> {{ comment.user }}</strong>
+                <p class="comment_message">{{ comment.message }}</p>
 
-            {% if recomment.user == user %}
-            <span class="comment_edit">
-                <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
-            </span>
-            {% endif %}
+                {% if comment.user == user %}
+                <p class="comment_edit">
+                   <a href="{% url 'cast:comment_edit' comment.pk %}" >수정</a>
+                   <a href="{% url 'cast:comment_delete' comment.pk %}" class="text-danger">삭제</a>
+               </p>
+               {% endif %}
+
+               <p style="font-size:10px;">
+                <!--댓글 작성 시간 가져오기-->
+                <span style="color:#9c9c9c;">
+                    {% if comment.created_at %}
+                    {{ comment.created_at|date:'Y-m-d H:i' }}
+                    {% endif %}
+                </span>&nbsp;&nbsp;
+                <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                  <!--대댓 개수 가져오기-->
+                  <span style="color:#9c9c9c;">{{ comment.recomment_set.all.count }}</span></a>
+                  &nbsp;
+                  <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="like" value="1" ><img src="{% static 'cast/img/like.png' %}" alt="" style="width:13px;margin:0px 1px 0px 5px;"></a>
+                  <!--좋아요 개수 가져오기-->
+                  <span id='comment-like-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                    {{ comment.like_number }}
+                </span>
+                <a role="button" class="comment-emo-btn" id={{ comment.pk }} name="dislike" value="2"> <img src="{% static 'cast/img/dislike.png' %}" alt="" style="margin:2px 3px 0px 5px;width:14px;"></a>
+                <!--싫어요 개수 가져오기-->
+                <span id='comment-dislike-count-{{ comment.pk }}' style="color:#9c9c9c;">
+                    {{ comment.dislike_number }}
+                </span>
+            </p>
+        </div>
+        {% for recomment in comment.recomment_set.all %}
+        <li class="comment recomment">
+            <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
+            <a href="">
+                {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
+                <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                {% else %}
+                <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                {% endif %}
+            </a>
+            <div class="comment_content recomment_content">
+                <strong class="comment_user"> {{ recomment.user }}</strong>
+                <p class="comment_message rcomment-message">{{ recomment.message }}</p>
+
+                {% if recomment.user == user %}
+                <span class="comment_edit">
+                    <a href="{% url 'cast:recomment_delete' recomment.pk %}" class="text-danger comment_edit">삭제</a>
+                </span>
+                {% endif %}
+            </li>
+            {% endfor %}
         </li>
         {% endfor %}
-    </li>
-    {% endfor %}
-</ul>
+    </ul>
 </div>
 <div class="more"><a data-toggle="modal" data-target="#exampleModalLong">+더보기</a></div>
 
