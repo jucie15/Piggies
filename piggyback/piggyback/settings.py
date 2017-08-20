@@ -125,6 +125,7 @@ LOGIN_REDIRECT_URL = 'accounts:signup_info' # 로그인 후 리디렉션할 페�
 ACCOUNT_LOGOUT_REDIRECT_URL = "cast:index"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True # 로그아웃 버튼 클릭 시 자동 로그아웃
 SOCIALACCOUNT_AUTO_SIGNUP = False
+#SOCIALACCOUNT_FORMS = {}
 
 # django-tagging setting
 FORCE_LOWERCASE_TAGS = True # 모든 태그 이름을 소문자로

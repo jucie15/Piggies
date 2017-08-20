@@ -32,7 +32,7 @@
         </a>
     </span>
     {% endfor %}
-    {% if not request.user.is_anonymous %}
+    {% if request.user.is_authenticated %}
     <div class="add-tag-box">
        <input type="text" id="add-tag-value" placeholder="태그를 추가해주세요.">
        <a id="add-tag">

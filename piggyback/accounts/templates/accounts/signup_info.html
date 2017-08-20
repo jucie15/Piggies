@@ -15,25 +15,22 @@
       </tr>
       <tr>
         <th>닉네임</th>
-        <td><input type="text" name="nickname" class="textinput form-control"></td>
+        <td>{{ form.nickname }}</td>
       </tr>
       <tr>
         <th>성별</th>
-        <td><select name="sex" class="select form-control">
-            <option value='1'>남자</option>
-            <option value='2'>여자</option>
-            </select></td>
+        <td>{{ form.sex }}</td>
       </tr>
       <tr>
-          <th>생년월일</th>
-          <td><input type="text" name="birth" class="textinput form-control" placeholder="예: 19801230"></td>
+        <th>생년월일</th>
+        <td>{{ form.birth }}</td>
       </tr>
       <tr>
       <th rowspan="2">관심 지역</th>
-      <td><select id="city" name="city" class="form-control"></select></td>
+      <td>{{ form.city }}</select></td>
       </tr>
       <tr>
-      <td><select id="district" name="district" class="form-control"></select></td>
+      <td>{{ form.district }}</select></td>
       </tr>
       </table>
       <input type="submit" class="btn btn-warning" value="다음" style="float:right;">

@@ -12,8 +12,8 @@ def birth_validator(value):
 class Profile(models.Model):
     # 사용자 추가 정보 모델
     SEX_CHOICES = (
-        ('1','MALE'),
-        ('2','FEMALE'),
+        ('1','남'),
+        ('2','여'),
     ) # 성별 종류 명시
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL) # AUTH_USER 모델과 1:1 관계 설장

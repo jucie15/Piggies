@@ -6,13 +6,25 @@ from accounts.models import Profile
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['nickname', 'sex', 'birth', 'city', 'district']
+        fields = ['image', 'nickname', 'sex', 'birth', 'city', 'district']
         widgets = {
-            "sex": forms.Select(attrs={"class":"form-control"}),
-            "birth": forms.TextInput(attrs={"class":"form-control"}),
-            "city": forms.HiddenInput(),
-            "district": forms.HiddenInput(),
+            "nickname": forms.TextInput(attrs={"class": "textinput form-control"}),
+            "sex": forms.Select(attrs={"class": "select form-control"}),
+            "birth": forms.TextInput(attrs={"name": "birth", "class": "textinput form-control", "placeholder": "예: 19801230"}),
+            "city": forms.Select(attrs={"id": "city", "name": "city", "class": "form-control"}),
+            "district": forms.Select(attrs={"id": "district", "name": "district", "class": "form-control"}),
         }
+        # labels = {
+        #     'name': _('Writer'),
+        # }
+        # help_texts = {
+        #     'name': _('Some useful help text.'),
+        # }
+        # error_messages = {
+        #     'name': {
+        #         'max_length': _("This writer's name is too long."),
+        #     },
+        # }
 
         def clean_sex(self):
             sex = self.cleaned_data.get('sex','')

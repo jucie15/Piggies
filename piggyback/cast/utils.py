@@ -2,10 +2,11 @@ import requests
 import re
 import os
 import time
+from django.shortcuts import get_object_or_404
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from cast.models import *
-from django.shortcuts import get_object_or_404
+from tagging.models import Tag, TaggedItem
 
 
 ROOT = lambda *args: os.path.join(settings.BASE_DIR, 'cast', 'static', 'cast', 'txt', *args)
@@ -105,6 +106,8 @@ def congressman_db_update():
                 congressman.party = mem_dic['정당']
                 congressman.constituency = mem_dic['선거구']
                 congressman.email = mem_dic['이메일']
+                Tag.objects.add_tag(congressman, mem_dic['정당']) # 해당 인스턴스에 태그 추가
+                Tag.objects.add_tag(congressman, '20대') # 해당 인스턴스에 태그 추가
                 mem_dic = {} # 다음 의원을 위해 변수 초기화
                 congressman.save() # 디비에 저장
 
