@@ -90,6 +90,8 @@ class Congressman(models.Model):
     email = models.CharField(max_length=64, null=True, blank=True) # 이메일 주소
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True) # 업데이트 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='CongressmanEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
+    like_number = models.IntegerField(default=0) # 좋아요 개수
+    dislike_number = models.IntegerField(default=0) # 싫어요 개수
     comment_number = models.IntegerField(default=0) # 댓글의 개수
 
     class Meta():
@@ -111,6 +113,15 @@ class Congressman(models.Model):
         self.comment_number = self.comment_set.all().count()
         self.save(update_fields=['comment_number'])
 
+    def update_emotion_number(self):
+        # 감정 개수 업데이트
+        emotion_list = CongressmanEmotion.objects.filter(congressman_id=self.id).values_list('name', flat=True) #
+        emotion_number_list = Counter(emotion_list)
+        self.like_number = emotion_number_list['1']
+        self.dislike_number = emotion_number_list['2']
+        self.save()
+
+
 register(Congressman)
 
 class Pledge(models.Model):
@@ -128,6 +139,8 @@ class Pledge(models.Model):
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
     created_at = models.DateTimeField(auto_now_add=True) # 공약 날짜
     emotion = models.ManyToManyField(settings.AUTH_USER_MODEL, through='PledgeEmotion') # 감정 표현 모델을 통해 유저와 M:N 관계 설정
+    like_number = models.IntegerField(default=0) # 좋아요 개수
+    dislike_number = models.IntegerField(default=0) # 싫어요 개수
     comment_number = models.IntegerField(default=0) # 댓글의 개수
 
     def __str__(self):
@@ -141,10 +154,25 @@ class Pledge(models.Model):
         emotion_count = PledgeEmotion.objects.filter(pledge_id=self.id, name=emotion).count()
         return emotion_count
 
+    def max_emotion_count(self):
+        # 감정 표현 중 가장 큰 값 리턴 함수
+        if self.like_number >= self.dislike_number:
+            return self.like_number
+        else:
+            return self.dislike_number
+
     def update_comment_number(self):
         # 댓글 개수 업데이트 함수
         self.comment_number = self.comment_set.all().count()
         self.save(update_fields=['comment_number'])
+
+    def update_emotion_number(self):
+        # 감정 개수 업데이트
+        emotion_list = PledgeEmotion.objects.filter(pledge_id=self.id).values_list('name', flat=True) #
+        emotion_number_list = Counter(emotion_list)
+        self.like_number = emotion_number_list['1']
+        self.dislike_number = emotion_number_list['2']
+        self.save()
 
 register(Pledge)
 
@@ -193,6 +221,15 @@ class PledgeEmotion(models.Model):
     def __str__(self):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
 
+    @staticmethod
+    def on_post_update(sender, **kwargs):
+        # 컨텐츠 감정표현 클릭 시(생성, 삭제, 변경)
+        pledge_emotion = kwargs['instance'] # 생성된 인스턴스를 받아온다.
+        pledge_emotion.pledge.update_emotion_number()
+
+post_delete.connect(PledgeEmotion.on_post_update, sender=PledgeEmotion)
+post_save.connect(PledgeEmotion.on_post_update, sender=PledgeEmotion)
+
 class CongressmanEmotion(models.Model):
     # 국회의원내 감정 표현 관계 모델
 
@@ -208,6 +245,14 @@ class CongressmanEmotion(models.Model):
 
     def __str__(self):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
+    @staticmethod
+    def on_post_update(sender, **kwargs):
+        # 컨텐츠 감정표현 클릭 시(생성, 삭제, 변경)
+        congressman_emotion = kwargs['instance'] # 생성된 인스턴스를 받아온다.
+        congressman_emotion.congressman.update_emotion_number()
+
+post_delete.connect(CongressmanEmotion.on_post_update, sender=CongressmanEmotion)
+post_save.connect(CongressmanEmotion.on_post_update, sender=CongressmanEmotion)
 
 class Comment(models.Model):
     # 댓글 모델

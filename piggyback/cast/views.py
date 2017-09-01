@@ -85,6 +85,7 @@ def congressman_detail(request, congressman_pk):
     # 국회의원 세부 페이지
 
     congressman = get_object_or_404(Congressman, pk=congressman_pk)
+    pledge_list = Pledge.objects.filter(congressman=congressman)
     comment_form = CommentForm()
 
     pledge_status = {}
@@ -102,6 +103,7 @@ def congressman_detail(request, congressman_pk):
 
     context = {}
     context['congressman'] = congressman
+    context['pledge_list'] = pledge_list
     context['pledge_status'] = pledge_status
     context['comment_form'] = comment_form
 
@@ -181,27 +183,33 @@ def contents_emotion(request, contents_pk):
     return HttpResponse(data, mimetype, status=status)
 
 def pledge_emotion(request, pledge_pk):
-    # 컨텐츠의 감정표현 처리
+    # 공약의 감정표현 처리
+
     if request.user.is_anonymous():
         return HttpResponse(status=401)
 
     if request.is_ajax():
         # ajax 요청일 경우
         user = request.user # 현재 유저의 정보를 받아온다.
-        pledge = get_object_or_404(Pledge, pk=pledge_pk) # 현재 공약 인스턴스 생성
+        pledge = get_object_or_404(Pledge, pk=pledge_pk) # 현재 콘텐츠 인스턴스 생성
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
+        before_emotion_name = ''
         if user.pledge_emotion_set.filter(pledge=pledge).exists():
-            # 해당 공약에 감정 표현을 이미 해놓은 경우
+            # 해당 컨텐츠에 감정 표현을 이미 해놓은 경우
             user_emotion = user.pledge_emotion_set.get(pledge=pledge) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            before_emotion_name = user_emotion.name
             if user_emotion.name == emotion_name:
                 # 같은 감정을 한번 더누르면 삭제.
+                emotion_status = 'delete'
                 PledgeEmotion.objects.filter(pledge=pledge, user=user).delete() # 인스턴스 삭제
             else:
                 # 다른 감정을 누를 경우
+                emotion_status = 'update'
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
+            emotion_status = 'create'
             PledgeEmotion.objects.create(
                 user=user,
                 pledge=pledge,
@@ -212,6 +220,8 @@ def pledge_emotion(request, pledge_pk):
         context = {}
         context['status'] = 'true'
         context['message'] = 'success'
+        context['before_emotion_name'] = before_emotion_name
+        context['emotion_status'] = emotion_status
     else:
         status = 403
         context = {}
@@ -224,7 +234,7 @@ def pledge_emotion(request, pledge_pk):
     return HttpResponse(data, mimetype, status=status)
 
 def congressman_emotion(request, congressman_pk):
-    # 컨텐츠의 감정표현 처리
+    # 국회의원의 감정표현 처리
 
     if request.user.is_anonymous():
         return HttpResponse(status=401)
@@ -234,27 +244,35 @@ def congressman_emotion(request, congressman_pk):
         user = request.user # 현재 유저의 정보를 받아온다.
         congressman = get_object_or_404(Congressman, pk=congressman_pk) # 현재 콘텐츠 인스턴스 생성
         emotion_name = request.GET.get('emotion_name','') # url GET 정보에 담겨있는 감정정보를 받아온다.
+        before_emotion_name = ''
         if user.congressman_emotion_set.filter(congressman=congressman).exists():
             # 해당 컨텐츠에 감정 표현을 이미 해놓은 경우
             user_emotion = user.congressman_emotion_set.get(congressman=congressman) # 해당유저가 컨텐츠에 해놓은 감정표현을 정보를 받아와
+            before_emotion_name = user_emotion.name
             if user_emotion.name == emotion_name:
                 # 같은 감정을 한번 더누르면 삭제.
+                emotion_status = 'delete'
                 CongressmanEmotion.objects.filter(congressman=congressman, user=user).delete() # 인스턴스 삭제
             else:
                 # 다른 감정을 누를 경우
+                emotion_status = 'update'
                 user_emotion.name = emotion_name # 감정을 바꿔준 후 저장
                 user_emotion.save()
         else:
             # 감정표현을 처음 하는 경우 새롭게 생성
+            emotion_status = 'create'
             CongressmanEmotion.objects.create(
                 user=user,
                 congressman=congressman,
                 name=emotion_name,
             )
+
         status = 200
         context = {}
         context['status'] = 'true'
         context['message'] = 'success'
+        context['before_emotion_name'] = before_emotion_name
+        context['emotion_status'] = emotion_status
     else:
         status = 403
         context = {}

@@ -65,7 +65,7 @@
     <li class="emotion"><a class="emobtn" role="button" id="sad" name="슬퍼요" value="5">
         <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score" id="emo_5">{{ contents.laugh_number }}</span></a>
     </li>
-    <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="6">
+    <li class="emotion"><a class="emobtn" role="button" id="surprising" name="놀라워요" value="6">
         <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_6">{{ contents.sad_number }}</span></a>
     </li>
 </ul>
@@ -292,17 +292,17 @@
         </div>
     </div>
 
-    <script src="{% static 'cast/js/comment.js' %}"></script>
-    <script type="text/javascript">
-        function login_confirm(){
-            if(confirm("로그인 하시겠습니까?") == true)
-            {
-                location.href = "{% url 'accounts:login' %}"
-            }
-        };
-        $(document).ready(function(){
-          $('.add-tag-box').css('display','none');
-      });
+<script src="{% static 'cast/js/comment.js' %}"></script>
+<script type="text/javascript">
+    function login_confirm(){
+        if(confirm("로그인 하시겠습니까?") == true)
+        {
+            location.href = "{% url 'accounts:login' %}"
+        }
+    };
+    $(document).ready(function(){
+      $('.add-tag-box').css('display','none');
+    });
 
     //태그추가 버튼 클릭시 태그 추가 박스 보이도록
     $('.add-tag-btn').click(function(){

@@ -19,7 +19,10 @@
                     <img src="{% static pledge.congressman.profile_image_path %}" alt="">
                 </td>
                 <td>
-                    <div style="font-size: 20px;">{{ pledge.congressman.name }}</div></br>
+                    <div style="font-size: 20px;">
+                        <a href="{{ pledge.congressman.get_absolute_url }}"> {{ pledge.congressman.name }} </a>
+                    </div>
+                    </br>
                     <div style="font-size: 15px;">의원</div>
                 </td>
             </tr>
@@ -73,26 +76,20 @@
 <hr>
 
 {% load cast_extras %}
-<ul class="emotion_box">
-    <li class="emotion"><a class="emobtn" role="button" id="glad" name="기뻐요" value="3">
-        <img src="{% static 'cast/img/glad.png' %}" alt="" style="width:23px;"><span class="emotion_name">기뻐요</span><span class="emotion_score" id="emo_3">{{ pledge|emotion_count:"3" }}</span></a>
-    </li>
-    <li class="emotion"><a class="emobtn" role="button" id="disgusting" name="역겨워요" value="1">
-        <img src="{% static 'cast/img/discusting.png' %}" alt="" style="width:23px;"><span class="emotion_name">역겨워요</span><span class="emotion_score" id="emo_1">{{ pledge|emotion_count:"1" }}</span></a>
-    </li>
-    <li class="emotion"><a class="emobtn" role="button" id="angry" name="화나요" value="5">
-        <img src="{% static 'cast/img/angry.png' %}" alt="" style="width:23px;"><span class="emotion_name">화나요</span><span class="emotion_score" id="emo_5">{{ pledge|emotion_count:"5" }}</span></a>
-    </li>
-    <li class="emotion"><a class="emobtn" role="button" id="nice" name="멋져요" value="6">
-        <img src="{% static 'cast/img/nice.png' %}" alt="" style="width:23px;"><span class="emotion_name">멋져요</span><span class="emotion_score" id="emo_6">{{ pledge|emotion_count:"6" }}</span></a>
-    </li>
-    <li class="emotion"><a class="emobtn" role="button" id="sad" name="슬퍼요" value="4">
-        <img src="{% static 'cast/img/sad.png' %}" alt="" style="width:23px;"><span class="emotion_name">슬퍼요</span><span class="emotion_score" id="emo_4">{{ pledge|emotion_count:"4" }}</span></a>
-    </li>
-    <li class="emotion"><a class="emobtn"role="button" id="surprising" name="놀라워요" value="2">
-        <img src="{% static 'cast/img/surprising.png' %}" alt="" style="width:23px;"><span class="emotion_name">놀라워요</span><span class="emotion_score" id="emo_2">{{ pledge|emotion_count:"2" }}</span></a>
-    </li>
-</ul>
+    <div class="like-select-box">
+        <div class="like">
+           <div class="btn-wrapper">
+                <a class="emobtn" role="button" id="like" name="좋아요" value="1">
+                    <img src="{% static 'cast/img/like.png' %}" alt=""><span id="emo_1">{{ pledge.like_number }} </span></a>
+           </div>
+        </div>
+        <div class="dislike">
+           <div class="btn-wrapper">
+                <a class="emobtn" role="button" id="dislike" name="싫어요" value="2">
+                    <img src="{% static 'cast/img/dislike.png' %}" alt=""><span id="emo_2">{{ pledge.dislike_number }}</span></a>
+            </div>
+        </div>
+    </div>
 <hr>
 
 <div class="add-comment-box cd-comment-box">
@@ -301,46 +298,6 @@
 -->
 
 
-<script type="text/javascript">
-    // 좋아요 버튼 처리
-    // 버튼 클릭 > ajax통신 (like url로 전달) > views의 like 메소드에서 리턴하는 값 전달받기 > 성공시 콜백 호출
-    $('.emobtn').click(function(){
-        var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value 값을 가져온다.
-
-        $.ajax({
-            url: "{% url 'cast:pledge_emotion' pledge.pk %}?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
-            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
-            dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
-
-            success: function(response){
-                // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-            },
-            error:function(error){
-                // 요청이 실패했을 경우
-            }
-        });
-    });
-
-
-    $('.comment-emo-btn').click(function(){
-        var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
-        var comment_pk = $(this).attr('id');
-
-        $.ajax({
-            url: "/cast/comment-emotion/"+comment_pk+"/?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
-            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
-            dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
-
-            success: function(response){
-                // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-            },
-            error:function(error){
-                // 요청이 실패했을 경우
-            }
-        });
-    });
-</script>
-
 <script src="{% static 'cast/js/comment.js' %}"></script>
 <script type="text/javascript">
 
@@ -369,17 +326,47 @@
         var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
 
         $.ajax({
-            url: "{% url 'cast:contents_emotion' pledge.pk %}?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
+            url: "{% url 'cast:pledge_emotion' pledge.pk %}?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
             dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
 
             success: function(data){
                 // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
-                $('#emo_' + emotion_name).text(data.emotion_count)
-                $('#emo_' + data.before_emotion_name).text(data.before_emotion_count)
+
+                if( data.emotion_status == 'create' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) + 1)
+                }
+                else if( data.emotion_status == 'update' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) + 1)
+                    $('#emo_' + data.before_emotion_name).text(Number($('#emo_' + data.before_emotion_name).text()) - 1)
+                }
+                else if ( data.emotion_status == 'delete' ){
+                    $('#emo_' + emotion_name).text(Number($('#emo_' + emotion_name).text()) - 1)
+                }
             },
             error:function(error){
                 // 요청이 실패했을 경우
-                console.log(error.status + error.message)
+                if( error.status == 401 )
+                {
+                    login_confirm()
+                }
+            }
+        });
+    });
+
+    $('.comment-emo-btn').click(function(){
+        var emotion_name = $(this).attr('value'); // 클릭한 요소의 attribute 중 value의 값을 가져온다.
+        var comment_pk = $(this).attr('id');
+
+        $.ajax({
+            url: "/cast/comment-emotion/"+comment_pk+"/?emotion_name=" + emotion_name, // 통신할 url을 지정한다.
+            data: {'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터를 전송할 때 이 옵션을 사용한다.
+            dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정한다. 없으면 알아서 판단한다.
+
+            success: function(response){
+                // 요청이 성공했을 경우 눌려있는 버튼 모양을 바꿔준다.
+            },
+            error:function(error){
+                // 요청이 실패했을 경우
             }
         });
     });

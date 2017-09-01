@@ -38,6 +38,7 @@ class CongressmanAdmin(admin.ModelAdmin):
 class PledgeAdmin(admin.ModelAdmin):
     model = Pledge
     search_fields = ('title',)
+    list_display = ['id', 'title', ]
     inlines = [
         CommentInline,
     ]
@@ -59,6 +60,15 @@ class FavoriteAdmin(admin.ModelAdmin):
 @admin.register(ContentsEmotion)
 class ContentsEmotionAdmin(admin.ModelAdmin):
     model = ContentsEmotion
+
+@admin.register(CongressmanEmotion)
+class CongressmanEmotionAdmin(admin.ModelAdmin):
+    model = CongressmanEmotion
+
+@admin.register(PledgeEmotion)
+class PledgeEmotionAdmin(admin.ModelAdmin):
+    model = PledgeEmotion
+    search_fields = ('pledge__id', 'pledge__title', 'name')
 
 @admin.register(CommentEmotion)
 class CommentEmotionAdmin(admin.ModelAdmin):
