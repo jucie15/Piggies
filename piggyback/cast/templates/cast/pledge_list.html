@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <div class="contents_box" id="box4">
     <ul>
-        {% for pledge in pledge_list|slice:":3" %}
+        {% for pledge in pledge_list %}
         <a href="{{ pledge.get_absolute_url }}">
         <li>
             <div class="pledge-box">
@@ -29,3 +29,22 @@
     </ul>
 </div>
 <!-- .pledge-box여러개 만드려면 position:absolute 때문에 top값 하나하나 줘야함ㅠㅠ -->
+<script>
+
+  //index페이지 mian background-color변경
+  $(document).ready(function(){
+    $('body').css('background-color','#fbfbf9');
+  });
+
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    onBeforePageLoad: function () {
+      $('.loading').show();
+    },
+    onAfterPageLoad: function ($items) {
+      $('.loading').hide();
+    }
+  });
+
+</script>
+

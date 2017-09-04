@@ -84,21 +84,21 @@
         <tr>
             <th colspan="2">공약</th>
         </tr>
-            {% for pledge in pledge_list %}
-                <tr>
-                    <td >
-                        <a href="{{ pledge.get_absolute_url }}">{{ pledge }}</a><p>
-                    </td>
-                    <td class="show-box">
-                        <img src="{% static 'cast/img/glad.png' %}" alt="">
-                        <span>{{ pledge|max_count }}
-                        </span>
-                        &nbsp;
-                        <img src="{% static 'cast/img/comment.png' %}" alt="">
-                        <span>{{ pledge.comment_number }}</span>
-                    </td>
-                </tr>
-            {% endfor %}
+        {% for pledge in pledge_list %}
+            <tr>
+                <td >
+                    <a href="{{ pledge.get_absolute_url }}">{{ pledge }}</a><p>
+                </td>
+                <td class="show-box">
+                    <img src="{% static 'cast/img/glad.png' %}" alt="">
+                    <span>{{ pledge|max_count }}
+                    </span>
+                    &nbsp;
+                    <img src="{% static 'cast/img/comment.png' %}" alt="">
+                    <span>{{ pledge.comment_number }}</span>
+                </td>
+            </tr>
+        {% endfor %}
     </table>
 
 </div>

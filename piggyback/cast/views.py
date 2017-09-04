@@ -5,16 +5,50 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count, Max
+from django.template.loader import render_to_string
 from tagging.models import Tag, TaggedItem
 from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
 from accounts.models import Profile
 
+
 def index(request):
     # 메인 페이지
+    req_type = request.POST.get('type', '')
+    context = {}
+
+    if req_type == 'contents':
+        contents_list = Contents.objects.all()[:4]
+        html = 'cast/contents_list.html'
+        context['contents_list'] = contents_list
+    elif req_type == 'pledge':
+        pledge_list = Pledge.objects.all()[:4]
+        html = 'cast/pledge_list.html'
+        context['pledge_list'] = pledge_list
+    elif req_type == 'congressman':
+        congressman_list = Congressman.objects.all()[:4]
+        html = 'cast/congressman_list.html'
+        context['congressman_list'] = congressman_list
+
+    if request.user.is_authenticated():
+        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
+    else:
+        tag_list = Tag.objects.usage_for_model(Contents, counts=True) # 태그아이템 개수 포함한 리스트
+
+    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
+
+    context['tag_list'] = tag_list
+
+    if request.is_ajax():
+        response = render_to_string(html, context, request)
+        return HttpResponse(response)
+    else:
+        return render(request, 'cast/index.html', context)
+
+
+def contents_list(request):
+    # 메인 페이지
     contents_list = Contents.objects.all()
-    congressman_list = Congressman.objects.all()
-    pledge_list = Pledge.objects.all()
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
     paginator = Paginator(contents_list, 4) # 페이지 당 4개씩 표현
 
@@ -37,11 +71,68 @@ def index(request):
 
     context = {}
     context['contents_list'] = contents_list
-    context['congressman_list'] = congressman_list
+    context['tag_list'] = tag_list
+
+    return render(request, 'cast/contents_list.html', context)
+
+def pledge_list(request):
+    # 메인 페이지
+
+    pledge_list = Pledge.objects.all()
+    page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
+    paginator = Paginator(pledge_list, 10) # 페이지 당 4개씩 표현
+
+    try:
+        # 페이지 번호가 있으면 해당 페이지로 이동
+        pledge_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 페이지 번호가 숫자가 아닐 경우 첫페이지로 이동
+        pledge_list = paginator.page(1)
+    except EmptyPage:
+        # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
+        pledge_list = paginator.page(paginator.num_pages)
+
+    if request.user.is_authenticated():
+        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
+    else:
+        tag_list = Tag.objects.usage_for_model(Pledge, counts=True) # 태그아이템 개수 포함한 리스트
+
+    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
+
+    context = {}
     context['pledge_list'] = pledge_list
     context['tag_list'] = tag_list
 
-    return render(request, 'cast/index.html', context)
+    return render(request, 'cast/pledge_list.html', context)
+
+def congressman_list(request):
+    # 메인 페이지
+    congressman_list = Congressman.objects.all()
+    page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
+    paginator = Paginator(congressman_list, 4) # 페이지 당 4개씩 표현
+
+    try:
+        # 페이지 번호가 있으면 해당 페이지로 이동
+        congressman_list = paginator.page(page)
+    except PageNotAnInteger:
+        # 페이지 번호가 숫자가 아닐 경우 첫페이지로 이동
+        congressman_list = paginator.page(1)
+    except EmptyPage:
+        # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
+        congressman_list = paginator.page(paginator.num_pages)
+
+    if request.user.is_authenticated():
+        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
+    else:
+        tag_list = Tag.objects.usage_for_model(Congressman, counts=True) # 태그아이템 개수 포함한 리스트
+
+    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
+
+    context = {}
+    context['congressman_list'] = congressman_list
+    context['tag_list'] = tag_list
+
+    return render(request, 'cast/congressman_list.html', context)
 
 def tagged_list(request):
     # 해당 태그가 포함 되어있는 전체 리스트
@@ -84,27 +175,14 @@ def contents_detail(request, contents_pk):
 def congressman_detail(request, congressman_pk):
     # 국회의원 세부 페이지
 
-    congressman = get_object_or_404(Congressman, pk=congressman_pk)
-    pledge_list = Pledge.objects.filter(congressman=congressman)
+    congressman = get_object_or_404(Congressman.objects.prefetch_related('pledge_set'), pk=congressman_pk)
+    pledge_list = congressman.pledge_set.all()
     comment_form = CommentForm()
 
-    pledge_status = {}
-
-    try:
-        pledge_status['not_enforcement'] = congressman.pledge_set.filter(status='0').count() / congressman.pledge_set.all().count() * 100
-        pledge_status['progress'] = congressman.pledge_set.filter(status='1').count() / congressman.pledge_set.all().count() * 100
-        pledge_status['complete'] = congressman.pledge_set.filter(status='2').count() / congressman.pledge_set.all().count() * 100
-        pledge_status['falied'] = congressman.pledge_set.filter(status='3').count() / congressman.pledge_set.all().count() * 100
-    except ZeroDivisionError:
-        pledge_status['not_enforcement'] = 100
-        pledge_status['progress'] = 0
-        pledge_status['complete'] =0
-        pledge_status['falied'] = 0
 
     context = {}
     context['congressman'] = congressman
     context['pledge_list'] = pledge_list
-    context['pledge_status'] = pledge_status
     context['comment_form'] = comment_form
 
     return render(request, 'cast/congressman_detail.html', context)
