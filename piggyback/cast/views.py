@@ -14,19 +14,29 @@ from accounts.models import Profile
 
 def index(request):
     # 메인 페이지
-    req_type = request.POST.get('type', '')
+    req_type = request.POST.get('type', 'contents')
+    tag = request.POST.get('tag', '')
     context = {}
 
     if req_type == 'contents':
-        contents_list = Contents.objects.all()[:4]
+        if tag == 'all':
+            contents_list = Contents.objects.all()[:10]
+        else:
+            contents_list = TaggedItem.objects.get_by_model(Contents, tag) # 콘텐츠 리스트
         html = 'cast/contents_list.html'
         context['contents_list'] = contents_list
-    elif req_type == 'pledge':
-        pledge_list = Pledge.objects.all()[:4]
+    if req_type == 'pledge':
+        if tag == 'all':
+            pledge_list = Pledge.objects.all()[:10]
+        else:
+            pledge_list = TaggedItem.objects.get_by_model(Pledge, tag)
         html = 'cast/pledge_list.html'
         context['pledge_list'] = pledge_list
     elif req_type == 'congressman':
-        congressman_list = Congressman.objects.all()[:4]
+        if tag == 'all':
+            congressman_list = Congressman.objects.all()[:10]
+        else:
+            congressman_list = TaggedItem.objects.get_by_model(Congressman, tag)
         html = 'cast/congressman_list.html'
         context['congressman_list'] = congressman_list
 
@@ -36,7 +46,6 @@ def index(request):
         tag_list = Tag.objects.usage_for_model(Contents, counts=True) # 태그아이템 개수 포함한 리스트
 
     tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
-
     context['tag_list'] = tag_list
 
     if request.is_ajax():

@@ -5,7 +5,9 @@
 {% include 'cast/top_panel.html' %}         <!-- Logo, 검색버튼, 로그인 -->
 {% include 'cast/tag_container.html' %}     <!-- Tag -->
 {% include 'cast/select_box.html' %}        <!-- 공약, 이슈, 국회의원 -->
-<div id="list"></div>
+<div id="list">
+  {% include 'cast/contents_list.html' %}
+</div>
 
 <script>
 
@@ -29,15 +31,14 @@
     $(".idx-btn").removeClass('active');
     $(this).addClass('active');
 
+    tag = $('.tag-name.active').attr('value');
     type = $(this).attr('id');
-
     $.ajax({
           type: "POST",
           url: "{% url 'cast:index' %}",
-          data: {'type': type, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+          data: {'tag':tag, 'type': type, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
           success: function(data){
-            console.log(data)
-              $('#list').html(data);
+            $('#list').html(data);
           },
           error: function(error){
             alert("실패");
@@ -45,6 +46,26 @@
       });
     });
 
+  $('.tag-name').click(function(){
+    // 리스트 버튼 클릭시
+    $(".tag-name").removeClass('active');
+    $(this).addClass('active');
+
+    tag = $(this).attr('value');
+    type = $('.idx-btn.active').attr('id');
+
+    $.ajax({
+          type: "POST",
+          url: "{% url 'cast:index' %}",
+          data: {'tag': tag, 'type': type, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+          success: function(data){
+            $('#list').html(data);
+          },
+          error: function(error){
+            alert("실패");
+          }
+      });
+    });
 
 </script>
 

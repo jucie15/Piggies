@@ -6,9 +6,12 @@
       <!-- Slides -->
 
       {% load socialaccount %}
+        <a href="#">
+          <div class="swiper-slide tag-name" value="all">#all</div>
+        </a>
         {% for tag in tag_list %}
-          <a href="{% url 'cast:tagged_list' %}?tag={{ tag.name }}">
-            <div class="swiper-slide">#{{ tag.name }}</div>
+          <a href="#">
+            <div class="swiper-slide tag-name" value="{{ tag.name }}">#{{ tag.name }}</div>
           </a>
         {% endfor %}
     </div>
