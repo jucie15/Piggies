@@ -123,6 +123,14 @@ a {
     background: #FFD124;
 }
 
+.swiper-container a{
+    text-decoration: none;
+}
+
+.swiper-container .active{
+    color: black;
+}
+
 .swiper-slide {
     text-align: center;
     font-size: 13px;
@@ -144,8 +152,9 @@ a {
     align-items: center;
 }
 
+
 .swiper-slide:hover {
-    color: white;
+    color: black;
 }
 
 .select-content
