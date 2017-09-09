@@ -121,7 +121,6 @@ class Congressman(models.Model):
         self.dislike_number = emotion_number_list['2']
         self.save()
 
-
 register(Congressman)
 
 class Pledge(models.Model):
@@ -245,6 +244,7 @@ class CongressmanEmotion(models.Model):
 
     def __str__(self):
         return self.get_name_display() # name 필드의 Choice Value 값을 보여 준다.
+
     @staticmethod
     def on_post_update(sender, **kwargs):
         # 컨텐츠 감정표현 클릭 시(생성, 삭제, 변경)

@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <div class="contents_box" id="box4">
     <ul>
+        {% load cast_extras %}
         {% for pledge in pledge_list %}
         <a href="{{ pledge.get_absolute_url }}">
         <li>
@@ -15,9 +16,9 @@
                     <span class="pledge-title margin-top-4px ">{{ pledge.title }}</span>
                     <span class="pledge-samll-txt margin-top-4px">
                         <img src="{% static 'cast/img/nice.png' %}" alt="" class="emotion-img">
-                        <span class="count">35</span>
-                        <img src="{% static 'cast/img/comment.png' %}" alt=""class="comment-img">
-                        <span class="count">35</span>
+                        <span class="count">{{ pledge.like_number }}</span>
+                        <img src="{% static 'cast/img/comment.png' %}" alt="" class="comment-img">
+                        <span class="count">{{ pledge.comment_number }}</span>
                     </span>
                 </div>
                 <div class="right-box">

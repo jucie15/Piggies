@@ -31,11 +31,11 @@
                     <div class="card-tail">
                       <div class="pull-left">
                         <span class="emotion-icon-btn">
-                          <img src="{% static 'cast/img/like.png' %}" alt="" class="emotion-img"><span class="emotion-count">35</span>
+                          <img src="{% static 'cast/img/like.png' %}" alt="" class="emotion-img"><span class="emotion-count">{{ congressman.like_number }}</span>
                         </span>
                       </div>
                       <div class="contents-comment-box">
-                        <img src="{% static 'cast/img/dislike.png' %}" alt="" class="comment-img"><span class="comment-count">{{ congressman.comment_number }}</span>
+                        <img src="{% static 'cast/img/comment.png' %}" alt="" class="comment-img"><span class="comment-count">{{ congressman.comment_number }}</span>
                       </div>
                       <div class="pull-right">
                         <span class="like"><i class="fa fa-star-o" aria-hidden="true"></i></span>

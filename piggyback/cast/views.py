@@ -15,17 +15,17 @@ from accounts.models import Profile
 def index(request):
     # 메인 페이지
     req_type = request.POST.get('type', 'contents')
-    tag = request.POST.get('tag', '')
+    tag = request.POST.get('tag', 'all')
     context = {}
 
     if req_type == 'contents':
         if tag == 'all':
             contents_list = Contents.objects.all()[:10]
         else:
-            contents_list = TaggedItem.objects.get_by_model(Contents, tag) # 콘텐츠 리스트
+            contents_list = TaggedItem.objects.get_by_model(Contents, tag)
         html = 'cast/contents_list.html'
         context['contents_list'] = contents_list
-    if req_type == 'pledge':
+    elif req_type == 'pledge':
         if tag == 'all':
             pledge_list = Pledge.objects.all()[:10]
         else:
