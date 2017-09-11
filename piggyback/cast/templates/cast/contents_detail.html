@@ -113,7 +113,7 @@
                             {{ comment.created_at|date:'Y-m-d H:i' }}
                         {% endif %}
                     </span>&nbsp;&nbsp;
-                    <a href="{% url 'cast:recomment_new' comment.pk %}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                    <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                       <!--대댓 개수 가져오기-->
                       <span style="color:#9c9c9c;">{{ comment.recomment_number }}</span></a>
                       &nbsp;
@@ -150,6 +150,7 @@
                     </div>
                 </li>
             {% endfor %}
+            </li>
         {% endfor %}
     </ul>
 </div>
@@ -263,11 +264,11 @@
                                 <li class="comment recomment">
                                     <img class="reply-img" src="{% static 'cast/img/reply.png' %}" alt="">
                                     <a href="">
-                                        {% if recomment.user.socialaccount_set.all.first.get_avatar_url is None %}
+                                        {% if recomment.user.profile.image %}
                                         <!-- 프로필 이미지가 없을 경우 기본이미지로  -->
-                                        <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
+                                            <img class="comment-user-img recomment-user-img" src="{{ recomment.user.profile.image.url }}" alt="">
                                         {% else %}
-                                        <img class="comment-user-img recomment-user-img" src="{{ recomment.user.socialaccount_set.all.first.get_avatar_url }}" alt="">
+                                            <img class="comment-user-img recomment-user-img" src="{% static 'cast/img/angry.png' %}" alt="">
                                         {% endif %}
                                     </a>
                                     <div class="comment_content recomment_content">

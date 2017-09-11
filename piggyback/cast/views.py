@@ -160,7 +160,7 @@ def tagged_list(request):
 
 def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
-    contents = get_object_or_404(Contents.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user'), pk=contents_pk)
+    contents = get_object_or_404(Contents.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user__profile'), pk=contents_pk)
 
     if request.user.is_anonymous():
         # 로그인을 안했을 경우
@@ -199,7 +199,7 @@ def congressman_detail(request, congressman_pk):
 def pledge_detail(request, pledge_pk):
 
     # 공약 세부 페이지
-    pledge = get_object_or_404(Pledge, pk=pledge_pk)
+    pledge = get_object_or_404(Pledge.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user__profile'), pk=pledge_pk)
 
     if request.user.is_anonymous():
         # 로그인을 안했을 경우
@@ -534,7 +534,7 @@ def recomment_new(request, comment_pk):
     # 대댓글 달기
 
     comment = get_object_or_404(Comment, pk=comment_pk)
-    redirect_path = request.META.get('HTTP_REFERER') # 해당 컨텐츠로 리디렉션 하기위한 url_path
+    redirect_path = request.GET.get('next','') # 해당 컨텐츠로 리디렉션 하기위한 url_path
 
     if request.method == 'POST':
         # 포스트 요청일 경우
@@ -631,7 +631,7 @@ def ajax_favorites(request, pk):
             pledge = get_object_or_404(Pledge, pk=pk) # 공약 인스턴스 생성
             if user.favorite_set.filter(pledge=pledge).exists():
                 # 유저가 이미 해당 공약을 즐겨찾기 추가해놨으면 삭제
-                Favorite.objects.filter(pledge=pledge, user=uesr).delete()
+                Favorite.objects.filter(pledge=pledge, user=user).delete()
                 isFavorite = False
 
             else:
