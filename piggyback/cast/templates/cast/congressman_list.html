@@ -52,10 +52,24 @@
     </div>
 
     {% if congressman_list.has_next %}
-    <a class="infinite-more-link" href="?page={{ contents_list.next_page_number }}">More</a> <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
+      <a class="infinite-more-link" href="{% url 'cast:congressman_list' %}?page={{ congressman_list.next_page_number }}">More</a> <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
     {% endif %}
 
     <div class="loading" style="display: none;">Loading...</div> <!-- /.loading -->
   </div>
 
+
+<script type="text/javascript">
+
+  var infinite = new Waypoint.Infinite({
+    element: $('.infinite-container')[0],
+    onBeforePageLoad: function () {
+      $('.loading').show();
+    },
+    onAfterPageLoad: function ($items) {
+      $('.loading').hide();
+    }
+  });
+
+</script>
 

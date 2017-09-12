@@ -3,7 +3,6 @@ from cast import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^$', views.contents_list, name='contents_list'),
     url(r'^pledge_list/$', views.pledge_list, name='pledge_list'),
     url(r'^congressman_list/$', views.congressman_list, name='congressman_list'),
     url(r'^tags/$', views.tagged_list, name='tagged_list'),

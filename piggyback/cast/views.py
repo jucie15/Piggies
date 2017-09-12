@@ -11,55 +11,16 @@ from cast.models import *
 from cast.forms import CommentForm, ReCommentForm
 from accounts.models import Profile
 
-
 def index(request):
     # 메인 페이지
-    req_type = request.POST.get('type', 'contents')
     tag = request.POST.get('tag', 'all')
-    context = {}
-
-    if req_type == 'contents':
-        if tag == 'all':
-            contents_list = Contents.objects.all()[:10]
-        else:
-            contents_list = TaggedItem.objects.get_by_model(Contents, tag)
-        html = 'cast/contents_list.html'
-        context['contents_list'] = contents_list
-    elif req_type == 'pledge':
-        if tag == 'all':
-            pledge_list = Pledge.objects.all()[:10]
-        else:
-            pledge_list = TaggedItem.objects.get_by_model(Pledge, tag)
-        html = 'cast/pledge_list.html'
-        context['pledge_list'] = pledge_list
-    elif req_type == 'congressman':
-        if tag == 'all':
-            congressman_list = Congressman.objects.all()[:10]
-        else:
-            congressman_list = TaggedItem.objects.get_by_model(Congressman, tag)
-        html = 'cast/congressman_list.html'
-        context['congressman_list'] = congressman_list
-
-    if request.user.is_authenticated():
-        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
+    if tag == 'all':
+        contents = Contents.objects.all()
     else:
-        tag_list = Tag.objects.usage_for_model(Contents, counts=True) # 태그아이템 개수 포함한 리스트
-
-    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
-    context['tag_list'] = tag_list
-
-    if request.is_ajax():
-        response = render_to_string(html, context, request)
-        return HttpResponse(response)
-    else:
-        return render(request, 'cast/index.html', context)
-
-
-def contents_list(request):
-    # 메인 페이지
-    contents_list = Contents.objects.all()
+        contents = TaggedItem.objects.get_by_model(Contents, tag)
+    html = 'cast/contents_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(contents_list, 4) # 페이지 당 4개씩 표현
+    paginator = Paginator(contents, 4) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -82,14 +43,23 @@ def contents_list(request):
     context['contents_list'] = contents_list
     context['tag_list'] = tag_list
 
-    return render(request, 'cast/contents_list.html', context)
+    if request.is_ajax():
+        response = render_to_string(html, context, request)
+        return HttpResponse(response)
+    else:
+        return render(request, 'cast/index.html', context)
 
 def pledge_list(request):
     # 메인 페이지
 
-    pledge_list = Pledge.objects.all()
+    tag = request.POST.get('tag', 'all')
+    if tag == 'all':
+        pledges = Pledge.objects.all()
+    else:
+        pledges = TaggedItem.objects.get_by_model(Pledge, tag)
+    html = 'cast/pledge_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(pledge_list, 10) # 페이지 당 4개씩 표현
+    paginator = Paginator(pledges, 4) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -112,13 +82,23 @@ def pledge_list(request):
     context['pledge_list'] = pledge_list
     context['tag_list'] = tag_list
 
-    return render(request, 'cast/pledge_list.html', context)
+    if request.is_ajax():
+        response = render_to_string(html, context, request)
+        return HttpResponse(response)
+    else:
+        return render(request, 'cast/index.html', context)
 
 def congressman_list(request):
     # 메인 페이지
-    congressman_list = Congressman.objects.all()
+
+    tag = request.POST.get('tag', 'all')
+    if tag == 'all':
+        congressmans = Congressman.objects.all()
+    else:
+        congressmans = TaggedItem.objects.get_by_model(Congressman, tag)
+    html = 'cast/congressman_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(congressman_list, 4) # 페이지 당 4개씩 표현
+    paginator = Paginator(congressmans, 4) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -141,7 +121,11 @@ def congressman_list(request):
     context['congressman_list'] = congressman_list
     context['tag_list'] = tag_list
 
-    return render(request, 'cast/congressman_list.html', context)
+    if request.is_ajax():
+        response = render_to_string(html, context, request)
+        return HttpResponse(response)
+    else:
+        return render(request, 'cast/index.html', context)
 
 def tagged_list(request):
     # 해당 태그가 포함 되어있는 전체 리스트

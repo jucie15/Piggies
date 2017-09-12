@@ -49,7 +49,7 @@
     </div>
 
     {% if contents_list.has_next %}
-      <a class="infinite-more-link" href="?page={{ contents_list.next_page_number }}">More</a> <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
+      <a class="infinite-more-link" href="{% url 'cast:index' %}?page={{ contents_list.next_page_number }}">More</a> <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
     {% endif %}
 
     <div class="loading" style="display: none;">Loading...</div> <!-- /.loading -->
@@ -57,12 +57,8 @@
 
 </div>
 
-<script>
 
-  //index페이지 mian background-color변경
-  $(document).ready(function(){
-    $('body').css('background-color','#fbfbf9');
-  });
+<script type="text/javascript">
 
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
@@ -75,3 +71,4 @@
   });
 
 </script>
+

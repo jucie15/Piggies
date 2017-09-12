@@ -16,16 +16,6 @@
     $('body').css('background-color','#fbfbf9');
   });
 
-  var infinite = new Waypoint.Infinite({
-    element: $('.infinite-container')[0],
-    onBeforePageLoad: function () {
-      $('.loading').show();
-    },
-    onAfterPageLoad: function ($items) {
-      $('.loading').hide();
-    }
-  });
-
   $('.idx-btn').click(function(){
     // 리스트 버튼 클릭시
     $(".idx-btn").removeClass('active');
@@ -33,10 +23,18 @@
 
     tag = $('.tag-name.active').attr('value');
     type = $(this).attr('id');
+
+    if(type == 'contents')
+      url = "{% url 'cast:index' %}"
+    else if(type == 'pledge')
+      url = "{% url 'cast:pledge_list' %}"
+    else if(type == 'congressman')
+      url = "{% url 'cast:congressman_list' %}"
+
     $.ajax({
           type: "POST",
-          url: "{% url 'cast:index' %}",
-          data: {'tag':tag, 'type': type, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+          url: url,
+          data: {'tag':tag, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
           success: function(data){
             $('#list').html(data);
           },
@@ -47,17 +45,24 @@
     });
 
   $('.tag-name').click(function(){
-    // 리스트 버튼 클릭시
+    // 태그 리스트 버튼 클릭시
     $(".tag-name").removeClass('active');
     $(this).addClass('active');
 
     tag = $(this).attr('value');
     type = $('.idx-btn.active').attr('id');
 
+    if(type == 'contents')
+      url = "{% url 'cast:index' %}"
+    else if(type == 'pledge')
+      url = "{% url 'cast:pledge_list' %}"
+    else if(type == 'congressman')
+      url = "{% url 'cast:congressman_list' %}"
+
     $.ajax({
           type: "POST",
-          url: "{% url 'cast:index' %}",
-          data: {'tag': tag, 'type': type, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+          url: url,
+          data: {'tag': tag, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
           success: function(data){
             $('#list').html(data);
           },
