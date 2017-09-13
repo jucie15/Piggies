@@ -20,7 +20,7 @@ def index(request):
         contents = TaggedItem.objects.get_by_model(Contents, tag)
     html = 'cast/contents_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(contents, 4) # 페이지 당 4개씩 표현
+    paginator = Paginator(contents, 6) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -59,7 +59,7 @@ def pledge_list(request):
         pledges = TaggedItem.objects.get_by_model(Pledge, tag)
     html = 'cast/pledge_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(pledges, 4) # 페이지 당 4개씩 표현
+    paginator = Paginator(pledges, 8) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -71,16 +71,8 @@ def pledge_list(request):
         # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
         pledge_list = paginator.page(paginator.num_pages)
 
-    if request.user.is_authenticated():
-        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
-    else:
-        tag_list = Tag.objects.usage_for_model(Pledge, counts=True) # 태그아이템 개수 포함한 리스트
-
-    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
-
     context = {}
     context['pledge_list'] = pledge_list
-    context['tag_list'] = tag_list
 
     if request.is_ajax():
         response = render_to_string(html, context, request)
@@ -98,7 +90,7 @@ def congressman_list(request):
         congressmans = TaggedItem.objects.get_by_model(Congressman, tag)
     html = 'cast/congressman_list.html'
     page = request.GET.get('page', 1) # 페이지 번호를 받아온다.
-    paginator = Paginator(congressmans, 4) # 페이지 당 4개씩 표현
+    paginator = Paginator(congressmans, 6) # 페이지 당 4개씩 표현
 
     try:
         # 페이지 번호가 있으면 해당 페이지로 이동
@@ -110,16 +102,8 @@ def congressman_list(request):
         # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
         congressman_list = paginator.page(paginator.num_pages)
 
-    if request.user.is_authenticated():
-        tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
-    else:
-        tag_list = Tag.objects.usage_for_model(Congressman, counts=True) # 태그아이템 개수 포함한 리스트
-
-    tag_list.sort(key=lambda tag: tag.count, reverse=True) # 개수 기준 정렬
-
     context = {}
     context['congressman_list'] = congressman_list
-    context['tag_list'] = tag_list
 
     if request.is_ajax():
         response = render_to_string(html, context, request)

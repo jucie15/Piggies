@@ -61,6 +61,7 @@
 
 <script type="text/javascript">
 
+  Waypoint.destroyAll(); // waypoint instance가 중복으로 생성 되므로 이전에 있던 객체 모두 삭제
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {

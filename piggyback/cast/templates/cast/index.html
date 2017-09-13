@@ -16,6 +16,7 @@
     $('body').css('background-color','#fbfbf9');
   });
 
+
   $('.idx-btn').click(function(){
     // 리스트 버튼 클릭시
     $(".idx-btn").removeClass('active');
@@ -64,7 +65,9 @@
           url: url,
           data: {'tag': tag, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
           success: function(data){
+
             $('#list').html(data);
+
           },
           error: function(error){
             alert("실패");

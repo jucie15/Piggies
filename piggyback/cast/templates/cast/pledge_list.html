@@ -1,5 +1,8 @@
 {% load staticfiles %}
+
 <div class="contents_box" id="box4">
+<div class="infinite-container"><!-- 페이지네이션된 항목들이 표시될 컨테이너 /.infinite-more-link가 화면에 뜰 때마다 로딩된다.-->
+<div class="infinite-item"> <!-- 표시될 항목 -->
     <ul>
         {% load cast_extras %}
         {% for pledge in pledge_list %}
@@ -28,15 +31,19 @@
         </li>
         {% endfor %}
     </ul>
+</div></div>
+    {% if pledge_list.has_next %}
+      <a class="infinite-more-link" href="{% url 'cast:pledge_list' %}?page={{ pledge_list.next_page_number }}">More</a> <!-- 다음페이지가 없을때까지 .infinite-more-link 표시-->
+    {% endif %}
+
+    <div class="loading" style="display: none;">Loading...</div> <!-- /.loading -->
+  </div>
 </div>
+
 <!-- .pledge-box여러개 만드려면 position:absolute 때문에 top값 하나하나 줘야함ㅠㅠ -->
 <script>
 
-  //index페이지 mian background-color변경
-  $(document).ready(function(){
-    $('body').css('background-color','#fbfbf9');
-  });
-
+  Waypoint.destroyAll();
   var infinite = new Waypoint.Infinite({
     element: $('.infinite-container')[0],
     onBeforePageLoad: function () {
