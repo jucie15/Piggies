@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
     'el_pagination',
     'debug_toolbar',
+    'kronos',
 
     # local_apps
     'cast',

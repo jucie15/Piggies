@@ -14,6 +14,7 @@ class ProfileForm(forms.ModelForm):
             "city": forms.Select(attrs={"id": "city", "name": "city", "class": "form-control"}),
             "district": forms.Select(attrs={"id": "district", "name": "district", "class": "form-control"}),
         }
+
         # labels = {
         #     'name': _('Writer'),
         # }

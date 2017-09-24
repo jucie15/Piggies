@@ -27,10 +27,10 @@ def contents_db_create():
         list_html = driver.page_source # 접속한 페이지의 소스를 받아온다,
         list_soup = BeautifulSoup(list_html, 'html.parser') # html_parser 생성
 
-        for a_tag in list_soup.select('.yt-lockup-thumbnail a[href*=watch]'):
+        for a_tag in list_soup.select('ytd-thumbnail a[href*=watch]'):
             # 영상리스트 페이지에서 각 영상들의 url을 받아오기 위해 a태그를 받아온다 검색결과에 영상뿐아니라 다른 결과물도 있어 href속성에 watch가 들어가있는 태그만 불러온다..
 
-            watch_url = 'https://www.youtube.com' +a_tag['href'] # a태그의 href를 통해 url 파싱
+            watch_url = 'https://www.youtube.com' + a_tag['href'] # a태그의 href를 통해 url 파싱
 
             driver.get(watch_url) # 영상 url로 접속
 

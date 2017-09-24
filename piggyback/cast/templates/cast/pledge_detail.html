@@ -135,7 +135,7 @@
                             {{ comment.created_at|date:'Y-m-d H:i' }}
                         {% endif %}
                     </span>&nbsp;&nbsp;
-                    <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request. path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
+                    <a href="{% url 'cast:recomment_new' comment.pk %}?next={{ request.path }}"><img src="{% static 'cast/img/comment.png' %}" alt="" style="width:13px;">&nbsp;
                       <!--대댓 개수 가져오기-->
                       <span style="color:#9c9c9c;">{{ comment.recomment_number }}</span></a>
                       &nbsp;
