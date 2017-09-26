@@ -22,3 +22,6 @@
 3. pip install django
 4. pip install django-el-pagination
 5. pip install django-debug-toolbar
+
+## 디자인
+https://xd.adobe.com/view/dd812875-4966-46db-abd4-e01c2732d5a5/screen/6360734e-8d22-412e-86a6-fb7f61498e22/Main-3/
