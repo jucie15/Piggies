@@ -132,7 +132,7 @@ class Pledge(models.Model):
         ('3', '시행실패'),
     ) # 공약 상태 ENUM 변수처럼 사용하기 위한 임시 변수
 
-    congressman = models.ForeignKey(Congressman) # 국회의원 모델과 1toN 관계 설정
+    congressman = models.ForeignKey(Congressman, on_delete=models.CASCADE) # 국회의원 모델과 1toN 관계 설정
     title = models.CharField(max_length=32) # 공약 이름
     status = models.CharField(max_length=2, choices=PLEDGE_STATUS_CHOICE) # 공약 상태
     description = models.TextField(max_length=1024) # 공약에 대한 추가 설명
@@ -188,8 +188,8 @@ class ContentsEmotion(models.Model):
         ('6', '슬퍼요'),
     ) # 감정 표현 종류
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contents_emotion_set') # 유저와 1:N 관계 설정
-    contents = models.ForeignKey(Contents) # 컨텐츠와 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='contents_emotion_set', on_delete=models.CASCADE) # 유저와 1:N 관계 설정
+    contents = models.ForeignKey(Contents, on_delete=models.CASCADE) # 컨텐츠와 1:N 관계 설정
     name = models.CharField(max_length=2, default='0', choices=CONTENTS_EMOTION_CHOICE) # 감정의 이름
 
     def __str__(self):
@@ -213,8 +213,8 @@ class PledgeEmotion(models.Model):
         ('2', '싫어요'),
     ) # 감정 표현 종류
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='pledge_emotion_set') # 유저와 1:N 관계 설정
-    pledge = models.ForeignKey(Pledge) # 공약모델과 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='pledge_emotion_set', on_delete=models.CASCADE) # 유저와 1:N 관계 설정
+    pledge = models.ForeignKey(Pledge, on_delete=models.CASCADE) # 공약모델과 1:N 관계 설정
     name = models.CharField(max_length=2, default='0', choices=PLEDGE_EMOTION_CHOICE) # 감정의 이름
 
     def __str__(self):
@@ -238,8 +238,8 @@ class CongressmanEmotion(models.Model):
         ('2', '싫어요'),
     ) # 감정 표현 종류
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='congressman_emotion_set') # 유저와 1:N 관계 설정
-    congressman = models.ForeignKey(Congressman) #  국회의원모델과 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='congressman_emotion_set', on_delete=models.CASCADE) # 유저와 1:N 관계 설정
+    congressman = models.ForeignKey(Congressman, on_delete=models.CASCADE) #  국회의원모델과 1:N 관계 설정
     name = models.CharField(max_length=2, default='0', choices=CONGRESSMAN_EMOTION_CHOICE) # 감정의 이름
 
     def __str__(self):
@@ -257,10 +257,10 @@ post_save.connect(CongressmanEmotion.on_post_update, sender=CongressmanEmotion)
 class Comment(models.Model):
     # 댓글 모델
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 해당 댓글을 쓴 유저와 1:N 관계 설졍
-    contents = models.ForeignKey(Contents, default=None, null=True) # 컨텐츠에 댓글이 달릴 경우 관계 설정
-    congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원에 댓글이 달릴 경우 관계 설정
-    pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약에 댓글이 달릴 경우 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 해당 댓글을 쓴 유저와 1:N 관계 설졍
+    contents = models.ForeignKey(Contents, default=None, null=True, on_delete=models.CASCADE) # 컨텐츠에 댓글이 달릴 경우 관계 설정
+    congressman = models.ForeignKey(Congressman, default=None, null=True, on_delete=models.CASCADE) # 국회의원에 댓글이 달릴 경우 관계 설정
+    pledge = models.ForeignKey(Pledge, default=None, null=True, on_delete=models.CASCADE) # 공약에 댓글이 달릴 경우 관계 설정
     message = models.TextField() # 댓글 내용
     created_at = models.DateTimeField(auto_now_add=True) # 댓글 작성 시간
     like_number = models.IntegerField(default=0) # 좋아요 개수
@@ -331,8 +331,8 @@ class CommentEmotion(models.Model):
         ('2', '싫어요'),
     ) # 감정 표현 종류
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comment_emotion_set') # 유저와 1:N 관계 설졍
-    comment = models.ForeignKey(Comment) # 해당 댓글과 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='comment_emotion_set', on_delete=models.CASCADE) # 유저와 1:N 관계 설졍
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE) # 해당 댓글과 1:N 관계 설정
     name = models.CharField(max_length=2, default='0', choices=LIKE_DISLIKE_CHOICE) # 감정의 이름
 
     def __str__(self):
@@ -341,8 +341,8 @@ class CommentEmotion(models.Model):
 class ReComment(models.Model):
     # 대댓글
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 유저와 1:N 관계 설정
-    comment = models.ForeignKey(Comment) # 해당 댓글과 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 유저와 1:N 관계 설정
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE) # 해당 댓글과 1:N 관계 설정
     message = models.TextField() # 대댓글의 내용
 
     class Meta:
@@ -369,10 +369,10 @@ post_delete.connect(ReComment.on_post_delete, sender=ReComment)
 class Favorite(models.Model):
     # 즐겨찾기
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='favorite_set') # 유저와 1:N 관계 생성
-    contents = models.ForeignKey(Contents, default=None, null=True) # 컨텐츠와 1:N 관계 생성
-    pledge = models.ForeignKey(Pledge, default=None, null=True) # 공약과 1:N 관계 생성
-    congressman = models.ForeignKey(Congressman, default=None, null=True) # 국회의원 1:N 관계 생성
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='favorite_set', on_delete=models.CASCADE) # 유저와 1:N 관계 생성
+    contents = models.ForeignKey(Contents, default=None, null=True, on_delete=models.CASCADE) # 컨텐츠와 1:N 관계 생성
+    pledge = models.ForeignKey(Pledge, default=None, null=True, on_delete=models.CASCADE) # 공약과 1:N 관계 생성
+    congressman = models.ForeignKey(Congressman, default=None, null=True, on_delete=models.CASCADE) # 국회의원 1:N 관계 생성
 
     def __str__(self):
         if self.contents != None:
@@ -390,4 +390,3 @@ class Favorite(models.Model):
             return reverse('cast:pledge_detail', args=[self.pledge.pk])
         elif self.congressman != None:
             return reverse('cast:congressman_detail', args=[self.congressman.pk])
-

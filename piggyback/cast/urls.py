@@ -1,27 +1,27 @@
-from django.conf.urls import url, include
+from django.urls import path
 from cast import views
 
+app_name = 'cast'
+
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^pledge_list/$', views.pledge_list, name='pledge_list'),
-    url(r'^congressman_list/$', views.congressman_list, name='congressman_list'),
-    url(r'^tags/$', views.tagged_list, name='tagged_list'),
-    url(r'^contents/(?P<contents_pk>\d+)/$', views.contents_detail, name='contents_detail'),
-    url(r'^congressman/(?P<congressman_pk>\d+)/$', views.congressman_detail, name='congressman_detail'),
-    url(r'^pledge/(?P<pledge_pk>\d+)/$', views.pledge_detail, name='pledge_detail'),
-    url(r'^contents-emotion/(?P<contents_pk>\d+)/$', views.contents_emotion, name='contents_emotion'),
-    url(r'^pledge-emotion/(?P<pledge_pk>\d+)/$', views.pledge_emotion, name='pledge_emotion'),
-    url(r'^congressman-emotion/(?P<congressman_pk>\d+)/$', views.congressman_emotion, name='congressman_emotion'),
-    url(r'^(?P<pk>\d+)/comment/$', views.comment_list, name='comment_list'),
-    url(r'^(?P<pk>\d+)/comment/new/$', views.comment_new, name='comment_new'),
-    url(r'^comment/(?P<comment_pk>\d+)/edit/$', views.comment_edit, name='comment_edit'),
-    url(r'^comment/(?P<comment_pk>\d+)/delete/$', views.comment_delete, name='comment_delete'),
-    url(r'^comment-emotion/(?P<comment_pk>\d+)/$', views.comment_emotion, name='comment_emotion'),
-    url(r'^(?P<comment_pk>\d+)/recomment/new/$', views.recomment_new, name='recomment_new'),
-    url(r'^recomment/(?P<recomment_pk>\d+)/delete/$', views.recomment_delete, name='recomment_delete'),
-    url(r'^ajax/tag/autocomplete/$', views.ajax_tag_autocomplete, name='ajax_tag_autocomplete'),
-    url(r'^ajax/favorites/(?P<pk>\d+)/$', views.ajax_favorites, name='ajax_favorites'),
-    url(r'^ajax/add/tag/(?P<pk>\d+)/$', views.ajax_add_tag, name='ajax_add_tag'),
-
-
+    path('', views.index, name='index'),
+    path('pledge_list/', views.pledge_list, name='pledge_list'),
+    path('congressman_list/', views.congressman_list, name='congressman_list'),
+    path('tags/', views.tagged_list, name='tagged_list'),
+    path('contents/<int:contents_pk>/', views.contents_detail, name='contents_detail'),
+    path('congressman/<int:congressman_pk>/', views.congressman_detail, name='congressman_detail'),
+    path('pledge/<int:pledge_pk>/', views.pledge_detail, name='pledge_detail'),
+    path('contents-emotion/<int:contents_pk>/', views.contents_emotion, name='contents_emotion'),
+    path('pledge-emotion/<int:pledge_pk>/', views.pledge_emotion, name='pledge_emotion'),
+    path('congressman-emotion/<int:congressman_pk>/', views.congressman_emotion, name='congressman_emotion'),
+    path('<int:pk>/comment/', views.comment_list, name='comment_list'),
+    path('<int:pk>/comment/new/', views.comment_new, name='comment_new'),
+    path('comment/<int:comment_pk>/edit/', views.comment_edit, name='comment_edit'),
+    path('comment/<int:comment_pk>/delete/', views.comment_delete, name='comment_delete'),
+    path('comment-emotion/<int:comment_pk>/', views.comment_emotion, name='comment_emotion'),
+    path('<int:comment_pk>/recomment/new/', views.recomment_new, name='recomment_new'),
+    path('recomment/<int:recomment_pk>/delete/', views.recomment_delete, name='recomment_delete'),
+    path('ajax/tag/autocomplete/', views.ajax_tag_autocomplete, name='ajax_tag_autocomplete'),
+    path('ajax/favorites/<int:pk>/', views.ajax_favorites, name='ajax_favorites'),
+    path('ajax/add/tag/<int:pk>/', views.ajax_add_tag, name='ajax_add_tag'),
 ]

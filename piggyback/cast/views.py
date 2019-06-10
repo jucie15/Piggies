@@ -32,7 +32,7 @@ def index(request):
         # 페이지가 비어있을 경우 paginator.num_page = 총 페이지 개수
         contents_list = paginator.page(paginator.num_pages)
 
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         tag_list = Tag.objects.usage_for_queryset(Profile.objects.filter(user=request.user), counts=True) # 태그아이템 개수 포함한 리스트
     else:
         tag_list = Tag.objects.usage_for_model(Contents, counts=True) # 태그아이템 개수 포함한 리스트
@@ -130,7 +130,7 @@ def contents_detail(request, contents_pk):
     # 컨텐츠 세부 페이지
     contents = get_object_or_404(Contents.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user__profile'), pk=contents_pk)
 
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         # 로그인을 안했을 경우
         user_is_favorite = False
     else:
@@ -169,7 +169,7 @@ def pledge_detail(request, pledge_pk):
     # 공약 세부 페이지
     pledge = get_object_or_404(Pledge.objects.prefetch_related('comment_set__recomment_set__user','comment_set__user__profile'), pk=pledge_pk)
 
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         # 로그인을 안했을 경우
         user_is_favorite = False
     else:
@@ -189,7 +189,7 @@ def pledge_detail(request, pledge_pk):
 
 def contents_emotion(request, contents_pk):
     # 컨텐츠의 감정표현 처리
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():
@@ -240,7 +240,7 @@ def contents_emotion(request, contents_pk):
 def pledge_emotion(request, pledge_pk):
     # 공약의 감정표현 처리
 
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():
@@ -291,7 +291,7 @@ def pledge_emotion(request, pledge_pk):
 def congressman_emotion(request, congressman_pk):
     # 국회의원의 감정표현 처리
 
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():
@@ -450,7 +450,7 @@ def comment_delete(request, comment_pk):
 
 def comment_emotion(request, comment_pk):
     # 해당 댓글의 좋아요/싫어요
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():
@@ -570,7 +570,7 @@ def ajax_tag_autocomplete(request):
 def ajax_favorites(request, pk):
     # 즐겨찾기 버튼 클릭 시
 
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():
@@ -642,7 +642,7 @@ def ajax_favorites(request, pk):
 
 def ajax_add_tag(request, pk):
     # 태그 추가 버튼 클릭시
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return HttpResponse(status=401)
 
     if request.is_ajax():

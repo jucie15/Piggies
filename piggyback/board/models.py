@@ -5,7 +5,7 @@ from django.shortcuts import reverse
 
 class Feedback(models.Model):
     # 피드백 게시판 모델
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='feedback_set') # 글쓴이
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='feedback_set', on_delete=models.CASCADE) # 글쓴이
     title = models.CharField(max_length=128,
         validators=[MinLengthValidator(5)],
         verbose_name='제목') # 제목
@@ -31,8 +31,8 @@ class Feedback(models.Model):
 class BoardComment(models.Model):
     # 각 피드백 글에 대한 댓글 모델
     feedback = models.ForeignKey(Feedback, related_name='feedback_comment_set',
-        default=None, null=True) # 해당 글 1:N 관계 설정
-    user = models.ForeignKey(settings.AUTH_USER_MODEL) # 해당 댓글을 쓴 유저와 1:N 관계 설정
+        default=None, null=True, on_delete=models.CASCADE) # 해당 글 1:N 관계 설정
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # 해당 댓글을 쓴 유저와 1:N 관계 설정
     message = models.TextField() # 댓글 내용
 
     class Meta:
