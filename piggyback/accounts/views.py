@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout as django_logout
 from django.conf import settings
 from django.core.files.base import ContentFile
 from django.http import HttpResponse
@@ -11,6 +12,10 @@ import requests
 
 def login(request):
     return render(request, 'accounts/login.html')
+
+def logout(request):
+    django_logout(request)
+    return redirect('cast:index')
 
 @login_required
 def signup_info(request):

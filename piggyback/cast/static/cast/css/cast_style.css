@@ -37,7 +37,7 @@ a {
 
 .sidebar {
     background-color: white;
-    width: 230px;
+    width: 180px;
 }
 .sidebar a { color:#000000; text-decoration:none;}
 .overlay { background-color: #ddd; }
@@ -261,7 +261,7 @@ a {
     margin-right: 5px;
     padding: 5px 10px;
     border: solid 1px #aaaaaa;
-    color: #00000;
+    color: #000000;
     font-size: 14px;
     text-decoration: none;
 }
@@ -420,12 +420,7 @@ a {
     padding-bottom: 30px;
 }
 
-.box6
-{
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border-top: solid 1px #dddddd;
-}
+
 
 .top .boxA
 {
@@ -682,12 +677,6 @@ a {
         -webkit-box-sizing: border-box;
     }
     */
-
-    .box6
-    {
-        clear: both;
-        display: block;
-    }
 
     .site h1
     {
@@ -1038,9 +1027,12 @@ hr {
     list-style:none;
     padding-top: 30px;
     padding-left: 20px;
+    text-align: center;
 }
 
-
+.menu i {
+    font-size: 20px;
+}
 
 .glyphicon-search {
     font-size: 22px;
@@ -1083,7 +1075,7 @@ hr {
 }
 
 .search {
-    font-family:FontAwesome;
+    font-family:'FontAwesome';
     position: absolute;
     top: 23%;
     left: 83%;

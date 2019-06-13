@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/paytone_one.css' %}">          <!-- font/ google font paytone_one -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">   <!-- font/ font-awesome -->
+    <link rel="stylesheet" type="text/css" href="{% static 'cast/css/bootstrap-3.3.7/css/bootstrap.min.css' %}">  <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+    <script type="text/javascript" src="{% static 'cast/js/jquery-3.2.1.js' %}"></script>         <!-- jquery -->
+    <script type="text/javascript" src="{% static 'cast/js/jquery-ui.min.js' %}"></script>        <!-- jquery -->
+    <script src="{% static 'js/all.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'cast/js/bootstrap.js' %}"></script>            <!-- bootstrap 3.3.7 -->
+    {% block extra_style %}
+    {% endblock %}
+    
+</head>
+<body>
+    {% block app_content %}
+    {% endblock %}
+    
+</body>
+</html>

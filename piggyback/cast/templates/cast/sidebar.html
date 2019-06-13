@@ -6,9 +6,9 @@
     {% load socialaccount %}
     <ul class="side_bar_menu">
     {% if not user.is_authenticated %}
-        <li>
+        <li class="menu">
             <a href="{% provider_login_url 'kakao' %}" >
-                <span class="glyphicon glyphicon-user"></span> Login</a>
+                <i class="fas fa-user"></i> Login</a>
         </li>
 
     {% else %}
@@ -28,9 +28,9 @@
       {% endif %}
 
 
-            <li class="menu"><a href="{% url 'board:feedback_list' %}">Feedback</a></li>
-            <li class="menu"><a href="#">About</a></li>
-            <li class="menu"><a href="#" data-sidebar-button>&times;</a></li>
+            <li class="menu"><a href="{% url 'board:feedback_list' %}"><i class="fas fa-comments"></i> Feedback</a></li>
+            <li class="menu"><a href="{% url 'board:about' %}"><i class="fas fa-thumbtack"></i> About</a></li>
+            <li class="menu"><a href="#" data-sidebar-button><i class="fas fa-times"></i></a></li>
         </ul>
 
 </div>

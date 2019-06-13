@@ -1,0 +1,27 @@
+.board-nav {
+    background-color: #F3F3F3;
+    min-height: 50px;
+    position: relative;
+}
+
+.board-nav .btn-wrapper {
+    padding: 0 15px;
+    line-height: 50px;
+}
+
+.btn-wrapper a, span {
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+}
+
+.board-nav #logo-text {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+}

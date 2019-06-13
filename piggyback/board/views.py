@@ -157,3 +157,7 @@ def comment_delete(request, comment_pk):
         comment.delete()
         messages.success(request, '댓글을 삭제했습니다.')
     return redirect(redirect_path)
+
+
+def about_page(request):
+    return render(request, 'board/about.html')

@@ -8,7 +8,7 @@
       <li><a href="{% url 'cast:index' %}"><span class="glyphicon glyphicon-chevron-left" id="back-btn"></span></a></li>
     </ul>
    <form class="search-form" id="form" method="GET" action="/cast/tags">
-        <input type="text" id="id-tag" class="search_web search_ipt"   placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" >
+        <input type="text" id="id-tag" class="search_web search_ipt" placeholder="검색해보세요" name='tag' value="{{ request.GET.tag }}" autocomplete="off" >
         <input type="submit" class="search" value="&#xf002;">
     </form>
   </div>
@@ -40,7 +40,7 @@
                 return false; // 포커싱 된 목록을 선택할 것인가
             }
         });
-});
+    });
 
 </script>
 {% endblock %}

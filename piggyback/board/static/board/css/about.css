@@ -1,0 +1,9 @@
+#about {
+    padding: 20px;
+    height: 100vh;
+}
+
+#about h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}

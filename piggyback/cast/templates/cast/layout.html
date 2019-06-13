@@ -1,50 +1,39 @@
-<!DOCTYPE html>
+{% extends 'layout.html' %}
+
 {% load staticfiles %}
-<html lang="ko">
 
-<head>
-  <meta charset="UTF-8">
-  <title>타이틀</title>
-  <meta name="viewport" content="width=device-width">
+{% block title %}
+CAST
+{% endblock %}
 
-  <link rel="stylesheet" type="text/css" href="{% static 'cast/css/paytone_one.css' %}">          <!-- font/ google font paytone_one -->
-  <link rel="stylesheet" type="text/css" href="{% static 'cast/css/font-awesome-4.7.0/css/font-awesome.min.css' %}">   <!-- font/ font-awesome -->
-  <link rel="stylesheet" type="text/css" href="{% static 'cast/css/bootstrap-3.3.7/css/bootstrap.min.css' %}">  <!-- bootstrap -->
+{% block extra_style %}
   <link rel="stylesheet" type="text/css" href="{% static 'cast/css/swiper-3.4.2.min.css' %}">     <!-- tag container css -->
   <link rel="stylesheet" type="text/css" href="{% static 'cast/css/cast_style.css' %}">           <!-- main css -->
 
   <!-- css -->
 
-
-  <script type="text/javascript" src="{% static 'cast/js/jquery-3.2.1.js' %}"></script>         <!-- jquery -->
-  <script type="text/javascript" src="{% static 'cast/js/jquery-ui.min.js' %}"></script>        <!-- jquery -->
+  
   <script type="text/javascript" src="{% static 'cast/js/jquery.waypoints.min.js' %}"></script> <!-- 무한 스크롤 -->
   <script type="text/javascript" src="{% static 'cast/js/infinite.min.js' %}"></script>         <!-- 무한 스크롤 -->
-  <script type="text/javascript" src="{% static 'cast/js/bootstrap.js' %}"></script>            <!-- bootstrap 3.3.7 -->
   <script type="text/javascript" src="{% static 'cast/js/swiper-3.4.2.min.js' %}"></script>     <!-- tag container -->
   <script type="text/javascript" src="{% static 'cast/js/sidebar.js' %}"></script>              <!-- sidebar -->
 
   <!-- javascript -->
 
-  {% block extra_style %}
-  {% endblock %}
-</head>
+{% endblock %}
 
+
+{% block app_content %}
 <body class="top">
 
   {% include 'cast/sidebar.html' %}
 
   <div class="overlay" data-sidebar-overlay></div>
-
   {% block content %}
+  
   {% endblock %}
 
-  <div class="box6">
-    <div class="copyright">
-      <p>Copyright &copy; 국민회관</p>
-    </div>
-  </div>
-
+  {% include 'footer.html' %}
 
   <script>
     var swiper = new Swiper('.swiper-container', {
@@ -59,10 +48,7 @@
         $("#pledge"+i).hide();
       }
     });
-
-
   </script>
 
 </body>
-
-</html>
+{% endblock %}

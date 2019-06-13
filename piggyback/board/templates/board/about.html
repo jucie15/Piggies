@@ -1,0 +1,21 @@
+{% extends "board/layout.html" %}
+{% load staticfiles %}
+
+{% block title %}
+BOARD
+{% endblock %}
+
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'board/css/about.css' %}">
+<link rel="stylesheet" href="{% static 'board/css/board_navbar.css' %}">
+{% endblock %}
+
+{% block board_content %}
+{% include 'board/board_navbar.html' %}
+<div id="about">
+    <h3>국민회관이란??</h3>
+    <p>국회의원은 국회에서 직무상 행한 발언과 표결에 관하여 국회외에서 책임을 지지 아니한다. 대통령의 선거에 관한 사항은 법률로 정한다. 대통령은 제1항과 제2항의 처분 또는 명령을 한 때에는 지체없이 국회에 보고하여 그 승인을 얻어야 한다.</p>
+    <p>국무총리는 대통령을 보좌하며, 행정에 관하여 대통령의 명을 받아 행정각부를 통할한다. 법률안에 이의가 있을 때에는 대통령은 제1항의 기간내에 이의서를 붙여 국회로 환부하고, 그 재의를 요구할 수 있다. 국회의 폐회중에도 또한 같다.</p>
+    <p>제1항의 지시를 받은 당해 행정기관은 이에 응하여야 한다. 행정권은 대통령을 수반으로 하는 정부에 속한다. 비상계엄하의 군사재판은 군인·군무원의 범죄나 군사에 관한 간첩죄의 경우와 초병·초소·유독음식물공급·포로에 관한 죄중 법률이 정한 경우에 한하여 단심으로 할 수 있다. 다만, 사형을 선고한 경우에는 그러하지 아니하다.</p>
+</div>
+{% endblock %}

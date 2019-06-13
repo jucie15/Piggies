@@ -1,0 +1,13 @@
+.box6
+{
+    padding: 15px;
+    border-top: solid 1px #dddddd;
+}
+
+@media (min-width: 0px) {
+    .box6
+    {
+        clear: both;
+        display: block;
+    }
+}
