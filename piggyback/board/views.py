@@ -7,10 +7,30 @@ from board.forms import FeedbackForm, BoardCommentForm
 
 def feedback_list(request):
     # 피드백 게시판 리스트
-    feedback_list = Feedback.objects.all()
-
+    try:
+        page = int(request.GET.get('page', 1))
+    except:
+        page = 1
+    
+    size = 10
+    if page == 1:
+        feedback_list = Feedback.objects.all()[0:size]
+        is_prev_page = False
+    elif page > 1:
+        feedback_list = Feedback.objects.all()[size * (page - 1):size * page - 1]
+        is_prev_page = True
+    next_feed = Feedback.objects.all()[size * page:size * (page + 1) - 1]
+    if next_feed:
+        is_next_page = True
+    else:
+        is_next_page = False
     return render(request, 'board/feedback_list.html', {
             'feedback_list' : feedback_list,
+            'is_next_page' : is_next_page,
+            'is_prev_page' : is_prev_page,
+            'current_page' : page,
+            'next_page': page + 1,
+            'prev_page': page - 1
         })
 
 @login_required
@@ -19,7 +39,8 @@ def feedback_detail(request, feedback_pk):
     feedback = get_object_or_404(Feedback, pk=feedback_pk)
     comment_form = BoardCommentForm()
 
-    feedback.hit_count() # 조회수 증가
+    if feedback.user != request.user:
+        feedback.hit_count() # 조회수 증가
 
     return render(request, 'board/feedback_detail.html', {
         'feedback': feedback,
@@ -88,8 +109,6 @@ def feedback_delete(request, feedback_pk):
         feedback.delete()
         return redirect('board:feedback_list')
 
-def post_list(request):
-    pass
 
 @login_required
 def comment_new(request, pk):

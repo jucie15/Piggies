@@ -1,6 +1,6 @@
-{% extends "cast/layout.html" %}
+{% extends "board/layout.html" %}
 
-{% block content %}
+{% block board_content %}
 <div class='container'>
     <h2>{{ feedback.title }}</h2>
 
@@ -16,7 +16,7 @@
             <a href="{% url "board:feedback_delete" feedback.pk %}" class="btn btn-danger">삭제</a>
         {% endif %}
     </div><!--.pull-right-->
-    <form action="{% url "board:comment_new" feedback.pk %}?next={{ request.path }}&type=feedback" method="post">
+    <form action="{% url 'board:comment_new' feedback.pk %}?next={{ request.path }}&type=feedback" method="post">
         {% csrf_token %}
         {{ comment_form.message }}
         <input type="submit" class="btn btn-primary btn-block" value="댓글 쓰기" />
