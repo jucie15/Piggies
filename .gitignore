@@ -3,6 +3,7 @@
 *.pot
 *.py[co]
 *.pyc
+.idea/
 .tox/
 */.DS_Store
 .DS_Store
