@@ -6,12 +6,11 @@ Feedback
 {% endblock %}
 
 {% block extra_style %}
-<link rel="stylesheet" href="{% static 'board/css/board_navbar.css' %}">
+{{ block.super }}
 <link rel="stylesheet" href="{% static 'board/css/feedback_list.css' %}">
 {% endblock %}
 
 {% block board_content %}
-{% include 'board/board_navbar.html' %}
 <div class='container'>
     <table class='table table-striped' style='margin-top: 30px;'>
         <thead>

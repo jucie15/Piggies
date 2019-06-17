@@ -1,0 +1,26 @@
+.feedback-container {
+    width: 100%;
+    padding: 0 20px;
+}
+
+.feedback-container .feedback-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.feedback-container .feedback-content {
+    font-size: 16px;
+}
+
+.feedback-btns {
+    margin-bottom: 20px;
+}
+
+.btn-yellow {
+    background-color: #FFD124;
+    color: white;
+}
+
+.feedback-comment-list {
+    list-style: none;
+}
