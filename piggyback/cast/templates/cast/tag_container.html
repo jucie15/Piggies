@@ -10,10 +10,15 @@
           <div class="swiper-slide tag-name active" value="all">#all</div>
         </a>
         {% for tag in tag_list %}
-          <a href="#">
-            <div class="swiper-slide tag-name" value="{{ tag.name }}">#{{ tag.name }}</div>
+          <a href="#" class="swiper-slide">
+            <div class="tag-name" value="{{ tag.name }}">#{{ tag.name }}</div>
           </a>
         {% endfor %}
     </div>
   </div>
 </div>
+<script>
+  var mySwiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto'
+});
+</script>
