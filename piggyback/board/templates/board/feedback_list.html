@@ -1,6 +1,16 @@
-{% extends 'cast/layout.html' %}
+{% extends 'board/layout.html' %}
+{% load staticfiles %}
 
-{% block content %}
+{% block title %}
+Feedback
+{% endblock %}
+
+{% block extra_style %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'board/css/feedback_list.css' %}">
+{% endblock %}
+
+{% block board_content %}
 <div class='container'>
     <table class='table table-striped' style='margin-top: 30px;'>
         <thead>
@@ -11,33 +21,37 @@
             <th>조회수</th>
         </thead>
         <tbody>
-            {% load el_pagination_tags %}
-            {% paginate 10 feedback_list %} <!-- 한페이지에 10개씩 표현 -->
-                {% for feedback in feedback_list %}
-                    <tr onclick="location.href='{{ feedback.get_absolute_url }}'" style="cursor:pointer;">
-                        <!-- 테이블 한 행 자체에 링크 걸기 -->
-                        <td>{{ feedback.title }}</td>
-                        <td>{{ feedback.user }}</td>
-                        <td>{{ feedback.updated_at }}</td>
-                        <td>{{ feedback.hits }}</td>
-                    </tr>
-                {% endfor %}
+            {% for feedback in feedback_list %}
+                <tr onclick="location.href='{{ feedback.get_absolute_url }}'" style="cursor:pointer;">
+                    <!-- 테이블 한 행 자체에 링크 걸기 -->
+                    <td>{{ feedback.title }}</td>
+                    <td>{{ feedback.user }}</td>
+                    <td>{{ feedback.updated_at|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>{{ feedback.hits }}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
     <hr/>
+    <div class="new-feedback-btn">
+        <a href="{% url 'board:feedback_new' %}" class='btn-new'>글쓰기</a>
+    </div>
+    <div class="paginator">
+        {% if is_prev_page == True %}
+        <div class="prev-btn-wrapper">
+            <a href="{% url 'board:feedback_list' %}?page={{ prev_page }}" class="prev-btn"><i class="fas fa-chevron-left"></i> 이전</a>
+        </div>
+        {% endif %}
 
-    <a href="{% url 'board:feedback_new' %}" class='btn btn-default pull-right'>글쓰기</a>
+        <div class="page-wrapper">
+            <a href="{% url 'board:feedback_list' %}?page={{ current_page }}">{{ current_page }}</a>
+        </div>
 
-    {% get_pages %}
-    <div class='text-center' style='font-size: 11pt'>
-        <ul class='pagination'>
-            {% if pages.paginated %}
-                <li>
-                    {{ pages }}
-                </li>
-            {% endif %}
-        </ul>
+        {% if is_next_page == True %}
+        <div class="next-btn-wrapper">
+            <a href="{% url 'board:feedback_list' %}?page={{ next_page }}" class="next-btn">다음 <i class="fas fa-chevron-right"></i></a>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

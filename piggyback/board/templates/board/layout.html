@@ -1,7 +1,11 @@
 {% extends 'layout.html' %}
+{% load staticfiles %}
+{% block extra_style %}
+<link rel="stylesheet" href="{% static 'board/css/board_navbar.css' %}">
+{% endblock %}
 
 {% block app_content %}
-
+{% include 'board/board_navbar.html' %}
 {% block board_content %}
 
 {% endblock %}

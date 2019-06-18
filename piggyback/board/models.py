@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 from django.conf import settings
 from django.core.validators import MinLengthValidator
 from django.shortcuts import reverse
@@ -21,11 +22,11 @@ class Feedback(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('board:feedback_detail', args = [self.pk])
+        return reverse('board:feedback_detail', args=[self.pk])
 
     def hit_count(self):
         # 조회수 증가 함수
-        self.hits += 1
+        self.hits = F('hits') + 1
         self.save()
 
 class BoardComment(models.Model):
@@ -39,5 +40,5 @@ class BoardComment(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return "{}의 댓글 {}".format(self.post, self.message)
+        return "{}의 댓글 {}".format(self.user, self.message)
 
