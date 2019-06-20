@@ -52,7 +52,7 @@ def feedback_new(request):
     # 피드백 게시판 글 쓰기
     if request.method == 'POST':
         # 포스트 요청일 경우
-        form = FeedbackForm(request.POST, request.FILES) # 받아온 데이터를 통해 피드백 폼 인스턴스 생성
+        form = FeedbackForm(request.POST) # 받아온 데이터를 통해 피드백 폼 인스턴스 생성
 
         if form.is_valid():
             # 값이 유효할 경우
@@ -81,7 +81,7 @@ def feedback_edit(request, feedback_pk):
 
     if request.method == 'POST':
         # 포스트 요청일 경우
-        form = FeedbackForm(request.POST, request.FILES, instance=feedback) # 받아온 데이터와 현재 피드백 인스턴스의 데이터를 통해 피드백 폼 인스턴스 생성
+        form = FeedbackForm(request.POST, instance=feedback) # 받아온 데이터와 현재 피드백 인스턴스의 데이터를 통해 피드백 폼 인스턴스 생성
         if form.is_valid():
             # 값이 유효할 경우 바뀐 값을 통해 저장
             feedback = form.save(commit=True)
@@ -119,7 +119,7 @@ def comment_new(request, pk):
 
     if request.method == 'POST':
         # 포스트 요청일 경우
-        form = BoardCommentForm(request.POST, request.FILES) # 받아온 데이터를 통해 폼 인스턴스 생성
+        form = BoardCommentForm(request.POST) # 받아온 데이터를 통해 폼 인스턴스 생성
 
         if form.is_valid():
             # 폼에 데이터가 유효할 경우
@@ -153,7 +153,7 @@ def comment_edit(request, comment_pk):
         return redirect(redirect_path)
 
     if request.method == 'POST':
-        form = BoardCommentForm(request.POST, request.FILES, instance=comment)
+        form = BoardCommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save()
             messages.success(request, '기존 댓글을 수정했습니다.')

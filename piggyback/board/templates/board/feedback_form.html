@@ -1,11 +1,25 @@
-{% extends "cast/layout.html" %}
+{% extends "board/layout.html" %}
+{% load staticfiles %}
 
-{% block content %}
-    <form method="post" action="">
+{% block extra_style %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'board/css/feedback_form.css' %}">
+{% endblock %}
+
+{% block board_content %}
+    <form method="post" action="" class="feedback-form">
         {% csrf_token %}
-        <table class="table table-bordered table-hover">
-            {{ form }}
-        </table>
-        <input type="submit" class="btn btn-primary btn-block" />
+        <div class="container-title">
+            <label for="id_title">제목</label>
+            {{ form.title }}
+        </div>
+        <div class="container-content">
+            <label for="id_content">내용</label>
+            {{ form.content }}
+        </div>
+        <div class="container-submit-btn">
+            <input type="submit" class="feedback-submit-btn" value="완료" />
+        </div>
+        
     </form>
 {% endblock %}
