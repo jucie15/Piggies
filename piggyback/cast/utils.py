@@ -35,8 +35,8 @@ def contents_db_create():
             condition = True
             while condition:
                 try:
-                    contents_title = driver.find_element_by_css_selector('h1.title')
-                    contents_desc = driver.find_element_by_css_selector('#description')
+                    contents_title = driver.find_element_by_css_selector('h1.title').text
+                    contents_desc = driver.find_element_by_css_selector('#description').text
                     condition = False
                 except Exception as e:
                     print(e)
