@@ -18,7 +18,7 @@ def get_fuckers_info():
     for fucker in soup.select('.memberna_list dl dt a'):
         fucker_name = fucker.text
         fucker_id = re.search(r'\d+', fucker['href']).group(0)
-        with open(settings.ROOT_FROM_CAST_APP('fucker-list.txt'), 'a', encoding='utf8') as f:
+        with open(settings.CAST_TXT_ROOT('fucker-list.txt'), 'a', encoding='utf8') as f:
             a_fucker = fucker_name + ',' + fucker_id + '\n'
             f.write(a_fucker)
 

@@ -2,7 +2,7 @@ import requests
 import re
 import os
 import time
-from django.conf.settings import ROOT_FROM_CAST_APP
+from django.conf.settings import CAST_TXT_ROOT
 from django.shortcuts import get_object_or_404
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -17,7 +17,7 @@ def contents_db_create():
 
     driver = webdriver.Chrome('/Users/gustos/Downloads/chromedriver') # 크롬 드라이버 사용
 
-    with open(ROOT_FROM_CAST_APP('crawling_list.txt'), 'rt') as f:
+    with open(CAST_TXT_ROOT('crawling_list.txt'), 'rt') as f:
         keyword_list = f.read().split('\n')[:-1] # 파일에서 키워드 리스트를 받아온다
 
     for keyword in keyword_list:
@@ -57,7 +57,7 @@ def contents_db_create():
 
 def congressman_db_create():
     # 크롤링 해놓은 데이터를 불러와 디비에 저장
-    with open(ROOT_FROM_CAST_APP("congressman_detail.txt"), "rt") as f:
+    with open(CAST_TXT_ROOT("congressman_detail.txt"), "rt") as f:
         mem_detail_list = f.read().split('\n')
 
     img_path = os.path.join('cast', 'img', 'congressman') # 프로필 사진 경로 설정
@@ -87,7 +87,7 @@ def congressman_db_create():
 
 def congressman_db_update():
     # 크롤링 해놓은 데이터를 불러와 디비에 저장
-    with open(ROOT_FROM_CAST_APP("congressman_detail.txt"), "rt") as f:
+    with open(CAST_TXT_ROOT("congressman_detail.txt"), "rt") as f:
         mem_detail_list = f.read().split('\n')
 
     img_path = os.path.join('cast', 'img', 'congressman') # 프로필 사진 경로 설정
@@ -117,7 +117,7 @@ def congressman_db_update():
 
 def pledge_db_create():
     # 크롤링 해놓은 공약 리스트로 공약 DB 생성
-    with open(ROOT_FROM_CAST_APP("pledge_list.txt"), "rt") as f:
+    with open(CAST_TXT_ROOT("pledge_list.txt"), "rt") as f:
         mem_detail_list = f.read().split('\n')
 
     mem_dic = {}
