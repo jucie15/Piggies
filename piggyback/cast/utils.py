@@ -1,5 +1,3 @@
-import requests
-import re
 import os
 import time
 from django.conf.settings import CAST_ROOT
@@ -7,7 +5,8 @@ from django.shortcuts import get_object_or_404
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from cast.models import *
-from tagging.models import Tag, TaggedItem
+from tagging.models import Tag
+
 
 
 
@@ -15,25 +14,25 @@ from tagging.models import Tag, TaggedItem
 def contents_db_create():
     # youtube 영상을 크롤링함과 동시에 디비에 저장
 
-    driver = webdriver.Chrome('/Users/gustos/Downloads/chromedriver') # 크롬 드라이버 사용
+    driver = webdriver.Chrome('/Users/gustos/Downloads/chromedriver')  # 크롬 드라이버 사용
 
     with open(CAST_ROOT('txt', 'crawling_list.txt'), 'rt') as f:
         keyword_list = f.read().split('\n')[:-1] # 파일에서 키워드 리스트를 받아온다
 
     for keyword in keyword_list:
-        list_url = 'https://www.youtube.com/results?sp=CAM%253D&q=' + keyword # 각 키워드를 통해 url을 만든다.
+        list_url = 'https://www.youtube.com/results?sp=CAMSAggD&search_query=' + keyword  # 각 키워드를 통해 url을 만든다.
 
-        driver.get(list_url) # 파이어폭스를 통해 url에 접속
+        driver.get(list_url)  # 파이어폭스를 통해 url에 접속
 
-        list_html = driver.page_source # 접속한 페이지의 소스를 받아온다,
-        list_soup = BeautifulSoup(list_html, 'html.parser') # html_parser 생성
+        list_html = driver.page_source  # 접속한 페이지의 소스를 받아온다,
+        list_soup = BeautifulSoup(list_html, 'html.parser')  # html_parser 생성
 
-        for a_tag in list_soup.select('ytd-thumbnail a[href^=/watch]'):
+        for a_tag in list_soup.select('ytd-thumbnail a[href^=/watch]')[:5]:
             # 영상리스트 페이지에서 각 영상들의 url을 받아오기 위해 a태그를 받아온다 검색결과에 영상뿐아니라 다른 결과물도 있어 href속성에 watch가 들어가있는 태그만 불러온다..
 
-            watch_url = 'https://www.youtube.com' + a_tag['href'] # a태그의 href를 통해 url 파싱
+            watch_url = 'https://www.youtube.com' + a_tag['href']  # a태그의 href를 통해 url 파싱
 
-            driver.get(watch_url) # 영상 url로 접속
+            driver.get(watch_url)  # 영상 URL로 접속
             condition = True
             while condition:
                 try:
@@ -54,6 +53,7 @@ def contents_db_create():
                 contents.description = contents_desc
                 contents.url_path = contents_embed_url
                 contents.save()
+
 
 def congressman_db_create():
     # 크롤링 해놓은 데이터를 불러와 디비에 저장
