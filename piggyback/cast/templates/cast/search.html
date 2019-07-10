@@ -13,12 +13,22 @@
     </form>
   </div>
 </nav>
-   
-    {% for contents in contents_list|slice:":12" %}
-        <iframe width="200" height="200" src="{{ contents.url_path }}" frameborder="0" allowfullscreen></iframe>
-        <a href="{{ contents.get_absolute_url }}">
-            {{ contents.title }}</a>
-    {% endfor %}
+    <div class="container">
+        <div class="row">
+          {% for contents in contents_list|slice:":12" %}
+          <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 col-xl-3 grid">
+            <article class="summary">
+              <a href="{{ contents.get_absolute_url }}">
+                <img width="100%" src="{{ contents.get_image_url }}" />
+                <div class="grid-text">
+                  <p class="contents-title">{{ contents.title }}</p>
+                </div>
+              </a>
+            </article>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     <p>
     {% for congressman in congressman_list %}
         <a href="{{ congressman.get_absolute_url }}">
