@@ -24,7 +24,7 @@ for img_tag in member_soup.select('.img a img'):
 
     filename = img_tag['src'].split('/')[2] # src속성에서 이미지 파일 이름만을 따와 파일이름으로 결정한다.
 
-    img_filepath = os.path.join('cast', 'static', 'cast', 'img', filename)
+    img_filepath = os.path.join('cast', 'static', 'cast', 'img', 'congressman', filename)
 
     name_filepath = os.path.join('cast', 'static', 'cast', 'txt', 'congressman_list.txt')
 
