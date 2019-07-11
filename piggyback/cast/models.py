@@ -390,3 +390,13 @@ class Favorite(models.Model):
             return reverse('cast:pledge_detail', args=[self.pledge.pk])
         elif self.congressman != None:
             return reverse('cast:congressman_detail', args=[self.congressman.pk])
+
+
+class CrawlKeyword(models.Model):
+    name = models.CharField(max_length=64, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    crawled_at = models.DateTimeField(blank=True, null=True)
+
+
+    def __str__(self):
+        return self.name
