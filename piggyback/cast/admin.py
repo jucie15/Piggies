@@ -1,5 +1,8 @@
 from django.contrib import admin
+from datetime import datetime
+
 from cast.models import *
+from cast.utils import contents_db_create
 
 class CommentInline(admin.StackedInline):
     model = Comment
@@ -73,6 +76,25 @@ class PledgeEmotionAdmin(admin.ModelAdmin):
 @admin.register(CommentEmotion)
 class CommentEmotionAdmin(admin.ModelAdmin):
     model = CommentEmotion
+
+
+@admin.register(CrawlKeyword)
+class CrawlKeywordAdmin(admin.ModelAdmin):
+    model = CrawlKeyword
+    list_display = ['name', 'crawled_at']
+    actions = ['crawling_content']
+
+    def crawling_content(self, request, queryset):
+        for instance in queryset:
+            instance.crawled_at = datetime.now()
+            instance.save(update_fields=['crawled_at'])
+
+        keyword_list = queryset.values_list('name')
+        keyword_list = [keyword[0] for keyword in keyword_list]
+        contents_db_create(keyword_list)
+        self.message_user(request, "크롤링 성공~")
+
+    crawling_content.short_description = '컨텐츠 크롤링'
 
 # admin.site.register(Contents)
 # admin.site.register(Congressman)
